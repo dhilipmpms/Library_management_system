@@ -1,0 +1,381 @@
+{% extends 'index.html' %}
+{% load static %}
+
+{% block main_content %}
+<head>
+    <style>
+        body {
+        background-image: url("{%static 'library2.jpg'%}");
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 20px;
+}
+
+.container {
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 20px;
+  background-color: #ffffffe6;
+  border: 1px solid #ddd;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+  color: #35424a;
+  margin-bottom: 20px;
+}
+
+.search-form {
+  margin-bottom: 20px;
+}
+
+.search-form label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+}
+
+.search-form input[type="text"] {
+  width: calc(100% - 20px);
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+}
+
+.search-form button[type="submit"] {
+  background-color: #35424a;
+  color: #fff;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s;
+}
+
+.search-form button[type="submit"]:hover {
+  background-color: #2a2d30;
+}
+
+.return-form {
+  margin-bottom: 20px;
+}
+
+.return-form label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+}
+
+.return-form select {
+  width: calc(100% - 20px);
+  padding: 10px;
+  margin-bottom: 15px;
+  border: 1px solid #ced4da;
+  border-radius: 4px;
+}
+
+.return-form button[type="submit"] {
+  background-color: #35424a;
+  color: #fff;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s;
+}
+
+.return-form button[type="submit"]:hover {
+  background-color: #2a2d30;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 10px;
+}
+
+th, td {
+  padding: 10px;
+  text-align: left;
+  border-bottom: 1px solid #ddddddd0;
+}
+
+th {
+  background-color: #f2f2f2;
+  color: #35424a;
+}
+
+tr:hover {
+  background-color: #f1f1f1;
+}
+
+.pagination {
+  margin: 20px 0;
+  text-align: center;
+}
+
+.pagination a {
+  margin: 0 5px;
+  padding: 8px 12px;
+  text-decoration: none;
+  color: #35424a;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+}
+
+.pagination a.active {
+  background-color: #35424a;
+  color: #fff;
+}
+
+/* Responsive Design */
+@media (max-width: 600px) {
+  input[type="text"],
+  select,
+  button {
+    width: 100%;
+  }
+}
+    </style>
+</head>
+
+<div class="container">
+
+    <h2>Return Book</h2>
+
+
+    <!-- Search form -->
+
+    <form method="GET" action="{% url 'returns' %}" class="search-form">
+
+      <label for="search_query">Search Issued/Returned Books:</label>
+
+      <input type="text" id="search_query" name="search_query" placeholder="Enter book title or reader name" value="{{ request.GET.search_query }}" oninput="filterTable()">
+
+      <button class="btn btn-primary" type="submit">Search</button>
+
+    </form>
+
+
+    <!-- Return book form -->
+
+    <form method="POST" action="{% url 'returns' %}" id="returnForm" class="return-form">
+
+      {% csrf_token %}
+
+      <label for="issue_id">Select Issued Book:</label>
+
+      <select name="issue_id" required>
+
+        {% for issue in issued_books %}
+
+          <option value="{{ issue.id }}">{{ issue.book.title }} issued to {{ issue.reader.reader_name }}</option>
+
+        {% endfor %}
+
+      </select>
+
+
+      <button class="btn btn-danger" type="submit" onclick="confirmReturn()">Return Book</button>
+
+    </form>
+
+
+    <h3>Currently Issued Books</h3>
+
+    <table id="issuedBooksTable" class="table table-striped">
+
+      <thead>
+
+        <tr>
+
+          <th>Book Title</th>
+
+          <th>Issued To</th>
+
+          <th>Issue Date</th>
+
+        </tr>
+
+      </thead>
+
+      <tbody>
+
+        {% for issue in issued_books %}
+
+          <tr>
+
+            <td>{{ issue.book.title }}</td>
+
+            <td>{{ issue.reader.reader_name }}</td>
+
+            <td>{{ issue.issue_date }}</td>
+
+          </tr>
+
+        {% endfor %}
+
+      </tbody>
+
+    </table>
+
+
+    <!-- Pagination for Issued Books -->
+
+    <div class="pagination">
+
+      <span class="step-links">
+
+        {% if issued_books.has_previous %}
+
+          <a href="?issued_page=1&search_query={{ search_query }}">&laquo; First</a>
+
+          <a href="?issued_page={{ issued_books.previous_page_number }}&search_query={{ search_query }}">Previous</a>
+
+        {% endif %}
+
+
+        <span class="current">
+
+          Page {{ issued_books.number }} of {{ issued_books.paginator.num_pages }}.
+
+        </span>
+
+
+        {% if issued_books.has_next %}
+
+          <a href="?issued_page={{ issued_books.next_page_number }}&search_query={{ search_query }}">Next</a>
+
+          <a href="?issued_page={{ issued_books.paginator.num_pages }}&search_query={{ search_query }}">Last &raquo;</a>
+
+        {% endif %}
+
+      </span>
+
+    </div>
+
+
+    <h3>Returned Books</h3>
+
+    <table class="table table-striped">
+
+      <thead>
+
+        <tr>
+
+          <th>Book Title</th>
+
+          <th>Returned By</th>
+
+          <th>Return Date</th>
+
+        </tr>
+
+      </thead>
+
+      <tbody>
+
+        {% for returned in returned_books %}
+
+          <tr>
+
+            <td>{{ returned.book_issue.book.title }}</td>
+
+            <td>{{ returned.returned_by }}</td>
+
+            <td>{{ returned.return_date }}</td>
+
+          </tr>
+
+        {% endfor %}
+
+      </tbody>
+
+    </table>
+
+
+    <!-- Pagination for Returned Books -->
+
+    <div class="pagination">
+
+      <span class="step-links">
+
+        {% if returned_books.has_previous %}
+
+          <a href="?returned_page=1&search_query={{ search_query }}">&laquo; First</a>
+
+          <a href="?returned_page={{ returned_books.previous_page_number }}&search_query={{ search_query }}">Previous</a>
+
+        {% endif %}
+
+
+        <span class="current">
+
+          Page {{ returned_books.number }} of {{ returned_books.paginator.num_pages }}.
+
+        </span>
+
+
+        {% if returned_books.has_next %}
+
+          <a href="?returned_page={{ returned_books.next_page_number }}&search_query={{ search_query }}">Next</a>
+
+          <a href="?returned_page={{ returned_books.paginator.num_pages }}&search_query={{ search_query }}">Last &raquo;</a>
+
+        {% endif %}
+
+      </span>
+
+    </div>
+
+  </div>
+
+
+  <script>
+
+    function filterTable() {
+
+      const query = document.getElementById('search_query').value.toLowerCase();
+
+      const rows = document.querySelectorAll('#issuedBooksTable tbody tr');
+
+
+      rows.forEach(row => {
+
+        const cells = row.getElementsByTagName('td');
+
+        const title = cells[0].textContent.toLowerCase();
+
+        const reader = cells[1].textContent.toLowerCase();
+
+
+        // Check if the row matches the search query
+
+        if (title.includes (query) || reader.includes(query)) {
+
+          row.style.display = '';
+
+        } else {
+
+          row.style.display = 'none';
+
+        }
+
+      });
+
+    }
+
+
+    function confirmReturn() {
+
+      return confirm('Are you sure they returned this book?');
+
+    }
+
+  </script>
+
+
+{% endblock %}

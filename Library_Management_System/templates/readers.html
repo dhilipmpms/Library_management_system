@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+{% extends 'index.html'%}
+{% load static %}
+
+{% block main_content %}
+<style>
+    body{
+        background-image: url("{% static 'library3.jpg'%}");
+        background-size: cover;
+        
+    }
+    
+</style>
+
+<body >
+<div class="container-flex text-center justify-content-center align-items-center" style= "padding-top: 10px;padding-bottom: 20px;margin-top: 10px; vertical-align: middle">
+    <div class="row justify-content-center align-middle" style="margin-top: 10px;height: 60px;">
+        <div class="col-md-4 text-light" style="background: #4B088A;">
+             <h4 style="margin-top: 15px;">Register new Reader</h4>
+        </div>
+        <div class="col-md-8">
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="container" style="overflow-y:auto;height: 600px;background: #ffffff;">
+                <form class="d-flex" action="/readers/add" method="POST">
+                    {% csrf_token %}
+
+                    <table class="table" style="margin-top: 20px;">
+
+                        <tr>
+                            <td style="text-align: left; vertical-align: middle; padding-left: 15px;">Name :</td>
+                            <td><input type="text" class="form-control" name="reader_name"></td>
+                        </tr>
+
+                        <tr>
+                            <td style="text-align: left; vertical-align: middle; padding-left: 15px;">Contact :</td>
+                            <td><input type="text" class="form-control" name="reader_contact"></td>
+                        </tr>
+
+                        <tr>
+                            <td style="text-align: left; vertical-align: middle; padding-left: 15px;">Reference ID :</td>
+                            <td><input type="text" class="form-control" name="reader_ref_id"></td>
+                        </tr>
+
+                        <tr>
+                            <td style="text-align: left; vertical-align: middle; padding-left: 15px;">Address :</td>
+                            <td><textarea  class="form-control" name="reader_address"></textarea></td>
+                        </tr>
+
+                        <tr>
+                            <td colspan=" 2"><button class="btn btn-primary" type="submit">Save</button></td>
+                        </tr>
+
+                    </table>
+
+                </form>
+
+                <ul style="text-align:left; vertical-align:middle; padding-left: 15px;"> 
+                    <li><small>Readers should not register multiple times</small></li>
+                    <li><small>Duplicate readers registrations will be deactived</small></li>
+                    <li><small>Contact Information provided above must be correct and subject to verification</small></li>
+                </ul>
+            </div>
+            
+
+        </div>
+
+        <div class="col-md-8">
+            <nav class="navbar bg-body-light">
+                <div class="container-fluid justify-content-center align-items-center">
+                    <form class="d-flex" role="search" action="/readers" method="POST">
+                        {% csrf_token %}
+                        <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="query" value="{{query}}">
+                        <button class="btn btn-outline-primary" style="background-color:rgb(211, 205, 217);" type="submit">Search</button>
+                    </form>
+                
+                </div>
+            </nav>
+            <div class="row" style="margin-top:20px;">
+                <div class="">
+                    <button class="btn btn-outline-primary" style="color: black;background-color: #ffffff; margin-right: 95px;"><p style="margin-top: 7px;">{{ readers|length }} readers subscribed.</p></button>
+
+                </div>
+            </div>
+    
+            <div class="row" style="margin-top: 20px;">
+                <div class="container" style="overflow-y: auto; height: 400px;">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <td>Reader ID</td>
+                                <td>Name</td>
+                                <td>Contact </td>
+                                <td>Reference ID</td>
+                                <td>Address</td>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for reader in readers %}
+                            <tr>
+                                <td>{{ reader.id }}</td>
+                                <td>
+                                    {% if reader.active %}
+
+                                        <span class="btn btn-success">{{reader.reader_name}}</span>
+
+                                    {% else %}
+                                    <span class="btn btn-secondary">{{reader.reader_name}}</span> 
+                                    {% endif %}
+                                </td>
+                                <td>{{reader.reader_contact}}</td>
+                                <td>{{reader.reference_id}}</td>
+                                <td>{{reader.reader_address}}</td>
+                            </tr>
+                            
+                            {% endfor %}
+                        </tbody>
+    
+                    </table>
+    
+                </div>
+            </div> 
+            <div class="pagination"></div>
+                <span class="step-links">
+                    {% if readers.has_previous %}
+                        <a href="?page=1&query={{ query }}">&laquo; First</a>
+                        <a href="?page={{ readers.previous_page_number }}&query={{ query }}">Previous</a>
+                    {% endif %}
+                    <span class="current">
+                        Page {{ readers.number }} of {{ readers.paginator.num_pages }}.
+                    </span>
+                    {% if readers.has_next %}
+                        <a href="?page={{ readers.next_page_number }}&query={{ query }}">Next</a>
+                        <a href="?page={{ readers.paginator.num_pages }}&query={{ query }}">Last &raquo;</a>
+                    {% endif %}
+                </span>
+            </div>
+
+        </div>
+
+       
+    </div>
+</div>
+</body>
+
+{% endblock %}  
