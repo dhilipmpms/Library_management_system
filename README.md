@@ -11,3 +11,4 @@ pip install django #current version 3.5
 
 #To run django project
 cd Library_Management_system
+python3 manage.py runserver
