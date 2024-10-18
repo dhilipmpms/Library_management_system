@@ -1,2 +1,9 @@
-Django==4.0.3
-Pillow
+asgiref==3.8.1
+cffi==1.17.1
+cryptography==43.0.1
+Django==4.2.16
+numpy==2.0.2
+pillow==11.0.0
+pycparser==2.22
+sqlparse==0.5.1
+typing_extensions==4.12.2
