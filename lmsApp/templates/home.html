@@ -1,0 +1,114 @@
+{% extends "base.html" %} {% load humanize %} {% load customfilter %} {% block pageContent %}
+
+<!--Section: Content-->
+<section class="">
+    <h2 class="fw-bolder">வரவேற்கிறோம், {{request.user}}&nbsp;{{request.user.last_name}}!</h2>
+    <hr>
+    <div class="row justify-content-center">
+        <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12 px-1 pb-2">
+            <div class="card card-default rounded-0 shadow bg-primary bg-gradient border-0 text-light">
+                <div class="card-body">
+                    <div class="container-fluid">
+                        <div class="row mx-0 w-100 align-items-center">
+                            <div class="col-3">
+                                <i class="fs-1 text-light fa fa-th-list"></i>
+                            </div>
+                            <div class="col-9">
+                                <h1 class="text-end">{{categories|intcomma}}</h2>
+                            </div>
+                            <div class="col-12 text-end"><b>செயலில் உள்ள வகைகள்</b></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12 px-1 pb-2">
+            <div class="card card-default rounded-0 shadow bg-gradient bg-dark bg-opacity-75 text-light">
+                <div class="card-body">
+                    <div class="container-fluid">
+                        <div class="row mx-0 w-100 align-items-center">
+                            <div class="col-3">
+                                <i class="fs-1 text-light fa fa-list"></i>
+                            </div>
+                            <div class="col-9">
+                                <h1 class="text-end">{{sub_categories|intcomma}}</h2>
+                            </div>
+                            <div class="col-12 text-end"><b>செயலில் உள்ள துணை வகைகள்</b></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12 px-1 pb-2">
+            <div class="card card-default rounded-0 shadow bg-gradient bg-success bg-opacity-75 text-light">
+                <div class="card-body">
+                    <div class="container-fluid">
+                        <div class="row mx-0 w-100 align-items-center">
+                            <div class="col-3">
+                                <i class="fs-1 text-light fa fa-user-friends"></i>
+                            </div>
+                            <div class="col-9">
+                                <h1 class="text-end">{{students|intcomma}}</h2>
+                            </div>
+                            <div class="col-12 text-end"><b>மாணவர்கள்</b></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12 px-1 pb-2">
+            <div class="card card-default rounded-0 shadow bg-gradient bg-warning bg-opacity-75 text-light">
+                <div class="card-body">
+                    <div class="container-fluid">
+                        <div class="row mx-0 w-100 align-items-center">
+                            <div class="col-3">
+                                <i class="fs-1 text-light fa fa-book"></i>
+                            </div>
+                            <div class="col-9">
+                                <h1 class="text-end">{{books|intcomma}}</h2>
+                            </div>
+                            <div class="col-12 text-end"><b>புத்தகங்கள்</b></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12 px-1 pb-2">
+            <div class="card card-default rounded-0 shadow bg-gradient bg-secondary text-light">
+                <div class="card-body">
+                    <div class="container-fluid">
+                        <div class="row mx-0 w-100 align-items-center">
+                            <div class="col-3">
+                                <i class="fs-1 text-light fa fa-book-open"></i>
+                            </div>
+                            <div class="col-9">
+                                <h1 class="text-end">{{pending|intcomma}}</h2>
+                            </div>
+                            <div class="col-12 text-end"><b>நிலுவையில் உள்ள பரிவர்த்தனைகள்</b></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12 px-1 pb-2">
+            <div class="card card-default rounded-0 shadow bg-gradient bg-dark text-light">
+                <div class="card-body">
+                    <div class="container-fluid">
+                        <div class="row mx-0 w-100 align-items-center">
+                            <div class="col-3">
+                                <i class="fs-1 text-light fa fa-book-open"></i>
+                            </div>
+                            <div class="col-9">
+                                <h1 class="text-end">{{transactions|intcomma}}</h2>
+                            </div>
+                            <div class="col-12 text-end"><b>மொத்த பரிவர்த்தனைகள்</b></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+</section>
+</div> {% endblock pageContent %} {% block ScriptBlock %}
+<script>
+</script>
+{% endblock ScriptBlock %}
