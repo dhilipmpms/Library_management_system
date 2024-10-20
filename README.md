@@ -1,14 +1,35 @@
 Library Management System
 
 Getting Started
+    Python version:
+    Python 3.9.6
 
-    Clone the repository: git clone https://github.com/your-username/library-management-system.git
-    Navigate to the project directory: cd library-management-system
-    Create a virtual environment: python3 -m venv env
-    Activate the virtual environment: source env/bin/activate
-    Install the project dependencies: pip install -r requirements.txt
-    Run the server: python manage.py runserver
+    Clone the repository: 
+    git clone https://github.com/your-username/library-management-system.git
+
+    Navigate to the project directory: 
+    cd library-management-system
+
+    Create a virtual environment: 
+    python3 -m venv env
+
+    Activate the virtual environment: 
+    source env/bin/activate
+
+    Install the project dependencies: 
+    pip install -r requirements.txt
+    
+    Run migrations:
+    python manage.py makemigrations
+    python manage.py migrate
+    
+    Run the server: 
+    python manage.py runserver
     Go to http://localhost:8000 to access the application
+
+    Run collect static:
+    python manage.py collectstatic
+
 
 License
 
