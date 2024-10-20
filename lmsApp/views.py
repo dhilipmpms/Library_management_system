@@ -10,6 +10,8 @@ from django.http import HttpResponse
 from django.shortcuts import redirect, render
 from lmsApp import forms, models
 
+from .forms import UploadFileForm
+
 
 def context_data(request):
     fullpath = request.get_full_path()
@@ -651,3 +653,49 @@ def delete_borrow(request, pk=None):
             resp["msg"] = "Deleting Transaction Failed"
 
     return HttpResponse(json.dumps(resp), content_type="application/json")
+
+
+def handle_uploaded_file(file):
+    # Handle CSV or Excel file
+    try:
+        # Check the file extension
+        if file.name.endswith(".csv"):
+            df = pd.read_csv(file)
+        elif file.name.endswith(".xlsx"):
+            df = pd.read_excel(file, engine="openpyxl")
+        else:
+            raise ValueError("Unsupported file format")
+
+        # Process DataFrame
+        return df
+    except Exception as e:
+        raise ValueError(f"Error processing file: {e}")
+
+
+@login_required
+def upload_file_view(request):
+    if request.method == "POST":
+        form = UploadFileForm(request.POST, request.FILES)
+        if form.is_valid():
+            file = request.FILES["file"]
+            try:
+                df = handle_uploaded_file(file)
+
+                # Assume the file contains Category data (modify for other models)
+                for index, row in df.iterrows():
+                    Category.objects.update_or_create(
+                        name=row["name"],
+                        defaults={
+                            "description": row.get("description", ""),
+                            "status": row.get("status", "1"),
+                            "delete_flag": row.get("delete_flag", 0),
+                        },
+                    )
+                messages.success(request, "Data uploaded successfully!")
+                return redirect("category-page")
+            except ValueError as e:
+                messages.error(request, str(e))
+    else:
+        form = UploadFileForm()
+
+    return render(request, "upload_file.html", {"form": form})
