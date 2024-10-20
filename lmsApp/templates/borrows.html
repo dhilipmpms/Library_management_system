@@ -16,8 +16,9 @@
                             <col width="5%">
                             <col width="15%">
                             <col width="25%">
-                            <col width="25%">
-                            <col width="20%">
+                            <col width="15%">
+                            <col width="15%">
+                            <col width="10%">
                             <col width="10%">
                         </colgroup>
                         <thead>
@@ -26,6 +27,7 @@
                                 <th class="text-center">Date Added</th>
                                 <th class="text-center">Student</th>
                                 <th class="text-center">Book</th>
+                                <th class="text-center">Return Date</th>
                                 <th class="text-center">Status</th>
                                 <th class="text-center">Action</th>
                             </tr>
@@ -47,6 +49,7 @@
                                         <div>{{ borrow.book.title}}</div>
                                     </div>
                                 </td>
+                                <td>{{ borrow.return_date }}</td>
                                 <td class="text-center">
                                     {% if borrow.status == '1' %}
                                     <span class="badge badge-secondary bg-gradient bg-secondary px-3 rounded-pill bg-opacity-75 text-sm py-1">நிலுவையில் உள்ளது</span> {% else %}

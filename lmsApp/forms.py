@@ -149,14 +149,12 @@ class UpdatePasswords(PasswordChangeForm):
 
 class SaveCategory(forms.ModelForm):
     name = forms.CharField(max_length=250)
-    description = forms.Textarea()
     status = forms.CharField(max_length=2)
 
     class Meta:
         model = models.Category
         fields = (
             "name",
-            "description",
             "status",
         )
 
@@ -178,7 +176,6 @@ class SaveCategory(forms.ModelForm):
 class SaveSubCategory(forms.ModelForm):
     category = forms.CharField(max_length=250)
     name = forms.CharField(max_length=250)
-    description = forms.Textarea()
     status = forms.CharField(max_length=2)
 
     class Meta:
@@ -186,7 +183,6 @@ class SaveSubCategory(forms.ModelForm):
         fields = (
             "category",
             "name",
-            "description",
             "status",
         )
 
@@ -223,7 +219,6 @@ class SaveBook(forms.ModelForm):
     sub_category = forms.CharField(max_length=250)
     isbn = forms.CharField(max_length=250)
     title = forms.CharField(max_length=250)
-    description = forms.Textarea()
     author = forms.Textarea()
     publisher = forms.Textarea()
     date_published = forms.DateField()
@@ -235,7 +230,6 @@ class SaveBook(forms.ModelForm):
             "isbn",
             "sub_category",
             "title",
-            "description",
             "author",
             "publisher",
             "date_published",
@@ -270,14 +264,11 @@ class SaveBook(forms.ModelForm):
 class SaveStudent(forms.ModelForm):
     code = forms.CharField(max_length=250)
     first_name = forms.CharField(max_length=250)
-    middle_name = forms.CharField(max_length=250, required=False)
-    last_name = forms.CharField(max_length=250)
     gender = forms.CharField(max_length=250)
     contact = forms.CharField(max_length=250)
-    email = forms.CharField(max_length=250)
     department = forms.CharField(max_length=250)
     course = forms.CharField(max_length=250)
-    address = forms.Textarea()
+    education_level = forms.CharField(max_length=2)
     status = forms.CharField(max_length=2)
 
     class Meta:
@@ -285,14 +276,11 @@ class SaveStudent(forms.ModelForm):
         fields = (
             "code",
             "first_name",
-            "middle_name",
-            "last_name",
             "gender",
             "contact",
-            "email",
-            "address",
             "department",
             "course",
+            "education_level",
             "status",
         )
 
@@ -306,7 +294,9 @@ class SaveStudent(forms.ModelForm):
                 book = models.Books.objects.get(code=code, delete_flag=0)
         except:
             return code
-        raise forms.ValidationError("Student School Id already exists on the Database.")
+        raise forms.ValidationError(
+            "Student Student Id already exists on the Database."
+        )
 
 
 class SaveBorrow(forms.ModelForm):

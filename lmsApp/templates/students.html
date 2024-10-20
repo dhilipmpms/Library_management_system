@@ -13,18 +13,16 @@
                     </div>
                     <table class="table table-bordered table-striped" id="student-tbl">
                         <colgroup>
-                            <col width="5%">
-                            <col width="15%">
-                            <col width="20%">
+                            <col width="10%">
+                            <col width="25%">
                             <col width="35%">
-                            <col width="15%">
+                            <col width="20%">
                             <col width="10%">
                         </colgroup>
                         <thead>
                             <tr>
                                 <th class="text-center">#</th>
-                                <th class="text-center">Date Added</th>
-                                <th class="text-center">School ID</th>
+                                <th class="text-center">Student ID</th>
                                 <th class="text-center">Name</th>
                                 <th class="text-center">Status</th>
                                 <th class="text-center">Action</th>
@@ -34,7 +32,6 @@
                             {% for student in students %}
                             <tr>
                                 <td class="text-center">{{ forloop.counter }}</td>
-                                <td>{{ student.date_added|date:"Y-m-d h:i A"}}</td>
                                 <td>{{ student.code}}</td>
                                 <td>{{ student.name }}</td>
                                 <td class="text-center">

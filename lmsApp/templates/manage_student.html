@@ -14,20 +14,12 @@
         <div class="row">
             <div class="col-lg-6 col-md-6 col-sm-12 col-sm-12">
                 <div class="mb-3">
-                    <label for="code" class="control-label">School ID</label>
+                    <label for="code" class="control-label">Student ID</label>
                     <input type="text" id="code" name="code" class="form-control form-control-sm rounded-0" value="{{student.code}}" required>
                 </div>
                 <div class="mb-3">
-                    <label for="first_name" class="control-label">First Name</label>
+                    <label for="first_name" class="control-label">Name</label>
                     <input type="text" id="first_name" name="first_name" class="form-control form-control-sm rounded-0" value="{{student.first_name}}" required>
-                </div>
-                <div class="mb-3">
-                    <label for="middle_name" class="control-label">Middle Name</label>
-                    <input type="text" id="middle_name" name="middle_name" class="form-control form-control-sm rounded-0" value="{{student.middle_name}}" required>
-                </div>
-                <div class="mb-3">
-                    <label for="last_name" class="control-label">Last Name</label>
-                    <input type="text" id="last_name" name="last_name" class="form-control form-control-sm rounded-0" value="{{student.last_name}}" required>
                 </div>
             </div>
             <div class="col-lg-6 col-md-6 col-sm-12 col-sm-12">
@@ -50,14 +42,6 @@
                     <label for="contact" class="control-label">Contact #</label>
                     <input type="text" id="contact" name="contact" class="form-control form-control-sm rounded-0" value="{{student.contact}}" required>
                 </div>
-                <div class="mb-3">
-                    <label for="email" class="control-label">Email</label>
-                    <input type="email" id="email" name="email" class="form-control form-control-sm rounded-0" value="{{student.email}}" required>
-                </div>
-                <div class="mb-3">
-                    <label for="address" class="control-label">Address</label>
-                    <textarea rows="3" id="address" name="address" class="form-control form-control-sm rounded-0" required>{{student.address}}</textarea>
-                </div>
             </div>
             <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                 <div class="mb-3">
@@ -71,6 +55,16 @@
                     <input type="text" id="course" name="course" class="form-control form-control-sm rounded-0" value="{{student.course}}" required>
                 </div>
             </div>
+            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                <div class="mb-3">
+                    <label for="education_level" class="control-label">Education level</label>
+                    <select type="text" id="education_level" name="education_level" class="form-select form-select-sm rounded-0" required>
+                        <option value="UG" {% if student.education_level == 'UG' %}selected{% endif %}>Undergraduate (UG)</option>
+                        <option value="PG" {% if student.education_level == 'PG' %}selected{% endif %}>Postgraduate (PG)</option>
+                    </select>
+                </div>
+            </div>
+
             <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                 <div class="mb-3">
                     <label for="status" class="control-label">Status</label>
