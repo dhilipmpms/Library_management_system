@@ -21,7 +21,7 @@ def context_data(request):
         "system_host": abs_uri,
         "page_name": "",
         "page_title": "",
-        "system_name": "பெரியார் கலைக் கல்லூரி நூலக மேலாண்மை அமைப்பு",
+        "system_name": "பாவாணர் பைந்தமிழ் நூலகம் தமிழ்த்துறை, பெரியார் கலைக்கல்லூரி கடலூர்",
         "topbar": True,
         "footer": True,
     }
