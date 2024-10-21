@@ -14,16 +14,7 @@
         <div class="row">
             <div class="col-lg-6 col-md-6 col-sm-12 col-sm-12">
                 <div class="mb-3">
-<<<<<<< HEAD
-                    <label for="code" class="control-label">Student ID</label>
-                    <input type="text" id="code" name="code" class="form-control form-control-sm rounded-0" value="{{student.code}}" required>
-                </div>
-                <div class="mb-3">
-                    <label for="first_name" class="control-label">Name</label>
-                    <input type="text" id="first_name" name="first_name" class="form-control form-control-sm rounded-0" value="{{student.first_name}}" required>
-                </div>
-=======
-                    <label for="code" class="control-label">கல்லூரி ஐடி</label>
+                    <label for="code" class="control-label">கல்லூரி எண்</label>
                     <input type="text" id="code" name="code" class="form-control form-control-sm rounded-0" value="{{student.code}}" required>
                 </div>
                 <div class="mb-3">
@@ -38,7 +29,6 @@
                     <label for="last_name" class="control-label">கடைசி பெயர்</label>
                     <input type="text" id="last_name" name="last_name" class="form-control form-control-sm rounded-0" value="{{student.last_name}}" required>
                 </div>
->>>>>>> e0d67c3 (template file changed to tamil)
             </div>
             <div class="col-lg-6 col-md-6 col-sm-12 col-sm-12">
                 <div class="mb-3">
@@ -60,8 +50,6 @@
                     <label for="contact" class="control-label">தொடர்பு #</label>
                     <input type="text" id="contact" name="contact" class="form-control form-control-sm rounded-0" value="{{student.contact}}" required>
                 </div>
-<<<<<<< HEAD
-=======
                 <div class="mb-3">
                     <label for="email" class="control-label">மின்னஞ்சல்</label>
                     <input type="email" id="email" name="email" class="form-control form-control-sm rounded-0" value="{{student.email}}" required>
@@ -70,7 +58,6 @@
                     <label for="address" class="control-label">முகவரி</label>
                     <textarea rows="3" id="address" name="address" class="form-control form-control-sm rounded-0" required>{{student.address}}</textarea>
                 </div>
->>>>>>> e0d67c3 (template file changed to tamil)
             </div>
             <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                 <div class="mb-3">
@@ -86,21 +73,17 @@
             </div>
             <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                 <div class="mb-3">
-<<<<<<< HEAD
-                    <label for="education_level" class="control-label">Education level</label>
+                    <label for="education_level" class="control-label">கல்வி நிலை</label>
                     <select type="text" id="education_level" name="education_level" class="form-select form-select-sm rounded-0" required>
-                        <option value="UG" {% if student.education_level == 'UG' %}selected{% endif %}>Undergraduate (UG)</option>
-                        <option value="PG" {% if student.education_level == 'PG' %}selected{% endif %}>Postgraduate (PG)</option>
+                        <option value="UG" {% if student.education_level == 'UG' %}selected{% endif %}>இளங்கலை (UG)</option>
+                        <option value="PG" {% if student.education_level == 'PG' %}selected{% endif %}>முதுகலை (பிஜி)</option>
                     </select>
                 </div>
             </div>
 
             <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                 <div class="mb-3">
-                    <label for="status" class="control-label">Status</label>
-=======
                     <label for="status" class="control-label">நிலை</label>
->>>>>>> e0d67c3 (template file changed to tamil)
                     <select type="text" id="status" name="status" class="form-select form-select-sm rounded-0" required>
                         {% if student.status == '1' %}
                         <option value="1" selected>Active</option>

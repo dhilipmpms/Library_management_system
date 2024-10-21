@@ -30,18 +30,11 @@
                         <thead>
                             <tr>
                                 <th class="text-center">#</th>
-<<<<<<< HEAD
-                                <th class="text-center">DateTime</th>
-                                <th class="text-center">Name</th>
-                                <th class="text-center">Status</th>
-                                <th class="text-center">Action</th>
-=======
                                 <th class="text-center">தேதி நேரம்</th>
                                 <th class="text-center">பெயர்</th>
                                 <th class="text-center">விளக்கம்</th>
                                 <th class="text-center">நிலை</th>
                                 <th class="text-center">செயல்</th>
->>>>>>> e0d67c3 (template file changed to tamil)
                             </tr>
                         </thead>
                         <tbody>
@@ -50,7 +43,9 @@
                                 <td class="text-center">{{ forloop.counter }}</td>
                                 <td class="text-center">{{ cat.date_created|date:"Y-m-d H:i" }}</td>
                                 <td class="text-center">{{ cat.name}}</td>
-
+                                <td>
+                                    <p class="m-0 truncate-1">{{ cat.description|safe }}</p>
+                                </td>
                                 <td class="text-center">
                                     {% if cat.status == '1' %}
                                     <span class="badge badge-success bg-gradient bg-success px-3 rounded-pill bg-opacity-75 text-sm py-1">Active</span> {% else %}

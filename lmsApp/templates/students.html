@@ -13,33 +13,28 @@
                     </div>
                     <table class="table table-bordered table-striped" id="student-tbl">
                         <colgroup>
-                            <col width="10%">
-                            <col width="25%">
-                            <col width="35%">
+                            <col width="5%">
+                            <col width="15%">
                             <col width="20%">
+                            <col width="35%">
+                            <col width="15%">
                             <col width="10%">
                         </colgroup>
                         <thead>
                             <tr>
                                 <th class="text-center">#</th>
-<<<<<<< HEAD
-                                <th class="text-center">Student ID</th>
-                                <th class="text-center">Name</th>
-                                <th class="text-center">Status</th>
-                                <th class="text-center">Action</th>
-=======
                                 <th class="text-center">சேர்க்கப்பட்ட தேதி</th>
-                                <th class="text-center">கல்லூரி ஐடி</th>
+                                <th class="text-center">கல்லூரி எண்</th>
                                 <th class="text-center">பெயர்</th>
                                 <th class="text-center">நிலை</th>
                                 <th class="text-center">செயல்</th>
->>>>>>> e0d67c3 (template file changed to tamil)
                             </tr>
                         </thead>
                         <tbody>
                             {% for student in students %}
                             <tr>
                                 <td class="text-center">{{ forloop.counter }}</td>
+                                <td>{{ student.date_added|date:"Y-m-d h:i A"}}</td>
                                 <td>{{ student.code}}</td>
                                 <td>{{ student.name }}</td>
                                 <td class="text-center">
@@ -50,7 +45,7 @@
                                 <td class="text-center">
                                     <div class="dropdown">
                                         <button class="btn btn-light btn-sm rounded-0 border dropdown-toggle" type="button" id="abtn{{student.pk}}" data-bs-toggle="dropdown" aria-expanded="false">
-                                            செயல்
+                                          செயல்
                                         </button>
                                         <ul class="dropdown-menu" aria-labelledby="abtn{{student.pk}}">
                                             <li><a class="dropdown-item view-data" href="javascript:void(0)" data-url="{% url 'view-student-pk' student.pk %}"><i class="fa fa-eye text-dark"></i> பார்</a></li>

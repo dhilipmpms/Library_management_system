@@ -30,18 +30,11 @@
                         <thead>
                             <tr>
                                 <th class="text-center">#</th>
-<<<<<<< HEAD
-                                <th class="text-center">DateTime</th>
-                                <th class="text-center">Category/Sub Category</th>
-                                <th class="text-center">Status</th>
-                                <th class="text-center">Action</th>
-=======
                                 <th class="text-center">தேதி நேரம்</th>
                                 <th class="text-center">வகை/துணை வகை</th>
                                 <th class="text-center">விளக்கம்</th>
                                 <th class="text-center">நிலை</th>
                                 <th class="text-center">செயல்</th>
->>>>>>> e0d67c3 (template file changed to tamil)
                             </tr>
                         </thead>
                         <tbody>
@@ -54,6 +47,9 @@
                                         <div class="text-center">{{ cat.category}}</div>
                                         <div class="text-center">{{ cat.name}}</div>
                                     </div>
+                                </td>
+                                <td></td>
+                                    <p class="m-0 truncate-1">{{ cat.description|safe }}</p>
                                 </td>
 
                                 <td class="text-center">

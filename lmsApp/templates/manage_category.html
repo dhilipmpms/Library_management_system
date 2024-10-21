@@ -7,15 +7,11 @@
             <input type="text" id="name" name="name" class="form-control form-control-sm rounded-0" value="{{category.name}}" required>
         </div>
         <div class="mb-3">
-<<<<<<< HEAD
-            <label for="status" class="control-label">Status</label>
-=======
             <label for="description" class="control-label">விளக்கம்</label>
             <textarea rows="3" id="description" name="description" class="form-control form-control-sm rounded-0" required>{{category.description}}</textarea>
         </div>
         <div class="mb-3">
             <label for="status" class="control-label">நிலை</label>
->>>>>>> e0d67c3 (template file changed to tamil)
             <select type="text" id="status" name="status" class="form-select form-select-sm rounded-0" required>
                 {% if category.status == '1' %}
                 <option value="1" selected>Active</option>
