@@ -1,7 +1,7 @@
 {% extends 'base.html' %} {% load static %} {% block pageContent %}
 <section class="py-4">
     <div class="container">
-        <h3 class="fw-bolder text-center">List of Books</h3>
+        <h3 class="fw-bolder text-center">நூல்களின் பட்டியல்</h3>
         <center>
             <hr class="bg-primary opacity-100" style="height:3px" width="5%">
         </center>
@@ -9,7 +9,7 @@
             <div class="card-body">
                 <div class="container-fluid">
                     <div class="text-end mb-3">
-                        <button class="btn btn-sm btn-primary rounded-0 bg-gradient-primary" type="button" id="create_new"><i class="fa fa-plus"></i> Add New</button>
+                        <button class="btn btn-sm btn-primary rounded-0 bg-gradient-primary" type="button" id="create_new"><i class="fa fa-plus"></i> புதியதைச் சேர்</button>
                     </div>
                     <table class="table table-bordered table-striped" id="book-tbl">
                         <colgroup>
@@ -24,12 +24,12 @@
                         <thead>
                             <tr>
                                 <th class="text-center">#</th>
-                                <th class="text-center">Date Added</th>
-                                <th class="text-center">Category/Sub Category</th>
-                                <th class="text-center">ISBN</th>
-                                <th class="text-center">Title</th>
-                                <th class="text-center">Status</th>
-                                <th class="text-center">Action</th>
+                                <th class="text-center">சேர்க்கப்பட்ட தேதி </th>
+                                <th class="text-center">வகை/துணை வகை</th>
+                                <th class="text-center">ஐஎஸ்பிஎன்</th>
+                                <th class="text-center">தலைப்பு</th>
+                                <th class="text-center">நிலை</th>
+                                <th class="text-center">செயல்</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -53,12 +53,12 @@
                                 <td class="text-center">
                                     <div class="dropdown">
                                         <button class="btn btn-light btn-sm rounded-0 border dropdown-toggle" type="button" id="abtn{{book.pk}}" data-bs-toggle="dropdown" aria-expanded="false">
-                                          Action
+                                            செயல்
                                         </button>
                                         <ul class="dropdown-menu" aria-labelledby="abtn{{book.pk}}">
-                                            <li><a class="dropdown-item view-data" href="javascript:void(0)" data-url="{% url 'view-book-pk' book.pk %}"><i class="fa fa-eye text-dark"></i> View</a></li>
-                                            <li><a class="dropdown-item edit-data" href="javascript:void(0)" data-url="{% url 'manage-book-pk' book.pk %}"><i class="fa fa-edit text-primary"></i> Edit</a></li>
-                                            <li><a class="dropdown-item delete-data" href="javascript:void(0)" data-url="{% url 'delete-book' book.pk %}"><i class="fa fa-trash text-danger"></i> Delete</a></li>
+                                            <li><a class="dropdown-item view-data" href="javascript:void(0)" data-url="{% url 'view-book-pk' book.pk %}"><i class="fa fa-eye text-dark"></i> பார்</a></li>
+                                            <li><a class="dropdown-item edit-data" href="javascript:void(0)" data-url="{% url 'manage-book-pk' book.pk %}"><i class="fa fa-edit text-primary"></i> திருத்து</a></li>
+                                            <li><a class="dropdown-item delete-data" href="javascript:void(0)" data-url="{% url 'delete-book' book.pk %}"><i class="fa fa-trash text-danger"></i> நீக்கு</a></li>
                                         </ul>
                                     </div>
                                 </td>

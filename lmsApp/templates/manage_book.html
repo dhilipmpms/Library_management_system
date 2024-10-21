@@ -11,7 +11,7 @@
     <form action="" id="book-form">
         <input type="hidden" name="id" value="{{book.id}}">
         <div class="mb-3">
-            <label for="isbn" class="control-label">ISBN</label>
+            <label for="isbn" class="control-label">ஐஎஸ்பிஎன்</label>
             <input type="text" id="isbn" name="isbn" class="form-control form-control-sm rounded-0" value="{{book.isbn}}" required>
         </div>
         <div class="mb-3">
@@ -20,7 +20,7 @@
                 {% if not book.category %}
                     <option  disabled selected></option>
                 {% else %}
-                    <option disabled>Male</option>
+                    <option disabled>ஆண்</option>
                 {% endif %}
                 {% for sub_category in sub_categories %}
                 {% if  book.sub_category.id == sub_category.id %}
@@ -32,23 +32,31 @@
             </select>
         </div>
         <div class="mb-3">
-            <label for="title" class="control-label">Title</label>
+            <label for="title" class="control-label">தலைப்பு</label>
             <input type="text" id="title" name="title" class="form-control form-control-sm rounded-0" value="{{book.title}}" required>
         </div>
         <div class="mb-3">
+<<<<<<< HEAD
             <label for="author" class="control-label">Author/s</label>
+=======
+            <label for="description" class="control-label">விளக்கம்</label>
+            <textarea rows="3" id="description" name="description" class="form-control form-control-sm rounded-0" required>{{book.description}}</textarea>
+        </div>
+        <div class="mb-3">
+            <label for="author" class="control-label">ஆசிரியர்/கள்</label>
+>>>>>>> e0d67c3 (template file changed to tamil)
             <textarea rows="3" id="author" name="author" class="form-control form-control-sm rounded-0" required>{{book.author}}</textarea>
         </div>
         <div class="mb-3">
-            <label for="publisher" class="control-label">Publisher</label>
+            <label for="publisher" class="control-label">வெளியீட்டாளர்</label>
             <input type="text" id="publisher" name="publisher" class="form-control form-control-sm rounded-0" value="{{book.publisher}}" required>
         </div>
         <div class="mb-3">
-            <label for="date_published" class="control-label">Date Published</label>
+            <label for="date_published" class="control-label">வெளியிட்ட தேதி</label>
             <input type="date" id="date_published" name="date_published" class="form-control form-control-sm rounded-0" value="{{book.date_published|date:'Y-m-d'}}" required>
         </div>
         <div class="mb-3">
-            <label for="status" class="control-label">Status</label>
+            <label for="status" class="control-label">நிலை</label>
             <select type="text" id="status" name="status" class="form-select form-select-sm rounded-0" required>
                 {% if book.status == '1' %}
                 <option value="1" selected>Active</option>

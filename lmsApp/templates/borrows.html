@@ -1,7 +1,7 @@
 {% extends 'base.html' %} {% load static %} {% block pageContent %}
 <section class="py-4">
     <div class="container">
-        <h3 class="fw-bolder text-center">List of Borrowing Transactions</h3>
+        <h3 class="fw-bolder text-center">கடன் வாங்கும் பரிவர்த்தனைகளின் பட்டியல்</h3>
         <center>
             <hr class="bg-primary opacity-100" style="height:3px" width="5%">
         </center>
@@ -24,12 +24,20 @@
                         <thead>
                             <tr>
                                 <th class="text-center">#</th>
+<<<<<<< HEAD
                                 <th class="text-center">Date Added</th>
                                 <th class="text-center">Student</th>
                                 <th class="text-center">Book</th>
                                 <th class="text-center">Return Date</th>
                                 <th class="text-center">Status</th>
                                 <th class="text-center">Action</th>
+=======
+                                <th class="text-center">தேதி </th>
+                                <th class="text-center">மாணவர்</th>
+                                <th class="text-center">புத்தகம்</th>
+                                <th class="text-center">நிலை</th>
+                                <th class="text-center">செயல்</th>
+>>>>>>> e0d67c3 (template file changed to tamil)
                             </tr>
                         </thead>
                         <tbody>
@@ -61,9 +69,9 @@
                                           Action
                                         </button>
                                         <ul class="dropdown-menu" aria-labelledby="abtn{{borrow.pk}}">
-                                            <li><a class="dropdown-item view-data" href="javascript:void(0)" data-url="{% url 'view-borrow-pk' borrow.pk %}"><i class="fa fa-eye text-dark"></i> View</a></li>
-                                            <li><a class="dropdown-item edit-data" href="javascript:void(0)" data-url="{% url 'manage-borrow-pk' borrow.pk %}"><i class="fa fa-edit text-primary"></i> Edit</a></li>
-                                            <li><a class="dropdown-item delete-data" href="javascript:void(0)" data-url="{% url 'delete-borrow' borrow.pk %}"><i class="fa fa-trash text-danger"></i> Delete</a></li>
+                                            <li><a class="dropdown-item view-data" href="javascript:void(0)" data-url="{% url 'view-borrow-pk' borrow.pk %}"><i class="fa fa-eye text-dark"></i> பார்</a></li>
+                                            <li><a class="dropdown-item edit-data" href="javascript:void(0)" data-url="{% url 'manage-borrow-pk' borrow.pk %}"><i class="fa fa-edit text-primary"></i> திருத்து</a></li>
+                                            <li><a class="dropdown-item delete-data" href="javascript:void(0)" data-url="{% url 'delete-borrow' borrow.pk %}"><i class="fa fa-trash text-danger"></i> நீக்கு</a></li>
                                         </ul>
                                     </div>
                                 </td>

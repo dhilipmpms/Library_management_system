@@ -6,7 +6,7 @@
 </style>
 <section class="py-4">
     <div class="container">
-        <h3 class="fw-bolder text-center">Members Per Group</h3>
+        <h3 class="fw-bolder text-center">ஒரு குழுவிற்கு உறுப்பினர்கள்</h3>
         <center>
             <hr class="bg-primary opacity-100" style="height:3px" width="5%">
         </center>
@@ -14,12 +14,12 @@
             <div class="card-body">
                 <div class="container-fluid">
                     <fieldset class="p-2 border mb-4">
-                        <legend class="w-auto px-3">Filter</legend>
+                        <legend class="w-auto px-3">வடிகட்டு</legend>
                         <form action="{% url 'group-member' %}" method="GET">
                             <div class="container-fluid">
                                 <div class="row align-items-end">
                                     <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
-                                        <label class="control-label" for="group">Choose Group</label>
+                                        <label class="control-label" for="group">குழுவை தேர்ந்தெடு</label>
                                         <select name="group" id="group" class="form-select form-select-sm rounded-0" required>
                                             {% if not selected_group %}
                                             <option value="" selected disabled></option>
@@ -36,7 +36,7 @@
                                         </select>
                                     </div>
                                     <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
-                                        <label class="control-label" for="status">Status</label>
+                                        <label class="control-label" for="status">நிலை</label>
                                         <select name="status" id="status" class="form-select form-select-sm rounded-0" required>
                                             {% if status == '1' %}
                                             <option value="1" selected>Active</option>
@@ -51,8 +51,8 @@
                                         </select>
                                     </div>
                                     <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12">
-                                        <button class="btn btn-sm btn-primary rounded-0 bg-gradient-primary"><i class="fa fa-filter"></i> Filter</button> {% if selected_group %}
-                                        <button class="btn btn-sm btn-light rounded-0 bg-gradient-light border" type="button" id="print"><i class="fa fa-print"></i> Print</button> {% endif %}
+                                        <button class="btn btn-sm btn-primary rounded-0 bg-gradient-primary"><i class="fa fa-filter"></i> வடிகட்டு</button> {% if selected_group %}
+                                        <button class="btn btn-sm btn-light rounded-0 bg-gradient-light border" type="button" id="print"><i class="fa fa-print"></i> அச்சிடு</button> {% endif %}
                                     </div>
                                 </div>
                             </div>
@@ -71,11 +71,11 @@
                             <thead>
                                 <tr>
                                     <th class="text-center">#</th>
-                                    <th class="text-center">DateTime Added</th>
-                                    <th class="text-center">Code</th>
-                                    <th class="text-center">Name</th>
-                                    <th class="text-center">Contact</th>
-                                    <th class="text-center">Email</th>
+                                    <th class="text-center">தேதிநேரம் சேர்க்கப்பட்டது</th>
+                                    <th class="text-center">குறியீடு</th>
+                                    <th class="text-center">பெயர்</th>
+                                    <th class="text-center">தொடர்பு</th>
+                                    <th class="text-center">மின்னஞ்சல்</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -90,7 +90,7 @@
                                 </tr>
                                 {% endfor %} {% if not members %}
                                 <tr>
-                                    <th class="text-center" colspan="6">No Data</th>
+                                    <th class="text-center" colspan="6">தரவு இல்லை</th>
                                 </tr>
                                 {% endif %}
                             </tbody>
@@ -110,7 +110,7 @@
         <div class="col-8 text-center">
             <h4 class="fw-bold text-center mb-0">{{ system_name }}</h4>
             <h5 class="fw-bold text-center mb-0">{% if status == '1' %}Active{% else %}Inactive{% endif %} Members</h5>
-            <div class="text-center">of</div>
+            <div class="text-center">உடைய</div>
             <h3 class="text-center mb-0">{{selected_group}}</h3>
         </div>
     </div>

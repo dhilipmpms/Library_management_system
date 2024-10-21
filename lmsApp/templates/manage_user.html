@@ -4,28 +4,28 @@
         <input type="hidden" name="id" value="{{user.id}}">
         <input type="hidden" name="manage_user" value="1">
         <div class="form-group mb-3">
-            <label for="first_name" class="control-label">First Name</label>
+            <label for="first_name" class="control-label">முதல் பெயர்</label>
             <input type="text" class="form-control rounded-0" name="first_name" id="first_name" value="{% if form.data.first_name %}{{ form.data.first_name }}{% else %}{{ user.first_name }}{% endif %}" required="required">
         </div>
         <div class="form-group mb-3">
-            <label for="last_name" class="control-label">Last Name</label>
+            <label for="last_name" class="control-label">கடைசி பெயர்</label>
             <input type="text" class="form-control rounded-0" name="last_name" id="last_name" value="{% if form.data.last_name %}{{ form.data.last_name }}{% else %}{{ user.last_name }}{% endif %}" required="required">
         </div>
         <div class="form-group mb-3">
-            <label for="username" class="control-label">Username</label>
+            <label for="username" class="control-label">பயனர்பெயர்</label>
             <input type="text" class="form-control rounded-0" name="username" id="username" value="{% if form.data.username %}{{ form.data.username }}{% else %}{{ user.username }}{% endif %}" required="required">
         </div>
         <div class="form-group mb-3">
-            <label for="email" class="control-label">Email</label>
+            <label for="email" class="control-label">மின்னஞ்சல்</label>
             <input type="email" class="form-control rounded-0" name="email" id="email" value="{% if form.data.email %}{{ form.data.email }}{% else %}{{ user.email }}{% endif %}" required="required">
         </div>
         {% if not user.id %}
         <div class="form-group mb-3">
-            <label for="password1" class="control-label">Enter Password</label>
+            <label for="password1" class="control-label">கடவுச்சொல்லை உள்ளிடவும்</label>
             <input type="password" class="form-control rounded-0" name="password1" id="password1" required="required">
         </div>
         <div class="form-group mb-3">
-            <label for="password2" class="control-label">Confirm Password</label>
+            <label for="password2" class="control-label">கடவுச்சொல்லை உறுதிப்படுத்துக</label>
             <input type="password" class="form-control rounded-0" name="password2" id="password2" required="required">
         </div>
         {% endif %}

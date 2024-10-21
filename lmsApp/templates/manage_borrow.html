@@ -14,7 +14,7 @@
         <div class="row">
             <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                 <div class="mb-3">
-                    <label for="book" class="control-label">Book</label>
+                    <label for="book" class="control-label">புத்தகம்</label>
                     <select type="text" id="book" name="book" class="form-select form-select-sm rounded-0" required>
                         {% if not borrow %}
                         <option value="" selected disabled></option>
@@ -33,7 +33,7 @@
             </div>
             <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                 <div class="mb-3">
-                    <label for="student" class="control-label">Student</label>
+                    <label for="student" class="control-label">மாணவர்</label>
                     <select type="text" id="student" name="student" class="form-select form-select-sm rounded-0" required>
                         {% if not borrow %}
                         <option value="" selected disabled></option>
@@ -52,29 +52,29 @@
             </div>
             <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                 <div class="mb-3">
-                    <label for="borrowing_date" class="control-label">Date Borrow</label>
+                    <label for="borrowing_date" class="control-label">கடன் வாங்கும் தேதி</label>
                     <input type="date" id="borrowing_date" name="borrowing_date" class="form-control form-control-sm rounded-0" value="{% if borrow %}{{borrow.borrowing_date|date:'Y-m-d'}}{% else %}{% now 'Y-m-d' %}{% endif %}" required>
                 </div>
             </div>
             <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                 <div class="mb-3">
-                    <label for="return_date" class="control-label">Date to Return</label>
+                    <label for="return_date" class="control-label">திரும்ப வேண்டிய தேதி</label>
                     <input type="date" id="return_date" name="return_date" class="form-control form-control-sm rounded-0" value="{{borrow.return_date|date:'Y-m-d'}}" min="{% now 'Y-m-d' %}" required>
                 </div>
             </div>
             <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                 <div class="mb-3">
-                    <label for="status" class="control-label">Status</label>
+                    <label for="status" class="control-label">நிலை</label>
                     <select type="text" id="status" name="status" class="form-select form-select-sm rounded-0" required>
                         {% if borrow.status == '1' %}
-                        <option value="1" selected>Pending</option>
+                        <option value="1" selected>நிலுவையில்</option>
                         {% else %}
-                        <option value="1">Pending</option>
+                        <option value="1">நிலுவையில்</option>
                         {% endif %}
                         {% if borrow.status == '2' %}
-                        <option value="2" selected>Returned</option>
+                        <option value="2" selected>அளித்துள்ளது</option>
                         {% else %}
-                        <option value="2">Returned</option>
+                        <option value="2">அளித்துள்ளது</option>
                         {% endif %}
                     </select>
                 </div>

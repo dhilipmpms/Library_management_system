@@ -1,7 +1,7 @@
 {% extends 'base.html' %} {% load static %} {% block pageContent %}
 <section class="py-4">
     <div class="container">
-        <h3 class="fw-bolder text-center">List of Users</h3>
+        <h3 class="fw-bolder text-center">பயனர்களின் பட்டியல்</h3>
         <center>
             <hr class="bg-primary opacity-100" style="height:3px" width="5%">
         </center>
@@ -9,7 +9,7 @@
             <div class="card-body">
                 <div class="container-fluid">
                     <div class="text-end mb-3">
-                        <button class="btn btn-sm btn-primary rounded-0 bg-gradient-primary" type="button" id="create_new"><i class="fa fa-plus"></i> Add New</button>
+                        <button class="btn btn-sm btn-primary rounded-0 bg-gradient-primary" type="button" id="create_new"><i class="fa fa-plus"></i> புதியதைச் சேர்</button>
                     </div>
                     <table class="table table-bordered table-striped" id="user-tbl">
                         <colgroup>
@@ -21,9 +21,9 @@
                         <thead>
                             <tr>
                                 <th class="text-center">#</th>
-                                <th class="text-center">Name</th>
-                                <th class="text-center">Username</th>
-                                <th class="text-center">Action</th>
+                                <th class="text-center">பெயர்</th>
+                                <th class="text-center">பயனர்பெயர்</th>
+                                <th class="text-center">செயல்</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -35,11 +35,11 @@
                                 <td class="text-center">
                                     <div class="dropdown">
                                         <button class="btn btn-light btn-sm rounded-0 border dropdown-toggle" type="button" id="abtn{{user.pk}}" data-bs-toggle="dropdown" aria-expanded="false">
-                                          Action
+                                        செயல்
                                         </button>
                                         <ul class="dropdown-menu" aria-labelledby="abtn{{user.pk}}">
-                                            <li><a class="dropdown-item edit-data" href="javascript:void(0)" data-url="{% url 'manage-user-pk' user.pk %}"><i class="fa fa-edit text-primary"></i> Edit</a></li>
-                                            <li><a class="dropdown-item delete-data" href="javascript:void(0)"  data-url="{% url 'delete-user' user.pk %}"><i class="fa fa-trash text-danger"></i> Delete</a></li>
+                                            <li><a class="dropdown-item edit-data" href="javascript:void(0)" data-url="{% url 'manage-user-pk' user.pk %}"><i class="fa fa-edit text-primary"></i> திருத்து</a></li>
+                                            <li><a class="dropdown-item delete-data" href="javascript:void(0)"  data-url="{% url 'delete-user' user.pk %}"><i class="fa fa-trash text-danger"></i> நீக்கு</a></li>
                                         </ul>
                                     </div>
                                 </td>

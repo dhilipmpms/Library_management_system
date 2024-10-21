@@ -11,11 +11,11 @@
                         <div class="row">
                             <div class="col-md-8">
                                 <dl>
-                                    <dt class="text-muted">Fullname</dt>
+                                    <dt class="text-muted">முழுப்பெயர்</dt>
                                     <dd class="ps-4">{{ user.first_name }} {{ user.last_name }}</dd>
-                                    <dt class="text-muted">Email</dt>
+                                    <dt class="text-muted">மின்னஞ்சல்</dt>
                                     <dd class="ps-4">{{ user.email }}</dd>
-                                    <dt class="text-muted">Username</dt>
+                                    <dt class="text-muted">பயனர்பெயர்</dt>
                                     <dd class="ps-4">{{ user.username }}</dd>
                                 </dl>
                             </div>
@@ -24,8 +24,8 @@
                 </div>
                 <div class="card-footer">
                     <div class="d-flex w-100 text-end justify-content-end">
-                        <a href="{% url 'update-password' %}" class="btn btn btn-light border btn-sm bg-gradient rounded-0 me-2">Update Password</a>
-                        <a href="{% url 'update-profile' %}" class="btn btn btn-primary btn-sm bg-gradient rounded-0">Update Profile</a>
+                        <a href="{% url 'update-password' %}" class="btn btn btn-light border btn-sm bg-gradient rounded-0 me-2">கடவுச்சொல்லை புதுப்பிக்கவும்</a>
+                        <a href="{% url 'update-profile' %}" class="btn btn btn-primary btn-sm bg-gradient rounded-0">சுயவிவரத்தை புதுப்பிக்கவும்</a>
                     </div>
                 </div>
             </div>

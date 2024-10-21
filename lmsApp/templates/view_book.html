@@ -18,23 +18,23 @@
 <div class="container-fluid" id="e-details">
     <div class="">
         <dl>
-            <dt>Category</dt>
+            <dt>வகை</dt>
             <dd class="ps-4">{{book.sub_category.category}}</dd>
-            <dt>Sub Category</dt>
+            <dt>துணை வகை</dt>
             <dd class="ps-4">{{book.sub_category.name}}</dd>
-            <dt>ISBN</dt>
+            <dt>ஐஎஸ்பிஎன்</dt>
             <dd class="ps-4">{{book.isbn}}</dd>
-            <dt>Title</dt>
+            <dt>தலைப்பு</dt>
             <dd class="ps-4">{{book.title}}</dd>
-            <dt>Description</dt>
+            <dt>விளக்கம்</dt>
             <dd class="ps-4">{{book.description}}</dd>
-            <dt>Author</dt>
+            <dt>நூலாசிரியர்</dt>
             <dd class="ps-4">{{book.author}}</dd>
-            <dt>Publisher</dt>
+            <dt>வெளியீட்டாளர்</dt>
             <dd class="ps-4">{{book.publisher}}</dd>
-            <dt>Date Published</dt>
+            <dt>வெளியிட்ட தேதி</dt>
             <dd class="ps-4">{{book.date_published|date:"F d, Y h:i A"}}</dd>
-            <dt>Status</dt>
+            <dt>நிலை</dt>
             <dd class="ps-4">
                 {% if book.status == '1' %}
                 <span class="badge badge-success bg-gradient bg-success px-3 rounded-pill bg-opacity-75 text-sm py-1">Active</span> {% else %}
