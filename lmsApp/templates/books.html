@@ -75,13 +75,13 @@
 <script>
     $(function() {
         $('#create_new').click(function() {
-            uni_modal("<i class='fa fa-plus'></i> Add New Book", "{% url 'manage-book' %}", "modal-lg")
+            uni_modal("<i class='fa fa-plus'></i> புதிய புத்தகத்தைச் சேர்க்கவும்", "{% url 'manage-book' %}", "modal-lg")
         })
         $('.edit-data').click(function() {
-            uni_modal("<i class='fa fa-edit'></i> Edit Book Details", $(this).attr('data-url'), "modal-lg")
+            uni_modal("<i class='fa fa-edit'></i> புத்தக விவரங்களைத் திருத்தவும்", $(this).attr('data-url'), "modal-lg")
         })
         $('.view-data').click(function() {
-            uni_modal("<i class='fa fa-th-list'></i> Book Details", $(this).attr('data-url'))
+            uni_modal("<i class='fa fa-th-list'></i> புத்தக விவரங்கள்", $(this).attr('data-url'))
         })
         $('.view_image').click(function() {
             var img = $(this).attr('data-img-url')
@@ -89,7 +89,7 @@
             $('#viewer_modal').modal('show')
         })
         $('.delete-data').click(function() {
-            _conf("Are you sure to delete this Book?", 'delete_book', ["'" + $(this).attr('data-url') + "'"])
+            _conf("இந்தப் புத்தகத்தை நிச்சயமாக நீக்கவா?", 'delete_book', ["'" + $(this).attr('data-url') + "'"])
         })
         $('#book-tbl').find('td, th').addClass('px-2 py-1 align-middle')
         $('#book-tbl').DataTable({

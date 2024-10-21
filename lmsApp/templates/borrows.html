@@ -80,13 +80,13 @@
 <script>
     $(function() {
         $('#create_new').click(function() {
-            uni_modal("<i class='fa fa-plus'></i> Add New Transaction", "{% url 'manage-borrow' %}", "modal-lg")
+            uni_modal("<i class='fa fa-plus'></i> புதிய பரிவர்த்தனையைச் சேர்க்கவும்", "{% url 'manage-borrow' %}", "modal-lg")
         })
         $('.edit-data').click(function() {
-            uni_modal("<i class='fa fa-edit'></i> Edit Transaction Details", $(this).attr('data-url'), "modal-lg")
+            uni_modal("<i class='fa fa-edit'></i> பரிவர்த்தனை விவரங்களைத் திருத்தவும்", $(this).attr('data-url'), "modal-lg")
         })
         $('.view-data').click(function() {
-            uni_modal("<i class='fa fa-th-list'></i> Transaction Details", $(this).attr('data-url'), "modal-lg")
+            uni_modal("<i class='fa fa-th-list'></i> பரிவர்த்தனை விவரங்கள்", $(this).attr('data-url'), "modal-lg")
         })
         $('.view_image').click(function() {
             var img = $(this).attr('data-img-url')
@@ -94,7 +94,7 @@
             $('#viewer_modal').modal('show')
         })
         $('.delete-data').click(function() {
-            _conf("Are you sure to delete this Transaction?", 'delete_borrow', ["'" + $(this).attr('data-url') + "'"])
+            _conf("இந்தப் பரிவர்த்தனையை நிச்சயமாக நீக்கவா?", 'delete_borrow', ["'" + $(this).attr('data-url') + "'"])
         })
         $('#borrow-tbl').find('td, th').addClass('px-2 py-1 align-middle')
         $('#borrow-tbl').DataTable({

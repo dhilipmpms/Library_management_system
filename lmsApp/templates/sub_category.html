@@ -82,13 +82,13 @@
 <script>
     $(function() {
         $('#create_new').click(function() {
-            uni_modal("<i class='fa fa-plus'></i> Add New Sub Category", "{% url 'manage-sub_category' %}")
+            uni_modal("<i class='fa fa-plus'></i> புதிய துணை வகையைச் சேர்க்கவும்", "{% url 'manage-sub_category' %}")
         })
         $('.view-data').click(function() {
-            uni_modal("<i class='fa fa-th-list'></i> Sub Category Details", $(this).attr('data-url'))
+            uni_modal("<i class='fa fa-th-list'></i> துணை வகை விவரங்கள்", $(this).attr('data-url'))
         })
         $('.edit-data').click(function() {
-            uni_modal("<i class='fa fa-edit'></i> Edit Sub Category Details", $(this).attr('data-url'))
+            uni_modal("<i class='fa fa-edit'></i> துணை வகை விவரங்களைத் திருத்தவும்", $(this).attr('data-url'))
         })
         $('.view_image').click(function() {
             var img = $(this).attr('data-img-url')
@@ -96,7 +96,7 @@
             $('#viewer_modal').modal('show')
         })
         $('.delete-data').click(function() {
-            _conf("Are you sure to delete this Category?", 'delete_sub_category', ["'" + $(this).attr('data-url') + "'"])
+            _conf("இந்த துணை வகையை நிச்சயமாக நீக்கவா?", 'delete_sub_category', ["'" + $(this).attr('data-url') + "'"])
         })
         $('#category-tbl').find('td, th').addClass('px-2 py-1 align-middle')
         $('#category-tbl').DataTable({
