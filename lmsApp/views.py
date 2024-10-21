@@ -680,13 +680,11 @@ def upload_file_view(request):
             file = request.FILES["file"]
             try:
                 df = handle_uploaded_file(file)
-
                 # Assume the file contains Category data (modify for other models)
                 for index, row in df.iterrows():
                     Category.objects.update_or_create(
                         name=row["name"],
                         defaults={
-                            "description": row.get("description", ""),
                             "status": row.get("status", "1"),
                             "delete_flag": row.get("delete_flag", 0),
                         },

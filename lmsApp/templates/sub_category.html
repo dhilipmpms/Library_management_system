@@ -22,8 +22,7 @@
                     <table class="table table-bordered table-striped" id="category-tbl">
                         <colcategory>
                             <col width="5%">
-                            <col width="15%">
-                            <col width="20%">
+                            <col width="25%">
                             <col width="30%">
                             <col width="15%">
                             <col width="15%">
@@ -33,7 +32,6 @@
                                 <th class="text-center">#</th>
                                 <th class="text-center">DateTime</th>
                                 <th class="text-center">Category/Sub Category</th>
-                                <th class="text-center">Description</th>
                                 <th class="text-center">Status</th>
                                 <th class="text-center">Action</th>
                             </tr>
@@ -42,16 +40,14 @@
                             {% for cat in sub_category %}
                             <tr>
                                 <td class="text-center">{{ forloop.counter }}</td>
-                                <td>{{ cat.date_created|date:"Y-m-d H:i" }}</td>
+                                <td class="text-center">{{ cat.date_created|date:"Y-m-d H:i" }}</td>
                                 <td>
                                     <div class="lh-1">
-                                        <div>{{ cat.category}}</div>
-                                        <div>{{ cat.name}}</div>
+                                        <div class="text-center">{{ cat.category}}</div>
+                                        <div class="text-center">{{ cat.name}}</div>
                                     </div>
                                 </td>
-                                <td>
-                                    <p class="m-0 truncate-1">{{ cat.description|safe }}</p>
-                                </td>
+
                                 <td class="text-center">
                                     {% if cat.status == '1' %}
                                     <span class="badge badge-success bg-gradient bg-success px-3 rounded-pill bg-opacity-75 text-sm py-1">Active</span> {% else %}
