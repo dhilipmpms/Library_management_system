@@ -1,4 +1,4 @@
-from distutils.command.upload import upload
+# from distutils.command.upload import upload
 from email.policy import default
 
 from django.contrib.auth.base_user import BaseUserManager

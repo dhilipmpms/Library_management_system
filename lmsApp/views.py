@@ -330,6 +330,81 @@ def sub_category(request):
 
 
 @login_required
+def sub_cat_1(request):
+    context = context_data(request)
+    context["page"] = "sub_cat_1"
+    context["page_title"] = "Sub Category List 1"
+    context["sub_category"] = models.SubCategory.objects.filter(delete_flag=0, category=1).all()
+    return render(request, "sub_category.html", context)
+
+
+@login_required
+def sub_cat_2(request):
+    context = context_data(request)
+    context["page"] = "sub_cat_2"
+    context["page_title"] = "Sub Category List 2"
+    context["sub_category"] = models.SubCategory.objects.filter(delete_flag=0, category=2).all()
+    return render(request, "sub_category.html", context)
+
+@login_required
+def sub_cat_3(request):
+    context = context_data(request)
+    context["page"] = "sub_cat_3"
+    context["page_title"] = "Sub Category List 3"
+    context["sub_category"] = models.SubCategory.objects.filter(delete_flag=0, category=3).all()
+    return render(request, "sub_category.html", context)
+
+@login_required
+def sub_cat_4(request):
+    context = context_data(request)
+    context["page"] = "sub_cat_4"
+    context["page_title"] = "Sub Category List 4"
+    context["sub_category"] = models.SubCategory.objects.filter(delete_flag=0, category=4).all()
+    return render(request, "sub_category.html", context)
+
+@login_required
+def sub_cat_5(request):
+    context = context_data(request)
+    context["page"] = "sub_cat_5"
+    context["page_title"] = "Sub Category List 5"
+    context["sub_category"] = models.SubCategory.objects.filter(delete_flag=0, category=5).all()
+    return render(request, "sub_category.html", context)
+
+@login_required
+def sub_cat_6(request):
+    context = context_data(request)
+    context["page"] = "sub_cat_6"
+    context["page_title"] = "Sub Category List 6"
+    context["sub_category"] = models.SubCategory.objects.filter(delete_flag=0, category=6).all()
+    return render(request, "sub_category.html", context)
+
+@login_required
+def sub_cat_7(request):
+    context = context_data(request)
+    context["page"] = "sub_cat_7"
+    context["page_title"] = "Sub Category List 7"
+    context["sub_category"] = models.SubCategory.objects.filter(delete_flag=0, category=7).all()
+    return render(request, "sub_category.html", context)
+
+@login_required
+def sub_cat_8(request):
+    context = context_data(request)
+    context["page"] = "sub_cat_8"
+    context["page_title"] = "Sub Category List 8"
+    context["sub_category"] = models.SubCategory.objects.filter(delete_flag=0, category=8).all()
+    return render(request, "sub_category.html", context)
+
+@login_required
+def sub_cat_9(request):
+    context = context_data(request)
+    context["page"] = "sub_cat_9"
+    context["page_title"] = "Sub Category List 9"
+    context["sub_category"] = models.SubCategory.objects.filter(delete_flag=0, category=9).all()
+    return render(request, "sub_category.html", context)
+
+
+
+@login_required
 def save_sub_category(request):
     resp = {"status": "failed", "msg": ""}
     if request.method == "POST":
