@@ -40,8 +40,16 @@
                             வகைகள்
                         </a>
                         <ul class="dropdown-menu" aria-labelledby="categoryDropdown">
-                            <li><a class="dropdown-item" href="{% url 'category-page' %}">வகைகள்</a></li>
-                            <li><a class="dropdown-item" href="{% url 'sub_category-page' %}">துணை வகைகள்</a></li>
+                            {% comment %} <li><a class="dropdown-item" href="{% url 'category-page' %}">வகைகள்</a></li> {% endcomment %}
+                            <li><a class="dropdown-item" href="{% url 'sub_cat_1' %}">சங்க இலக்கியம்</a></li>
+                            <li><a class="dropdown-item" href="{% url 'sub_cat_2' %}">அற இலக்கியம்</a></li>
+                            <li><a class="dropdown-item" href="{% url 'sub_cat_3' %}">காப்பிய இலக்கியம்</a></li>
+                            <li><a class="dropdown-item" href="{% url 'sub_cat_4' %}">பக்தி இலக்கியம்</a></li>
+                            <li><a class="dropdown-item" href="{% url 'sub_cat_5' %}">சிற்றிலக்கியம்</a></li>
+                            <li><a class="dropdown-item" href="{% url 'sub_cat_6' %}">நாட்டுப்புறவியல்</a></li>
+                            <li><a class="dropdown-item" href="{% url 'sub_cat_7' %}">இக்கால இலக்கியம்</a></li>
+                            <li><a class="dropdown-item" href="{% url 'sub_cat_8' %}">மொழிபெயர்ப்பு</a></li>
+                            <li><a class="dropdown-item" href="{% url 'sub_cat_9' %}">பொதுவானவை</a></li>
                         </ul>
                     </li>
                     <li class="nav-item">
