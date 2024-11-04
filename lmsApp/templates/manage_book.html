@@ -35,21 +35,21 @@
             <label for="title" class="control-label">தலைப்பு</label>
             <input type="text" id="title" name="title" class="form-control form-control-sm rounded-0" value="{{book.title}}" required>
         </div>
-        <div class="mb-3">
+        <!-- <div class="mb-3">
             <label for="description" class="control-label">விளக்கம்</label>
             <textarea rows="3" id="description" name="description" class="form-control form-control-sm rounded-0" required>{{book.description}}</textarea>
-        </div>
+        </div> -->
         <div class="mb-3">
             <label for="author" class="control-label">ஆசிரியர்/கள்</label>
-            <textarea rows="3" id="author" name="author" class="form-control form-control-sm rounded-0" required>{{book.author}}</textarea>
+            <textarea rows="3" id="author" name="author" class="form-control form-control-sm rounded-0">{{book.author}}</textarea>
         </div>
         <div class="mb-3">
             <label for="publisher" class="control-label">வெளியீட்டாளர்</label>
-            <input type="text" id="publisher" name="publisher" class="form-control form-control-sm rounded-0" value="{{book.publisher}}" required>
+            <input type="text" id="publisher" name="publisher" class="form-control form-control-sm rounded-0" value="{{book.publisher}}">
         </div>
         <div class="mb-3">
             <label for="date_published" class="control-label">வெளியிட்ட தேதி</label>
-            <input type="date" id="date_published" name="date_published" class="form-control form-control-sm rounded-0" value="{{book.date_published|date:'Y-m-d'}}" required>
+            <input type="date" id="date_published" name="date_published" class="form-control form-control-sm rounded-0" value="{{book.date_published|date:'Y-m-d'}}">
         </div>
         <div class="mb-3">
             <label for="status" class="control-label">நிலை</label>
