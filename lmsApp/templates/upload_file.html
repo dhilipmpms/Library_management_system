@@ -5,11 +5,19 @@
 {% block content %}
   <h2>Upload CSV/Excel File</h2>
 
-  <form method="POST" enctype="multipart/form-data">
+  <form method="POST" enctype="multipart/form-data"  action="{%  url 'upload-file' %}">
     {% csrf_token %}
     {{ form.as_p }}
+    <label for="upload_type">Select Upload Type:</label>
+    <select name="upload_type" id="upload_type" required>
+        <option value="">Select...</option>
+        <option value="students">Students</option>
+        <option value="subcategory">Subcategory</option>
+        <option value="books">Book</option>
+    </select>
     <button type="submit" class="btn btn-primary">மேலேற்று</button>
-  </form>
+  </form> 
+
 
   {% if messages %}
     <ul>

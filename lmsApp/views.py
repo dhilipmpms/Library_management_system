@@ -9,8 +9,13 @@ from django.db.models import Q
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
 from lmsApp import forms, models
+from .models import Students,SubCategory,Category,Books
+import pandas as pd
+from django.utils import timezone
 
 from .forms import UploadFileForm
+
+
 
 
 def context_data(request):
@@ -752,23 +757,94 @@ def upload_file_view(request):
     if request.method == "POST":
         form = UploadFileForm(request.POST, request.FILES)
         if form.is_valid():
-            file = request.FILES["file"]
+            file = request.FILES['file']
+            upload_type = request.POST.get('upload_type')
             try:
-                df = handle_uploaded_file(file)
-                # Assume the file contains Category data (modify for other models)
-                for index, row in df.iterrows():
-                    Category.objects.update_or_create(
-                        name=row["name"],
-                        defaults={
-                            "status": row.get("status", "1"),
-                            "delete_flag": row.get("delete_flag", 0),
-                        },
-                    )
-                messages.success(request, "Data uploaded successfully!")
-                return redirect("category-page")
-            except ValueError as e:
-                messages.error(request, str(e))
+                df =handle_uploaded_file(file)
+                
+                # Iterate over DataFrame and create or update model instances
+                if upload_type  =='students':
+
+                    for index, row in df.iterrows():
+                        Students.objects.update_or_create(
+                            code=row['code'],
+                            first_name=row['first_name'],
+                            gender=row.get('gender', 'Male'),  # Default to 'Male' if not provided
+                            contact=row['contact'],
+                            department=row.get('department', None),
+                            course=row.get('course', None),
+                            education_level=row.get('education_level', 'UG'),  # Default to 'UG'
+                            status=row.get('status', '1'),  # Default to 'Active' status
+                            delete_flag=row.get('delete_flag', 0),  # Default to 0
+                            date_added=row.get('date_added', timezone.now()),  # Default to current time
+                            date_created=row.get('date_created', timezone.now()),  # Default to current time
+                        )
+                
+                    messages.success(request, "Student data uploaded and added to the database successfully!")
+                    return redirect('/students')
+
+
+                elif upload_type == 'subcategory':
+
+                    for index, row in df.iterrows():
+                        category_instance = Category.objects.get(name=row['category'])
+                        SubCategory.objects.update_or_create(
+                            category=category_instance,
+                            name=row['name'],
+                            defaults={
+                                "status": row.get("status", "1"),
+                                "delete_flag": row.get("delete_flag", 0),
+                            }
+                        )
+                    messages.success(request, "Subcategory data uploaded and added to the database successfully!")
+                    return redirect('/category') 
+
+                elif upload_type == 'books':
+                    for index, row in df.iterrows():
+                        try:
+                            # Fetch the SubCategory instance based on name or ID
+                            sub_category_name = row.get('sub_category').strip() if row.get('sub_category') else None
+
+                            if not sub_category_name:
+                                messages.error(request, f"SubCategory name is missing at row {index + 1}")
+                                continue
+
+                            sub_category_instance = SubCategory.objects.filter(name=sub_category_name).first()
+
+                            if not sub_category_instance:
+                                messages.error(request, f"SubCategory '{sub_category_name}' not found for row {index + 1}")
+                                continue  # Skip this row if sub_category is not found
+
+
+                            # Create or update the book record
+                            Books.objects.update_or_create(
+                                sub_category=sub_category_instance,
+                                isbn=row['isbn'],
+                                defaults={
+                                    'title': row['title'],
+                                    'author': row.get('author', ''),  
+                                    'publisher': row.get('publisher', ''),                                  }
+                            )
+
+                        except Exception as e:
+                            messages.error(request, f"An error occurred at row {index + 1}: {str(e)}")
+                            continue  # Skip this row if another error occurs
+
+                    messages.success(request, "Books data uploaded and added to the database successfully.")
+                    return redirect('/books')
+
+   
+            except Exception as e:
+                messages.error(request, f"An error occurred: {str(e)}")
     else:
         form = UploadFileForm()
 
     return render(request, "upload_file.html", {"form": form})
+
+
+                    
+
+
+
+
+

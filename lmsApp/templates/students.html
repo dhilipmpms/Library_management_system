@@ -62,6 +62,11 @@
             </div>
         </div>
     </div>
+    <div class="container-fluid" style="margin-top: 10px;">
+    <button class="btn btn-sm btn-success rounded-0 bg-gradient-success" type="button" id="upload_data">
+        <i class="fa fa-upload"></i> தரவை பதிவேற்றுக
+    </button>
+</div>
 </section>
 {% endblock pageContent %} {% block ScriptBlock %}
 <script>
@@ -69,6 +74,9 @@
         $('#create_new').click(function() {
             uni_modal("<i class='fa fa-plus'></i> புதிய மாணவரைச் சேர்க்கவும்", "{% url 'manage-student' %}","modal-lg")
         })
+        $('#upload_data').click(function() {
+            uni_modal("<i class='fa fa-upload'></i> தரவை பதிவேற்றுக", "{% url 'upload-file' %}", "modal-lg")
+        });
         $('.edit-data').click(function() {
             uni_modal("<i class='fa fa-edit'></i> மாணவர் விவரங்களைத் திருத்தவும்", $(this).attr('data-url'),"modal-lg")
         })
@@ -133,4 +141,5 @@
         })
     }
 </script>
+
 {% endblock ScriptBlock %}

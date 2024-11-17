@@ -220,8 +220,8 @@ class SaveBook(forms.ModelForm):
     isbn = forms.CharField(max_length=250)
     title = forms.CharField(max_length=250)
     author = forms.Textarea()
-    publisher = forms.Textarea()
-    date_published = forms.DateField()
+    publisher = forms.CharField(widget=forms.Textarea(), required=False)
+    date_published = forms.DateField(required=False)
     status = forms.CharField(max_length=2)
 
     class Meta:
@@ -285,13 +285,13 @@ class SaveStudent(forms.ModelForm):
         )
 
     def clean_code(self):
-        id = int(self.data["id"]) if (self.data["id"]).isnumeric() else 0
+        id = int(self.data.get("id", 0)) if self.data.get("id", "0").isnumeric() else 0
         code = self.cleaned_data["code"]
         try:
             if id > 0:
-                book = models.Books.objects.exclude(id=id).get(code=code, delete_flag=0)
+                student = models.Students.objects.exclude(id=id).get(code=code, delete_flag=0)
             else:
-                book = models.Books.objects.get(code=code, delete_flag=0)
+                student = models.Students.objects.get(code=code, delete_flag=0)
         except:
             return code
         raise forms.ValidationError(

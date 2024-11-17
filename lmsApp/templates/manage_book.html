@@ -16,7 +16,7 @@
         </div>
         <div class="mb-3">
             <label for="sub_category" class="control-label">Category</label>
-            <select type="text" id="sub_category" name="sub_category" class="form-select form-select-sm rounded-0" required>
+            <select type="text" id="sub_category" name="sub_category" class="form-select form-select-sm rounded-0">
                 {% if not book.category %}
                     <option  disabled selected></option>
                 {% else %}
@@ -45,7 +45,7 @@
         </div>
         <div class="mb-3">
             <label for="publisher" class="control-label">வெளியீட்டாளர்</label>
-            <input type="text" id="publisher" name="publisher" class="form-control form-control-sm rounded-0" value="{{book.publisher}}">
+            <textarea type="text" id="publisher" name="publisher" class="form-control form-control-sm rounded-0">{{book.publisher}}</textarea>
         </div>
         <div class="mb-3">
             <label for="date_published" class="control-label">வெளியிட்ட தேதி</label>

@@ -31,8 +31,8 @@
                             <tr>
                                 <th class="text-center">#</th>
                                 <th class="text-center">தேதி நேரம்</th>
+                                <th class="text-center">வகை</th>
                                 <th class="text-center">துணை வகை</th>
-                                <th class="text-center">விளக்கம்</th>
                                 <th class="text-center">நிலை</th>
                                 <th class="text-center">செயல்</th>
                             </tr>
@@ -45,11 +45,12 @@
                                 <td>
                                     <div class="lh-1">
                                         <div class="text-center">{{ cat.category}}</div>
-                                        <div class="text-center">{{ cat.name}}</div>
                                     </div>
                                 </td>
-                                <td></td>
-                                    <p class="m-0 truncate-1">{{ cat.description|safe }}</p>
+                                <td>
+                                    <div class="lh-1">
+                                        <div class="text-center">{{ cat.name}}</div>
+                                    </div>
                                 </td>
 
                                 <td class="text-center">
@@ -70,11 +71,17 @@
                                     </div>
                                 </td>
                             </tr>
+                            
                             {% endfor %}
                         </tbody>
                     </table>
                 </div>
             </div>
+        </div>
+        <div class="container-fluid" style="margin-top: 10px;">
+            <button class="btn btn-sm btn-success rounded-0 bg-gradient-success" type="button" id="upload_data">
+                <i class="fa fa-upload"></i> தரவை பதிவேற்றுக
+            </button>
         </div>
     </div>
 </section>
@@ -90,6 +97,9 @@
         $('.edit-data').click(function() {
             uni_modal("<i class='fa fa-edit'></i> துணை வகை விவரங்களைத் திருத்தவும்", $(this).attr('data-url'))
         })
+        $('#upload_data').click(function() {
+            uni_modal("<i class='fa fa-upload'></i> தரவை பதிவேற்றுக", "{% url 'upload-file' %}", "modal-lg")
+        });
         $('.view_image').click(function() {
             var img = $(this).attr('data-img-url')
             $('#viewer_modal #img-viewer-field').attr('src', img)

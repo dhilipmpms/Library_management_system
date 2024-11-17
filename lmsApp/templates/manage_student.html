@@ -76,7 +76,8 @@
                     <label for="education_level" class="control-label">கல்வி நிலை</label>
                     <select type="text" id="education_level" name="education_level" class="form-select form-select-sm rounded-0" required>
                         <option value="UG" {% if student.education_level == 'UG' %}selected{% endif %}>இளங்கலை (UG)</option>
-                        <option value="PG" {% if student.education_level == 'PG' %}selected{% endif %}>முதுகலை (பிஜி)</option>
+                        <option value="PG" {% if student.education_level == 'PG' %}selected{% endif %}>முதுகலை (PG)</option>
+                        <option value="PG" {% if student.education_level == 'PhD' %}selected{% endif %}>முதுநிலை பட்டம் (Phd)</option>
                     </select>
                 </div>
             </div>

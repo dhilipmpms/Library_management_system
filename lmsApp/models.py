@@ -38,7 +38,7 @@ class SubCategory(models.Model):
     date_added = models.DateTimeField(default=timezone.now)
     date_created = models.DateTimeField(auto_now=True)
 
-    class Meta:
+    class Meta: 
         verbose_name_plural = "List of Categories"
 
     def __str__(self):
@@ -50,7 +50,7 @@ class Books(models.Model):
     isbn = models.CharField(max_length=250)
     title = models.CharField(max_length=250)
     author = models.TextField(blank=True, null=True)
-    publisher = models.CharField(max_length=250)
+    publisher = models.TextField(blank=True, null=True)
     status = models.CharField(
         max_length=2, choices=(("1", "Active"), ("2", "Inactive")), default=1
     )
@@ -64,6 +64,8 @@ class Books(models.Model):
         return str(f"{self.isbn} - {self.title}")
 
 
+
+
 class Students(models.Model):
     code = models.CharField(max_length=250)
     first_name = models.CharField(max_length=250)
@@ -74,13 +76,13 @@ class Students(models.Model):
     department = models.CharField(max_length=250, blank=True, null=True)
     course = models.CharField(max_length=250, blank=True, null=True)
     education_level = models.CharField(
-        max_length=2,
-        choices=(("UG", "Undergraduate"), ("PG", "Postgraduate")),
+        max_length=3,
+        choices=(("UG", "Undergraduate"), ("PG", "Postgraduate"),("PhD","Doctor of Philosophy")),
         default="UG",
     )
 
     status = models.CharField(
-        max_length=2, choices=(("1", "Active"), ("2", "Inactive")), default=1
+        max_length=2, choices=(("1", "Active"), ("2", "Inactiv  e")), default=1
     )
     delete_flag = models.IntegerField(default=0)
     date_added = models.DateTimeField(default=timezone.now)
@@ -113,3 +115,6 @@ class Borrow(models.Model):
 
     def __str__(self):
         return str(f"{self.student.code}")
+
+
+

@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "django.contrib.humanize",
     "lmsApp.apps.lmsAppConfig",
+    "import_export",
 ]
 
 MIDDLEWARE = [
