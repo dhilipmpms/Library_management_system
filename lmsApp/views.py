@@ -483,7 +483,7 @@ def delete_sub_category(request, pk=None):
     return HttpResponse(json.dumps(resp), content_type="application/json")
 
 
-@login_required
+#@login_required
 def books(request):
     context = context_data(request)
     context["page"] = "book"
