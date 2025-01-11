@@ -152,7 +152,7 @@ def home(request):
         models.Students.objects.filter(delete_flag=0, status=1).all().count()
     )
     context["books"] = (
-        models.Students.objects.filter(delete_flag=0, status=1).all().count()
+        models.Books.objects.filter(delete_flag=0, status=1).all().count()
     )
     context["pending"] = models.Borrow.objects.filter(status=1).all().count()
     context["pending"] = models.Borrow.objects.filter(status=1).all().count()
@@ -774,6 +774,8 @@ def upload_file_view(request):
                             department=row.get('department', None),
                             course=row.get('course', None),
                             education_level=row.get('education_level', 'UG'),  # Default to 'UG'
+                            email=row.get('email',None),
+                            address=row.get('address', None),
                             status=row.get('status', '1'),  # Default to 'Active' status
                             delete_flag=row.get('delete_flag', 0),  # Default to 0
                             date_added=row.get('date_added', timezone.now()),  # Default to current time

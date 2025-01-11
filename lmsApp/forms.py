@@ -269,6 +269,8 @@ class SaveStudent(forms.ModelForm):
     department = forms.CharField(max_length=250)
     course = forms.CharField(max_length=250)
     education_level = forms.CharField(max_length=2)
+    email = forms.EmailField(required=False)
+    address = forms.CharField(max_length=500, required=False)
     status = forms.CharField(max_length=2)
 
     class Meta:
@@ -281,6 +283,8 @@ class SaveStudent(forms.ModelForm):
             "department",
             "course",
             "education_level",
+            "email",
+            "address",
             "status",
         )
 
