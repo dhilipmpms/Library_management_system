@@ -80,7 +80,7 @@ class Students(models.Model):
         choices=(("UG", "Undergraduate"), ("PG", "Postgraduate"),("PhD","Doctor of Philosophy")),
         default="UG",
     )
-    email =models.EmailField(max_length=254,blank=True,null=True)
+    email =models.EmailField(blank=True,null=True)
     address=models.CharField(max_length=500,blank=True, null=True)
     status = models.CharField(
         max_length=2, choices=(("1", "Active"), ("2", "Inactiv  e")), default=1
