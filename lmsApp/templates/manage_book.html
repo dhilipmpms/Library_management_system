@@ -11,7 +11,7 @@
     <form action="" id="book-form">
         <input type="hidden" name="id" value="{{book.id}}">
         <div class="mb-3">
-            <label for="isbn" class="control-label">ஐஎஸ்பிஎன்</label>
+            <label for="isbn" class="control-label">புத்தக எண்</label>
             <input type="text" id="isbn" name="isbn" class="form-control form-control-sm rounded-0" value="{{book.isbn}}" required>
         </div>
         <div class="mb-3">
@@ -46,6 +46,18 @@
         <div class="mb-3">
             <label for="publisher" class="control-label">வெளியீட்டாளர்</label>
             <textarea type="text" id="publisher" name="publisher" class="form-control form-control-sm rounded-0">{{book.publisher}}</textarea>
+        </div>
+        <div class="mb-3">
+            <label for="title" class="control-label">விலை</label>
+            <input type="text" id="price" name="price" class="form-control form-control-sm rounded-0" value="{{book.price|default:''}}">
+        </div>
+        <div class="mb-3">
+            <label for="title" class="control-label">பேழை</label>
+            <input type="text" id="berow" name="berow" class="form-control form-control-sm rounded-0" value="{{book.berow|default:''}}">
+        </div>
+        <div class="mb-3">
+            <label for="title" class="control-label">தட்டு</label>
+            <input type="text" id="rack" name="rack" class="form-control form-control-sm rounded-0" value="{{book.rack|default:''}}">
         </div>
         <div class="mb-3">
             <label for="date_published" class="control-label">வெளியிட்ட தேதி</label>

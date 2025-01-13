@@ -38,7 +38,12 @@
                                 <td class="text-center">{{ forloop.counter }}</td>
                                 <td>{{ staff.date_added|date:"Y-m-d h:i A" }}</td>
                                 <td>{{ staff.name }}</td>
-                                <td>{{ staff.education_level }}</td>
+                                <td>{% if staff.education_level == "Professor" %}
+                                    பேராசிரியர்
+                                    {% else %}
+                                    இணை பேராசிரியர்
+                                    {% endif %}
+                                </td>
                                 <td class="text-center">{{ staff.contact }}</td>
                                 <td class="text-center">
                                     <div class="dropdown">

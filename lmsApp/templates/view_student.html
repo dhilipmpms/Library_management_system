@@ -23,6 +23,15 @@
             <dd class="ps-4">{{student.gender}}</dd>
             <dt>தொடர்பு </dt>
             <dd class="ps-4">{{student.contact}}</dd>
+            <dt>கல்வி நிலை</dt>
+            <dd>{% if student.education_level == "UG" %}
+                இளங்கலை
+                {% elif student.education_level  == "PG" %}
+                முதுகலை
+                {% else %}
+                முதுநிலை
+                {% endif  %}
+            </dd>
             <dt>மின்னஞ்சல்</dt>
             <dd class="ps-4">{{student.email}}</dd>
             <dt>முகவரி</dt>

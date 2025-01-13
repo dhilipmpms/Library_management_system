@@ -215,13 +215,15 @@ class SaveSubCategory(forms.ModelForm):
             "Sub-Category Name already exists on the selected Category."
         )
 
-
 class SaveBook(forms.ModelForm):
     sub_category = forms.CharField(max_length=250)
     isbn = forms.CharField(max_length=250)
     title = forms.CharField(max_length=250)
     author = forms.Textarea()
     publisher = forms.CharField(widget=forms.Textarea(), required=False)
+    price = forms.CharField(max_length=50, required=False)
+    berow = forms.CharField(max_length=50, required=False)
+    rack = forms.CharField(max_length=50, required=False)
     date_published = forms.DateField(required=False)
     status = forms.CharField(max_length=2)
 
@@ -233,6 +235,9 @@ class SaveBook(forms.ModelForm):
             "title",
             "author",
             "publisher",
+            "price",
+            "berow",
+            "rack",
             "date_published",
             "status",
         )
@@ -268,7 +273,7 @@ class SaveStudent(forms.ModelForm):
     gender = forms.CharField(max_length=250)
     contact = forms.CharField(max_length=250)
     department = forms.CharField(max_length=250)
-    course = forms.CharField(max_length=250)
+    course = forms.CharField(max_length=250,required=False)
     education_level = forms.CharField(max_length=2)
     email = forms.EmailField(required=False)
     address = forms.CharField(max_length=500, required=False)

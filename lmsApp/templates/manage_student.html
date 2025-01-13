@@ -6,31 +6,48 @@
         object-fit: scale-down;
         object-position: center center;
     }
+    .form-group {
+        margin-bottom: 0.5rem; /* Reduced bottom margin */
+    }
+    .row {
+        margin-left: 0;
+        margin-right: 0;
+    }
 </style>
 <div class="container-fluid">
     <form action="" id="student-form">
         <input type="hidden" name="id" value="{{student.id}}">
         <input type="hidden" name="code" value="generate_code">
         <div class="row">
-            <div class="col-lg-6 col-md-6 col-sm-12 col-sm-12">
+            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                 <div class="mb-3">
-                    <label for="code" class="control-label">கல்லூரி எண்</label>
+                    <label for="code" class="control-label">சுழல் எண்</label>
                     <input type="text" id="code" name="code" class="form-control form-control-sm rounded-0" value="{{student.code}}" required>
                 </div>
+
                 <div class="mb-3">
                     <label for="first_name" class="control-label">முதல் பெயர்</label>
                     <input type="text" id="first_name" name="first_name" class="form-control form-control-sm rounded-0" value="{{student.first_name}}" required>
                 </div>
-                <div class="mb-3">
+
+                {% comment %} <div class="mb-3">
                     <label for="middle_name" class="control-label">நடுப் பெயர்</label>
                     <input type="text" id="middle_name" name="middle_name" class="form-control form-control-sm rounded-0" value="{{student.middle_name}}">
-                </div>
-                <div class="mb-3">
-                    <label for="last_name" class="control-label">கடைசி பெயர்</label>
-                    <input type="text" id="last_name" name="last_name" class="form-control form-control-sm rounded-0" value="{{student.last_name}}" required>
-                </div>
+                </div>  {% endcomment %}
+
+            {% comment %} <div class="mb-3">
+                <label for="last_name" class="control-label">கடைசி பெயர்</label>
+                <input type="text" id="last_name" name="last_name" class="form-control form-control-sm rounded-0" value="{{student.last_name}}" required>
+            </div>   {% endcomment %}
+
+            <div class="mb-3">
+                <label for="email" class="control-label">மின்னஞ்சல்</label>
+                <input type="email" id="email" name="email" class="form-control form-control-sm rounded-0" value="{{ student.email|default:'' }}">
             </div>
-            <div class="col-lg-6 col-md-6 col-sm-12 col-sm-12">
+
+            </div>
+
+            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                 <div class="mb-3">
                     <label for="gender" class="control-label">பாலினம்</label>
                     <select type="text" id="gender" name="gender" class="form-select form-select-sm rounded-0" required>
@@ -48,39 +65,37 @@
                 </div>
                 <div class="mb-3">
                     <label for="contact" class="control-label">தொடர்பு #</label>
-                    <input type="text" id="contact" name="contact" class="form-control form-control-sm rounded-0" value="{{student.contact}}" required>
-                </div>
-                <div class="mb-3">
-                    <label for="email" class="control-label">மின்னஞ்சல்</label>
-                    <input type="email" id="email" name="email" class="form-control form-control-sm rounded-0" 
-                           value="{{ student.email|default:'' }}">
+                    <input type="text" id="contact" name="contact" class="form-control form-control-sm rounded-0" value="{{student.contact}}">
                 </div>
                 
                 <div class="mb-3">
                     <label for="address" class="control-label">முகவரி</label>
                     <textarea rows="3" id="address" name="address" class="form-control form-control-sm rounded-0">{{ student.address|default:'' }}</textarea>
                 </div>
-                
             </div>
+
             <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                 <div class="mb-3">
                     <label for="department" class="control-label">துறை</label>
-                    <input type="text" id="department" name="department" class="form-control form-control-sm rounded-0" value="{{student.department}}" required>
+                    <input type="text" id="department" name="department" class="form-control form-control-sm rounded-0" value="{{student.department|default:'தமிழ்'}}" required>
                 </div>
             </div>
-            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+
+            
+            {% comment %} <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                 <div class="mb-3">
                     <label for="course" class="control-label">பாடநெறி</label>
                     <input type="text" id="course" name="course" class="form-control form-control-sm rounded-0" value="{{student.course}}" required>
-                </div>
-            </div>
+                </div> 
+            </div>  {% endcomment %}
+
             <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                 <div class="mb-3">
                     <label for="education_level" class="control-label">கல்வி நிலை</label>
                     <select type="text" id="education_level" name="education_level" class="form-select form-select-sm rounded-0" required>
                         <option value="UG" {% if student.education_level == 'UG' %}selected{% endif %}>இளங்கலை (UG)</option>
                         <option value="PG" {% if student.education_level == 'PG' %}selected{% endif %}>முதுகலை (PG)</option>
-                        <option value="PG" {% if student.education_level == 'PhD' %}selected{% endif %}>முதுநிலை பட்டம் (Phd)</option>
+                        <option value="PhD" {% if student.education_level == 'PhD' %}selected{% endif %}>முதுநிலை பட்டம் (PhD)</option>
                     </select>
                 </div>
             </div>

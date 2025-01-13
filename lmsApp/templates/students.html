@@ -23,9 +23,11 @@
                         <thead>
                             <tr>
                                 <th class="text-center">#</th>
-                                <th class="text-center">சேர்க்கப்பட்ட தேதி</th>
+                                {% comment %} <th class="text-center">சேர்க்கப்பட்ட தேதி</th> {% endcomment %}
+                                 <th class="text-center">மின்னஞ்சல்</th>
                                 <th class="text-center">கல்லூரி எண்</th>
                                 <th class="text-center">பெயர்</th>
+                                <th class="text-center">கல்வி நிலை</th>
                                 <th class="text-center">நிலை</th>
                                 <th class="text-center">செயல்</th>
                             </tr>
@@ -34,9 +36,18 @@
                             {% for student in students %}
                             <tr>
                                 <td class="text-center">{{ forloop.counter }}</td>
-                                <td>{{ student.date_added|date:"Y-m-d h:i A"}}</td>
-                                <td>{{ student.code}}</td>
+                                {% comment %} <td>{{ student.date_added|date:"Y-m-d h:i A"}}</td> {% endcomment %}
+                                <td>{{ student.email }}</td>
+                                <td>{{ student.code }}</td>
                                 <td>{{ student.name }}</td>
+                                <td>{% if student.education_level == "UG" %}
+                                    இளங்கலை
+                                    {% elif student.education_level  == "PG" %}
+                                    முதுகலை
+                                    {% else %}
+                                    முதுநிலை
+                                    {% endif  %}
+                                </td>
                                 <td class="text-center">
                                     {% if student.status == '1' %}
                                     <span class="badge badge-success bg-gradient bg-success px-3 rounded-pill bg-opacity-75 text-sm py-1">Active</span> {% else %}

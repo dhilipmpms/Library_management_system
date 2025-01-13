@@ -3,7 +3,7 @@
     <div class="container">
         <h3 class="fw-bolder text-center">நூல்களின் பட்டியல்</h3>
         <center>
-            <hr class="bg-primary opacity-100" style="height:3px" width="5%">
+            <hr class="bg-primary opacity-100" style="height:3px" width="6%">
         </center>
         <div class="card rounded-0 shadow">
             <div class="card-body">
@@ -24,10 +24,14 @@
                         <thead>
                             <tr>
                                 <th class="text-center">#</th>
-                                <th class="text-center">சேர்க்கப்பட்ட தேதி </th>
-                                <th class="text-center">வகை/துணை வகை</th>
-                                <th class="text-center">ஐஎஸ்பிஎன்</th>
+                                {% comment %} <th class="text-center">சேர்க்கப்பட்ட தேதி </th> {% endcomment %}
+                                <th class="text-center">புத்தக எண்</th>
                                 <th class="text-center">தலைப்பு</th>
+                                <th class="text-center">ஆசிரியர்</th>
+                                <th class="text-center">விலை</th>
+                                <th class="text-center">வகை</th>
+                                <th class="text-center">பேழை</th>
+                                <th class="text-center">தட்டு</th>
                                 <th class="text-center">நிலை</th>
                                 <th class="text-center">செயல்</th>
                             </tr>
@@ -36,16 +40,21 @@
                             {% for book in books %}
                             <tr>
                                 <td class="text-center">{{ forloop.counter }}</td>
-                                <td>{{ book.date_added|date:"Y-m-d h:i A"}}</td>
+                                {% comment %} <td>{{ book.date_added|date:"Y-m-d h:i A"}}</td> {% endcomment %}
+                                <td>{{ book.isbn}}</td>
+                                <td>{{ book.title }}</td>
+                                <td>{{ book.author }}</td>
+                                <td>{{ book.price }}</td>
                                 <td>
                                     <div class="lh-1">
                                         <div>{{ book.sub_category.category.name}}</div>
                                         <br>
-                                        <div>{{ book.sub_category.name}}</div>
+                                        {% comment %} <div>{{ book.sub_category.name}}</div> {% endcomment %}
                                     </div>
                                 </td>
-                                <td>{{ book.isbn}}</td>
-                                <td>{{ book.title }}</td>
+                                <td>{{ book.berow }}</td>
+                                <td>{{ book.rack }}</td>
+                                
                                 <td class="text-center">
                                     {% if book.status == '1' %}
                                     <span class="badge badge-success bg-gradient bg-success px-3 rounded-pill bg-opacity-75 text-sm py-1">Active</span> {% else %}

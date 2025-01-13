@@ -488,7 +488,7 @@ def books(request):
     context = context_data(request)
     context["page"] = "book"
     context["page_title"] = "Book List"
-    context["books"] = models.Books.objects.filter(delete_flag=0).all()
+    context["books"] = models.Books.objects.filter(delete_flag=0)
     return render(request, "books.html", context)
 
 
@@ -497,27 +497,30 @@ def save_book(request):
     resp = {"status": "failed", "msg": ""}
     if request.method == "POST":
         post = request.POST
-        if not post["id"] == "":
-            book = models.Books.objects.get(id=post["id"])
-            form = forms.SaveBook(request.POST, instance=book)
-        else:
-            form = forms.SaveBook(request.POST)
+        book = None
+        if post.get("id"):
+            try:
+                book = models.Books.objects.get(id=post["id"])
+            except models.Books.DoesNotExist:
+                resp["msg"] = "Book not found."
+                return HttpResponse(json.dumps(resp), content_type="application/json")
 
+        form = forms.SaveBook(request.POST, instance=book)
         if form.is_valid():
             form.save()
-            if post["id"] == "":
-                messages.success(request, "Book has been saved successfully.")
-            else:
-                messages.success(request, "Book has been updated successfully.")
+            messages.success(
+                request,
+                "Book has been {} successfully.".format(
+                    "updated" if post.get("id") else "saved"
+                ),
+            )
             resp["status"] = "success"
         else:
-            for field in form:
-                for error in field.errors:
-                    if not resp["msg"] == "":
-                        resp["msg"] += str("<br/>")
-                    resp["msg"] += str(f"[{field.name}] {error}")
+            resp["msg"] = "<br>".join(
+                f"[{field}] {error}" for field, errors in form.errors.items() for error in errors
+            )
     else:
-        resp["msg"] = "There's no data sent on the request"
+        resp["msg"] = "No data sent in the request."
 
     return HttpResponse(json.dumps(resp), content_type="application/json")
 
@@ -527,11 +530,11 @@ def view_book(request, pk=None):
     context = context_data(request)
     context["page"] = "view_book"
     context["page_title"] = "View Book"
-    if pk is None:
-        context["book"] = {}
-    else:
-        context["book"] = models.Books.objects.get(id=pk)
-
+    try:
+        context["book"] = models.Books.objects.get(id=pk, delete_flag=0)
+    except models.Books.DoesNotExist:
+        context["book"] = None
+        messages.error(request, "Book not found.")
     return render(request, "view_book.html", context)
 
 
@@ -540,13 +543,15 @@ def manage_book(request, pk=None):
     context = context_data(request)
     context["page"] = "manage_book"
     context["page_title"] = "Manage Book"
-    if pk is None:
-        context["book"] = {}
-    else:
-        context["book"] = models.Books.objects.get(id=pk)
+    try:
+        context["book"] = models.Books.objects.get(id=pk, delete_flag=0) if pk else None
+    except models.Books.DoesNotExist:
+        context["book"] = None
+        messages.error(request, "Book not found.")
+
     context["sub_categories"] = models.SubCategory.objects.filter(
-        delete_flag=0, status=1
-    ).all()
+        delete_flag=0, status="1"
+    )
     return render(request, "manage_book.html", context)
 
 
@@ -554,16 +559,22 @@ def manage_book(request, pk=None):
 def delete_book(request, pk=None):
     resp = {"status": "failed", "msg": ""}
     if pk is None:
-        resp["msg"] = "Book ID is invalid"
+        resp["msg"] = "Book ID is invalid."
     else:
         try:
-            models.Books.objects.filter(pk=pk).update(delete_flag=1)
-            messages.success(request, "Book has been deleted successfully.")
-            resp["status"] = "success"
-        except:
-            resp["msg"] = "Deleting Book Failed"
+            book = models.Books.objects.filter(pk=pk).first()
+            if book:
+                book.delete_flag = 1
+                book.save()
+                messages.success(request, "Book has been deleted successfully.")
+                resp["status"] = "success"
+            else:
+                resp["msg"] = "Book not found."
+        except Exception as e:
+            resp["msg"] = f"Deleting Book Failed: {str(e)}"
 
     return HttpResponse(json.dumps(resp), content_type="application/json")
+
 
 
 @login_required

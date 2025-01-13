@@ -26,12 +26,18 @@
             <dd class="ps-4">{{book.isbn}}</dd>
             <dt>தலைப்பு</dt>
             <dd class="ps-4">{{book.title}}</dd>
-            <dt>விளக்கம்</dt>
-            <dd class="ps-4">{{book.description}}</dd>
+            {% comment %} <dt>விளக்கம்</dt>
+            <dd class="ps-4">{{book.description}}</dd> {% endcomment %}
             <dt>நூலாசிரியர்</dt>
             <dd class="ps-4">{{book.author}}</dd>
             <dt>வெளியீட்டாளர்</dt>
             <dd class="ps-4">{{book.publisher}}</dd>
+            <dt>விலை</dt>
+            <dd class="ps-4">{{book.price}}</dd>
+            <dt>பேழை</dt>
+            <dd class="ps-4">{{book.berow}}</dd>
+            <dt>தட்டு</dt>
+            <dd class="ps-4">{{book.rack}}</dd>
             <dt>வெளியிட்ட தேதி</dt>
             <dd class="ps-4">{{book.date_published|date:"F d, Y h:i A"}}</dd>
             <dt>நிலை</dt>
