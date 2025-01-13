@@ -9,10 +9,9 @@ from django.db.models import Q
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
 from lmsApp import forms, models
-from .models import Students,SubCategory,Category,Books
+from .models import Students,SubCategory,Category,Books,Staff
 import pandas as pd
 from django.utils import timezone
-
 from .forms import UploadFileForm
 
 
@@ -26,7 +25,7 @@ def context_data(request):
         "system_host": abs_uri,
         "page_name": "",
         "page_title": "",
-        "system_name": "பாவாணர் பைந்தமிழ் நூலகம் தமிழ்த்துறை, பெரியார் கலைக்கல்லூரி கடலூர்",
+        "system_name": "பாவாணர் பைந்தமிழ் நூலகம் தமிழ்த்துறை பெரியார் கலைக்கல்லூரி,கடலூர்",
         "topbar": True,
         "footer": True,
     }
@@ -154,6 +153,7 @@ def home(request):
     context["books"] = (
         models.Books.objects.filter(delete_flag=0, status=1).all().count()
     )
+    context["staffs"]= models.Staff.objects.all().count()
     context["pending"] = models.Borrow.objects.filter(status=1).all().count()
     context["pending"] = models.Borrow.objects.filter(status=1).all().count()
     context["transactions"] = models.Borrow.objects.all().count()
@@ -835,6 +835,19 @@ def upload_file_view(request):
                     messages.success(request, "Books data uploaded and added to the database successfully.")
                     return redirect('/books')
 
+                elif upload_type == 'staff':
+                    for index, row in df.iterrows():
+                        Staff.objects.update_or_create(
+                            name=row['name'],
+                            defaults={
+                                'education_level': row.get('education_level', 'Professor'),
+                                'contact_number': row.get('contact_number', None),
+                            }
+                        )
+                    messages.success(request, "Staff data uploaded and added to the database successfully!")
+                    return redirect('/staff')
+
+
    
             except Exception as e:
                 messages.error(request, f"An error occurred: {str(e)}")
@@ -842,6 +855,84 @@ def upload_file_view(request):
         form = UploadFileForm()
 
     return render(request, "upload_file.html", {"form": form})
+
+@login_required
+def staffs(request):
+    context = context_data(request)
+    context["page"] = "staff"
+    context["page_title"] = "Staff List"
+    context["staffs"] = models.Staff.objects.filter(delete_flag=0).all()
+    return render(request, "staff.html", context)
+
+@login_required
+def save_staff(request):
+    resp = {"status": "failed", "msg": ""}
+    if request.method == "POST":
+        post = request.POST
+        if not post["id"] == "":
+            staff = models.Staff.objects.get(id=post["id"])
+            form = forms.SaveStaff(request.POST, instance=staff)
+        else:
+            form = forms.SaveStaff(request.POST)
+
+        if form.is_valid():
+            form.save()
+            if post["id"] == "":
+                messages.success(request, "Staff has been saved successfully.")
+            else:
+                messages.success(request, "Staff has been updated successfully.")
+            resp["status"] = "success"
+        else:
+            for field in form:
+                for error in field.errors:
+                    if not resp["msg"] == "":
+                        resp["msg"] += str("<br/>")
+                    resp["msg"] += str(f"[{field.name}] {error}")
+    else:
+        resp["msg"] = "There's no data sent on the request"
+
+    return HttpResponse(json.dumps(resp), content_type="application/json")
+
+@login_required
+def view_staff(request, pk=None):
+    context = context_data(request)
+    context["page"] = "view_staff"
+    context["page_title"] = "View Staff"
+    if pk is None:
+        context["staff"] = {}
+    else:
+        context["staff"] = models.Staff.objects.get(id=pk)
+
+    return render(request, "view_staff.html", context)
+
+@login_required
+def manage_staff(request, pk=None):
+    context = context_data(request)
+    context["page"] = "manage_staff"
+    context["page_title"] = "Manage Staff"
+    if pk is None:
+        context["staff"] = {}
+    else:
+        context["staff"] = models.Staff.objects.get(id=pk)
+    
+    return render(request, "manage_staff.html", context)
+
+@login_required
+def delete_staff(request, pk=None):
+    resp = {"status": "failed", "msg": ""}
+    if pk is None:
+        resp["msg"] = "Staff ID is invalid"
+    else:
+        try:
+            models.Staff.objects.filter(pk=pk).update(delete_flag=1)
+            messages.success(request, "Staff has been deleted successfully.")
+            resp["status"] = "success"
+        except:
+            resp["msg"] = "Deleting Staff Failed"
+
+    return HttpResponse(json.dumps(resp), content_type="application/json")
+
+
 
 
                     

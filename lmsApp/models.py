@@ -117,5 +117,22 @@ class Borrow(models.Model):
     def __str__(self):
         return str(f"{self.student.code}")
 
+class Staff(models.Model):
+    EDUCATION_LEVEL_CHOICES = [
+        ('Professor', 'Professor'),
+        ('Assistant Professor', 'Assistant Professor'),
+    ]
+
+    id = models.AutoField(primary_key=True)
+    name = models.CharField(max_length=255)
+    education_level = models.CharField(max_length=50, choices=EDUCATION_LEVEL_CHOICES)
+    contact = models.CharField(max_length=20, blank=True, null=True)
+    delete_flag = models.BooleanField(default=False)
+    date_added = models.DateTimeField(default=timezone.now)
+    date_updated = models.DateTimeField(auto_now=True)
+
+    def __str__(self):
+        return self.name
+
 
 

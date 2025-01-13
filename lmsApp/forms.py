@@ -15,6 +15,7 @@ from django.contrib.auth.forms import (
 from django.contrib.auth.models import User
 from lmsApp import models
 from numpy import require
+from .models import Staff
 
 
 class UploadFileForm(forms.Form):
@@ -335,3 +336,10 @@ class SaveBorrow(forms.ModelForm):
             return book
         except:
             raise forms.ValidationError("Invalid Book.")
+
+
+
+class SaveStaff(forms.ModelForm):
+    class Meta:
+        model = Staff
+        fields = ['name', 'education_level', 'contact']

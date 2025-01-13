@@ -1,6 +1,6 @@
 from django.contrib import admin
 
-from .models import Books, Borrow, Category, Students, SubCategory
+from .models import Books, Borrow, Category, Students, SubCategory, Staff
 
 
 
@@ -10,4 +10,5 @@ admin.site.register(SubCategory)
 admin.site.register(Books)
 admin.site.register(Students)
 admin.site.register(Borrow)
+admin.site.register(Staff)
 

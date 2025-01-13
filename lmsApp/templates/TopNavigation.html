@@ -3,18 +3,15 @@
     <!-- Intro settings -->
     <style>
         #intro {
-            /* Margin to fix overlapping fixed navbar */
-            margin-top: 58px;
+            margin-top: 58px; /* Margin to avoid navbar overlap */
         }
-
         @media (max-width: 991px) {
             #intro {
-                /* Margin to fix overlapping fixed navbar */
-                margin-top: 45px;
+                margin-top: 45px; /* For smaller screens */
             }
         }
         #uni_modal .modal-sub-footer{
-            display:none;
+            display: none;
         }
     </style>
 
@@ -22,7 +19,7 @@
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark bg-gradient fixed-top shadow border-bottom">
         <div class="container">
             <!-- Navbar brand -->
-            <a class="navbar-brand" target="_blank" href="./" style="margin-left: -60px;">
+            <a class="navbar-brand" href="./" style="margin-left: -115px;">
                 {% comment %} <img src="{{ MEDIA_URL }}/default/logo.png" height="16" alt="{{ MEDIA_URL }}" loading="lazy" class="bg-white bg-gradient px-1 py-1" style="margin-top: -3px;" /> {% endcomment %}
                 <b>பாவாணர் பைந்தமிழ் நூலகம் தமிழ்த்துறை</b>
             </a>
@@ -57,6 +54,9 @@
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" aria-current="page" href="{% url 'student-page' %}">மாணவர்கள்</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" aria-current="page" href="{% url 'staffs' %}">ஊழியர்கள்</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link" aria-current="page" href="{% url 'borrow-page' %}">கடன் பரிவர்த்தனைகள்</a>
@@ -96,4 +96,5 @@
         <a class="btn btn-primary m-2" href="https://mdbootstrap.com/docs/standard/" target="_blank" role="button">Download MDB UI KIT</a> -->
     {% comment %} </div> {% endcomment %}
     <!-- Jumbotron -->
+
 </header>

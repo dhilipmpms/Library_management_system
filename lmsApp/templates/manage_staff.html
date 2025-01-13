@@ -1,0 +1,87 @@
+{% load static %}
+<style>
+    #staff-img {
+        max-width: 100%;
+        max-height: 10em;
+        object-fit: scale-down;
+        object-position: center center;
+    }
+</style>
+<div class="container-fluid">
+    <form action="" id="staff-form">
+        <input type="hidden" name="id" value="{{staff.id}}">
+        <div class="row">
+            <div class="col-lg-6 col-md-6 col-sm-12 col-sm-12">
+                <div class="mb-3">
+                    <label for="name" class="control-label">பெயர்</label>
+                    <input type="text" id="name" name="name" class="form-control form-control-sm rounded-0" value="{{staff.name}}" required>
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12 col-sm-12">
+                <div class="mb-3">
+                    <label for="education_level" class="control-label">பணி  நிலை</label>
+                    <select type="text" id="education_level" name="education_level" class="form-select form-select-sm rounded-0" required>
+                        <option value="Professor" {% if staff.education_level == 'Professor' %}selected{% endif %}>Professor</option>
+                        <option value="Assistant Professor" {% if staff.education_level == 'Assistant Professor' %}selected{% endif %}>Assistant Professor</option>
+                    </select>
+                </div>
+            </div>
+            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                <div class="mb-3">
+                    <label for="contact" class="control-label">தொடர்பு #</label>
+                    <input type="text" id="contact" name="contact" class="form-control form-control-sm rounded-0" value="{{staff.contact}}" required>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<script>
+    $(function() {
+        $('#staff-form').submit(function(e) {
+            e.preventDefault();
+            var _this = $(this)
+            $('.err-msg').remove();
+            var el = $('<div>')
+            el.addClass("alert alert-danger err-msg")
+            el.hide()
+            if (_this[0].checkValidity() == false) {
+                _this[0].reportValidity();
+                return false;
+            }
+            start_loader();
+            $.ajax({
+                headers: {
+                    "X-CSRFToken": '{{csrf_token}}'
+                },
+                url: "{% url 'save-staff' %}",
+                data: new FormData($(this)[0]),
+                cache: false,
+                contentType: false,
+                processData: false,
+                method: 'POST',
+                type: 'POST',
+                dataType: 'json',
+                error: err => {
+                    console.log(err)
+                    alert("An error occurred", 'error');
+                    end_loader();
+                },
+                success: function(resp) {
+                    if (typeof resp == 'object' && resp.status == 'success') {
+                        location.reload()
+                    } else if (resp.status == 'failed' && !!resp.msg) {
+                        el.text(resp.msg)
+                    } else {
+                        el.text("An error occurred", 'error');
+                        end_loader();
+                        console.err(resp)
+                    }
+                    _this.prepend(el)
+                    el.show('slow')
+                    $("html, body, .modal").scrollTop(0);
+                    end_loader()
+                }
+            })
+        })
+    })
+</script>

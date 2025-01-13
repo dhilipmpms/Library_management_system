@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% load static %}
+{% load humanize %}
+
+{% block pageContent %}
+<section class="py-4">
+    <div class="container">
+        <h3 class="fw-bolder text-center">ஊழியர் விவரங்கள்</h3>
+        <center>
+            <hr class="bg-primary opacity-100" style="height:3px" width="5%">
+        </center>
+        <div class="card rounded-0 shadow">
+            <div class="card-body">
+                <div class="container-fluid">
+                    <dl>
+                        <dt>பெயர்</dt>
+                        <dd class="ps-4">{{ staff.name }}</dd>
+                        
+                        <dt>தொடர்பு</dt>
+                        <dd class="ps-4">{{ staff.contact }}</dd>
+
+                        <dt>பாடநெறி</dt>
+                        <dd class="ps-4">{{ staff.education_level }}</dd> <!-- Added Education Level -->
+                        
+                        <dt>நிலை</dt>
+                        <dd class="ps-4">
+                            {% if staff.status == '1' %}
+                            <span class="badge badge-success bg-gradient bg-success px-3 rounded-pill bg-opacity-75 text-sm py-1">Active</span>
+                            {% else %}
+                            <span class="badge badge-secondary bg-gradient bg-secondary px-3 rounded-pill bg-opacity-75 text-sm py-1">Inactive</span>
+                            {% endif %}
+                        </dd>
+                    </dl>
+                    <div class="text-center">
+                        <a href="{% url 'staff-list' %}" class="btn btn-secondary">பின்பற்றவும்</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock pageContent %}
