@@ -32,6 +32,19 @@
                 முதுநிலை
                 {% endif  %}
             </dd>
+            <dt>கல்வி ஆண்டு</dt>
+            <dd>{% if student.year == "1" %}
+                முதல் ஆண்டு
+                {% elif student.year == "2" %}
+                இரண்டாம் ஆண்டு
+                {% elif student.year == "3" %}
+                மூன்றாம் ஆண்டு
+                {% else %}
+                மற்றவை
+                {% endif  %}
+            </dd>
+            <dt>தொகுதி ஆண்டு</dt>
+            <dd class="ps-4">{{student.batch}}</dd>
             <dt>மின்னஞ்சல்</dt>
             <dd class="ps-4">{{student.email}}</dd>
             <dt>முகவரி</dt>

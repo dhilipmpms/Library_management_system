@@ -726,6 +726,7 @@ def manage_borrow(request, pk=None):
     else:
         context["borrow"] = models.Borrow.objects.get(id=pk)
     context["students"] = models.Students.objects.filter(delete_flag=0, status=1).all()
+    context["staffs"] = models.Staff.objects.filter(delete_flag=0).all()
     context["books"] = models.Books.objects.filter(delete_flag=0, status=1).all()
     return render(request, "manage_borrow.html", context)
 
@@ -772,6 +773,8 @@ def upload_file_view(request):
             upload_type = request.POST.get('upload_type')
             try:
                 df =handle_uploaded_file(file)
+                # print(df.shape[0])
+                # df.replace(value=None, inplace=True)
                 
                 # Iterate over DataFrame and create or update model instances
                 if upload_type  =='students':

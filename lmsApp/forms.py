@@ -274,7 +274,8 @@ class SaveStudent(forms.ModelForm):
     contact = forms.CharField(max_length=250)
     department = forms.CharField(max_length=250)
     course = forms.CharField(max_length=250,required=False)
-    education_level = forms.CharField(max_length=2)
+    education_level = forms.CharField(max_length=5)
+    year = forms.CharField(max_length=250,required=False)
     email = forms.EmailField(required=False)
     address = forms.CharField(max_length=500, required=False)
     status = forms.CharField(max_length=2)
@@ -289,6 +290,7 @@ class SaveStudent(forms.ModelForm):
             "department",
             "course",
             "education_level",
+            "year",
             "email",
             "address",
             "status",
@@ -315,6 +317,7 @@ class SaveBorrow(forms.ModelForm):
     borrowing_date = forms.DateField()
     return_date = forms.DateField()
     status = forms.CharField(max_length=2)
+    staff = forms.CharField(max_length=250)
 
     class Meta:
         model = models.Borrow
@@ -324,6 +327,7 @@ class SaveBorrow(forms.ModelForm):
             "borrowing_date",
             "return_date",
             "status",
+            "staff",
         )
 
     def clean_student(self):
@@ -331,6 +335,14 @@ class SaveBorrow(forms.ModelForm):
         try:
             student = models.Students.objects.get(id=student)
             return student
+        except:
+            raise forms.ValidationError("Invalid student.")
+    
+    def clean_staff(self):
+        staff = int(self.data["staff"]) if (self.data["staff"]).isnumeric() else 0
+        try:
+            staff = models.Staff.objects.get(id=staff)
+            return staff
         except:
             raise forms.ValidationError("Invalid student.")
 

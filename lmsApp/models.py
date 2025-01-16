@@ -7,6 +7,7 @@ from django.db import models
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.utils import timezone
+from datetime import datetime, date
 
 from PIL import Image
 
@@ -79,10 +80,17 @@ class Students(models.Model):
     department = models.CharField(max_length=250, blank=True, null=True)
     course = models.CharField(max_length=250, blank=True, null=True)
     education_level = models.CharField(
-        max_length=3,
+        max_length=5,
         choices=(("UG", "Undergraduate"), ("PG", "Postgraduate"),("PhD","Doctor of Philosophy")),
         default="UG",
     )
+    year = models.CharField(
+        max_length=5,
+        choices=(("0", None),("1", "1ST Year"), ("2", "2ND Year"),("3","Final Year")),
+        null=True
+    )
+    batch = models.CharField(max_length=250,
+        null=True)
     email =models.EmailField(blank=True,null=True)
     address=models.CharField(max_length=500,blank=True, null=True)
     status = models.CharField(
@@ -91,6 +99,53 @@ class Students(models.Model):
     delete_flag = models.IntegerField(default=0)
     date_added = models.DateTimeField(default=timezone.now)
     date_created = models.DateTimeField(auto_now=True)
+
+    def save(self):
+        
+        def get_batch_year(current_date, year_of_study):
+            """
+            Determine the batch year for a student based on the current date and year of study.
+
+            Args:
+                current_date (date): The current date.
+                year_of_study (int): The year of study (1, 2, or 3).
+
+            Returns:
+                int: The batch year the student belongs to.
+            """
+            if year_of_study not in [1, 2, 3]:
+                raise ValueError("Year of study must be 1, 2, or 3.")
+            
+            current_year = current_date.year
+            
+            # Calculate the start of the current academic year (31st May of the current year)
+            current_year_may_31 = date(current_year, 5, 31)
+            
+            # Determine the academic year based on the current date
+            if current_date < current_year_may_31:
+                # If today's date is before May 31st, the academic year started the previous year
+                academic_start_year = current_year - 1
+            else:
+                academic_start_year = current_year
+
+            # Calculate the batch year based on the year of study
+            batch_year = academic_start_year - (year_of_study - 1)
+            
+            return batch_year
+
+        if str(self.education_level).upper() == 'UG' and self.year is not None:
+            current_date = datetime.now().date()
+            batch_year = get_batch_year(current_date, int(self.year))
+            self.batch = str(batch_year) + " - " + str(batch_year+3)
+        elif str(self.education_level).upper() == 'PG' and self.year is not None:
+            current_date = datetime.now().date()
+            batch_year = get_batch_year(current_date, int(self.year))
+            self.batch = str(batch_year) + " - " + str(batch_year+2)
+        else:
+            self.year = None
+            self.batch = None
+        pass
+        super().save()
 
     class Meta:
         verbose_name_plural = "List of Students"

@@ -117,6 +117,19 @@
                     </select>
                 </div>
             </div>
+
+            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                <div class="mb-3">
+                    <label for="year" class="control-label">கல்வி ஆண்டு</label>
+                    <select type="text" id="year" name="year" class="form-select form-select-sm rounded-0" required>
+                        <option value="0" {% if student.year == '0' %}selected{% endif %}>மற்றவை</option>
+                        <option value="1" {% if student.year == '1' %}selected{% endif %}>முதல் ஆண்டு</option>
+                        <option value="2" {% if student.year == '2' %}selected{% endif %}>இரண்டாம் ஆண்டு</option>
+                        <option value="3" {% if student.year == '3' %}selected{% endif %}>மூன்றாம் ஆண்டு</option>
+                    </select>
+                </div>
+            </div>
+
         </div>
     </form>
 </div>

@@ -79,6 +79,25 @@
                     </select>
                 </div>
             </div>
+            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+                <div class="mb-3">
+                    <label for="staff" class="control-label">ஊழியர்கள்</label>
+                    <select type="text" id="staff" name="staff" class="form-select form-select-sm rounded-0" required>
+                        {% if not borrow %}
+                        <option value="" selected disabled></option>
+                        {% else %}
+                        <option value="" disabled></option>
+                        {% endif %}
+                        {% for staff in staffs %}
+                        {% if borrow.staff.id == staff.id %}
+                        <option value="{{staff.id}}" selected>{{staff}}</option>
+                        {% else %}
+                        <option value="{{staff.id}}">{{staff}}</option>
+                        {% endif %}
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
         </div>
     </form>
 </div>
