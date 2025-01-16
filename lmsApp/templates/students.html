@@ -28,6 +28,7 @@
                                 <th class="text-center">கல்லூரி எண்</th>
                                 <th class="text-center">பெயர்</th>
                                 <th class="text-center">கல்வி நிலை</th>
+                                <th class="text-center">கல்வி ஆண்டு</th>
                                 <th class="text-center">நிலை</th>
                                 <th class="text-center">செயல்</th>
                             </tr>
@@ -39,7 +40,7 @@
                                 {% comment %} <td>{{ student.date_added|date:"Y-m-d h:i A"}}</td> {% endcomment %}
                                 <td>{{ student.email }}</td>
                                 <td>{{ student.code }}</td>
-                                <td>{{ student.name }}</td>
+                                <td>{{ student.first_name }}</td>
                                 <td>{% if student.education_level == "UG" %}
                                     இளங்கலை
                                     {% elif student.education_level  == "PG" %}
@@ -48,6 +49,7 @@
                                     முதுநிலை
                                     {% endif  %}
                                 </td>
+                                <td>{{ student.year }}</td>
                                 <td class="text-center">
                                     {% if student.status == '1' %}
                                     <span class="badge badge-success bg-gradient bg-success px-3 rounded-pill bg-opacity-75 text-sm py-1">Active</span> {% else %}

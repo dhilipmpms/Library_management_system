@@ -788,6 +788,7 @@ def upload_file_view(request):
                             department=row.get('department', None),
                             course=row.get('course', None),
                             education_level=row.get('education_level', 'UG'),  # Default to 'UG'
+                            year = row.get('year','1'), 
                             email=row.get('email',None),
                             address=row.get('address', None),
                             status=row.get('status', '1'),  # Default to 'Active' status
@@ -795,6 +796,7 @@ def upload_file_view(request):
                             date_added=row.get('date_added', timezone.now()),  # Default to current time
                             date_created=row.get('date_created', timezone.now()),  # Default to current time
                         )
+                         
                 
                     messages.success(request, "Student data uploaded and added to the database successfully!")
                     return redirect('/students')
@@ -839,7 +841,11 @@ def upload_file_view(request):
                                 defaults={
                                     'title': row['title'],
                                     'author': row.get('author', ''),  
-                                    'publisher': row.get('publisher', ''),                                  }
+                                    'publisher': row.get('publisher', ''),
+                                    'price':row.get('price',''),
+                                    'berow':row.get('berow',''),
+                                    'rack':row.get('rack','')                                  
+                                    }
                             )
 
                         except Exception as e:
@@ -855,11 +861,11 @@ def upload_file_view(request):
                             name=row['name'],
                             defaults={
                                 'education_level': row.get('education_level', 'Professor'),
-                                'contact_number': row.get('contact_number', None),
+                                'contact': row.get('contact', None),
                             }
                         )
                     messages.success(request, "Staff data uploaded and added to the database successfully!")
-                    return redirect('/staff')
+                    return redirect('/staffs')
 
 
    

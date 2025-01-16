@@ -27,7 +27,7 @@
                                 {% comment %} <th class="text-center">சேர்க்கப்பட்ட தேதி </th> {% endcomment %}
                                 <th class="text-center">புத்தக எண்</th>
                                 <th class="text-center">தலைப்பு</th>
-                                <th class="text-center">ஆசிரியர்</th>
+                                <th class="text-center">வெளியீட்டாளர்</th>
                                 <th class="text-center">விலை</th>
                                 <th class="text-center">வகை</th>
                                 <th class="text-center">பேழை</th>
@@ -43,8 +43,8 @@
                                 {% comment %} <td>{{ book.date_added|date:"Y-m-d h:i A"}}</td> {% endcomment %}
                                 <td>{{ book.isbn}}</td>
                                 <td>{{ book.title }}</td>
-                                <td>{{ book.author }}</td>
-                                <td>{{ book.price }}</td>
+                                <td>{{ book.publisher }}</td>
+                                <td>{{ book.price|default:"N/A" }}</td>
                                 <td>
                                     <div class="lh-1">
                                         <div>{{ book.sub_category.category.name}}</div>
