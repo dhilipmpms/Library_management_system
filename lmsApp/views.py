@@ -316,7 +316,7 @@ def delete_category(request, pk=None):
         resp["msg"] = "Category ID is invalid"
     else:
         try:
-            models.Category.objects.filter(pk=pk).update(delete_flag=1)
+            models.Category.objects.filter(pk=pk).delete()
             messages.success(request, "Category has been deleted successfully.")
             resp["status"] = "success"
         except:
@@ -474,7 +474,7 @@ def delete_sub_category(request, pk=None):
         resp["msg"] = "Sub Category ID is invalid"
     else:
         try:
-            models.SubCategory.objects.filter(pk=pk).update(delete_flag=1)
+            models.SubCategory.objects.filter(pk=pk).delete()
             messages.success(request, "Sub Category has been deleted successfully.")
             resp["status"] = "success"
         except:
@@ -564,8 +564,8 @@ def delete_book(request, pk=None):
         try:
             book = models.Books.objects.filter(pk=pk).first()
             if book:
-                book.delete_flag = 1
-                book.save()
+                book.delete()
+                # book.save()
                 messages.success(request, "Book has been deleted successfully.")
                 resp["status"] = "success"
             else:
@@ -651,7 +651,7 @@ def delete_student(request, pk=None):
         resp["msg"] = "Student ID is invalid"
     else:
         try:
-            models.Students.objects.filter(pk=pk).update(delete_flag=1)
+            models.Students.objects.filter(pk=pk).delete()
             messages.success(request, "Student has been deleted successfully.")
             resp["status"] = "success"
         except:
@@ -944,7 +944,7 @@ def delete_staff(request, pk=None):
         resp["msg"] = "Staff ID is invalid"
     else:
         try:
-            models.Staff.objects.filter(pk=pk).update(delete_flag=1)
+            models.Staff.objects.filter(pk=pk).delete()
             messages.success(request, "Staff has been deleted successfully.")
             resp["status"] = "success"
         except:
