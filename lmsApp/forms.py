@@ -312,12 +312,12 @@ class SaveStudent(forms.ModelForm):
 
 
 class SaveBorrow(forms.ModelForm):
-    student = forms.CharField(max_length=250)
+    student = forms.CharField(max_length=250,required=False)
     book = forms.CharField(max_length=250)
     borrowing_date = forms.DateField()
     return_date = forms.DateField()
     status = forms.CharField(max_length=2)
-    staff = forms.CharField(max_length=250)
+    staff = forms.CharField(max_length=250,required=False)
 
     class Meta:
         model = models.Borrow

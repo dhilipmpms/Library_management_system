@@ -674,33 +674,59 @@ def save_borrow(request):
     resp = {"status": "failed", "msg": ""}
     if request.method == "POST":
         post = request.POST
-        if not post["id"] == "":
-            borrow = models.Borrow.objects.get(id=post["id"])
-            form = forms.SaveBorrow(request.POST, instance=borrow)
-        else:
-            form = forms.SaveBorrow(request.POST)
-
-        if form.is_valid():
-            form.save()
-            if post["id"] == "":
-                messages.success(
-                    request, "Borrowing Transaction has been saved successfully."
-                )
+        try:
+            # Check if it's an existing transaction or a new one
+            if not post["id"] == "":
+                borrow = models.Borrow.objects.get(id=post["id"])
+                form = forms.SaveBorrow(request.POST, instance=borrow)
             else:
-                messages.success(
-                    request, "Borrowing Transaction has been updated successfully."
-                )
-            resp["status"] = "success"
-        else:
-            for field in form:
-                for error in field.errors:
-                    if not resp["msg"] == "":
-                        resp["msg"] += str("<br/>")
-                    resp["msg"] += str(f"[{field.name}] {error}")
+                form = forms.SaveBorrow(request.POST)
+
+            # Validate the form
+            if form.is_valid():
+                # Ensure either a student or a staff member is selected
+                borrower_type = post.get("borrower_type")
+                if borrower_type == "student":
+                    if not post.get("student"):
+                        resp["msg"] = "Please select a valid student."
+                        return HttpResponse(json.dumps(resp), content_type="application/json")
+                elif borrower_type == "staff":
+                    if not post.get("staff"):
+                        resp["msg"] = "Please select a valid staff member."
+                        return HttpResponse(json.dumps(resp), content_type="application/json")
+                else:
+                    resp["msg"] = "Please select a valid borrower type."
+                    return HttpResponse(json.dumps(resp), content_type="application/json")
+
+                # Save the borrowing transaction
+                form.save()
+
+                if post["id"] == "":
+                    messages.success(
+                        request, "Borrowing transaction has been saved successfully."
+                    )
+                else:
+                    messages.success(
+                        request, "Borrowing transaction has been updated successfully."
+                    )
+                resp["status"] = "success"
+            else:
+                # Handle form errors
+                for field in form:
+                    for error in field.errors:
+                        if resp["msg"]:
+                            resp["msg"] += "<br/>"
+                        resp["msg"] += f"[{field.name}] {error}"
+        except models.Borrow.DoesNotExist:
+            resp["msg"] = "Borrowing transaction not found."
+        except Exception as e:
+            resp["msg"] = f"An error occurred: {e}"
+
     else:
-        resp["msg"] = "There's no data sent on the request"
+        resp["msg"] = "No data was sent in the request."
 
     return HttpResponse(json.dumps(resp), content_type="application/json")
+
 
 
 @login_required

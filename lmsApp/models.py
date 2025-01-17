@@ -176,13 +176,14 @@ class Staff(models.Model):
 
 class Borrow(models.Model):
     student = models.ForeignKey(
-        Students, on_delete=models.CASCADE, related_name="student_id_fk", null=True, blank=True
+        Students, on_delete=models.SET_NULL, related_name="student_id_fk", null=True, blank=True
     )
     staffs = models.ForeignKey(
-        Staff, on_delete=models.CASCADE, related_name="staff_id_fk", null=True, blank=True
+        Staff, on_delete=models.SET_NULL, related_name="staff_id_fk", null=True, blank=True
     )
 
     book = models.ForeignKey(Books, on_delete=models.CASCADE, related_name="book_id_fk")
+    borrower_type = models.CharField(max_length=50, default='student')
     borrowing_date = models.DateField()
     return_date = models.DateField()
     status = models.CharField(
