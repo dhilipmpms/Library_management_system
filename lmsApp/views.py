@@ -674,59 +674,31 @@ def save_borrow(request):
     resp = {"status": "failed", "msg": ""}
     if request.method == "POST":
         post = request.POST
-        try:
-            # Handle new or existing borrow transactions
-            if post.get("id"):
-                borrow = get_object_or_404(models.Borrow, id=post["id"])
-                form = forms.SaveBorrow(post, instance=borrow)
+        if not post["id"] == "":
+            borrow = models.Borrow.objects.get(id=post["id"])
+            form = forms.SaveBorrow(request.POST, instance=borrow)
+        else:
+            form = forms.SaveBorrow(request.POST)
+
+        if form.is_valid():
+            form.save()
+            if post["id"] == "":
+                messages.success(
+                    request, "Borrowing Transaction has been saved successfully."
+                )
             else:
-                form = forms.SaveBorrow(post)
-
-            # Validate form data
-            if form.is_valid():
-                borrower_type = post.get("borrower_type")
-                borrower_id = post.get("borrower")
-
-                # Handle borrower type and set the borrower
-                if borrower_type == "student":
-                    try:
-                        form.instance.student = get_object_or_404(models.Students, id=borrower_id)
-                        form.instance.staffs = None
-                    except models.Students.DoesNotExist:
-                        resp["msg"] = "Selected student does not exist."
-                        return HttpResponse(json.dumps(resp), content_type="application/json")
-                elif borrower_type == "staff":
-                    try:
-                        form.instance.staffs = get_object_or_404(models.Staff, id=borrower_id)
-                        form.instance.student = None
-                    except models.Staff.DoesNotExist:
-                        resp["msg"] = "Selected staff member does not exist."
-                        return HttpResponse(json.dumps(resp), content_type="application/json")
-                else:
-                    resp["msg"] = "Invalid borrower type selected."
-                    return HttpResponse(json.dumps(resp), content_type="application/json")
-
-                # Save the borrowing transaction
-                form.save()
-
-                if post.get("id"):
-                    messages.success(request, "Borrowing transaction updated successfully.")
-                else:
-                    messages.success(request, "Borrowing transaction saved successfully.")
-
-                resp["status"] = "success"
-            else:
-                # Handle form errors and send back messages
-                for field in form:
-                    for error in field.errors:
-                        if resp["msg"]:
-                            resp["msg"] += "<br/>"
-                        resp["msg"] += f"[{field.label}] {error}"
-        except Exception as e:
-            resp["msg"] = f"An error occurred: {e}"
-
+                messages.success(
+                    request, "Borrowing Transaction has been updated successfully."
+                )
+            resp["status"] = "success"
+        else:
+            for field in form:
+                for error in field.errors:
+                    if not resp["msg"] == "":
+                        resp["msg"] += str("<br/>")
+                    resp["msg"] += str(f"[{field.name}] {error}")
     else:
-        resp["msg"] = "No data was sent in the request."
+        resp["msg"] = "There's no data sent on the request"
 
     return HttpResponse(json.dumps(resp), content_type="application/json")
 
@@ -736,7 +708,11 @@ def view_borrow(request, pk=None):
     context = context_data(request)
     context["page"] = "view_borrow"
     context["page_title"] = "View Transaction Details"
-    context["borrow"] = get_object_or_404(models.Borrow, id=pk) if pk else {}
+    if pk is None:
+        context["borrow"] = {}
+    else:
+        context["borrow"] = models.Borrow.objects.get(id=pk)
+
     return render(request, "view_borrow.html", context)
 
 
@@ -745,18 +721,12 @@ def manage_borrow(request, pk=None):
     context = context_data(request)
     context["page"] = "manage_borrow"
     context["page_title"] = "Manage Transaction Details"
-
-    # If pk exists, fetch the borrowing record
-    if pk:
-        context["borrow"] = get_object_or_404(models.Borrow, id=pk)
-    else:
+    if pk is None:
         context["borrow"] = {}
-
-    # Fetch all necessary related data
-    context["students"] = models.Students.objects.filter(delete_flag=0, status=1)
-    context["staffs"] = models.Staff.objects.filter(delete_flag=0)
-    context["books"] = models.Books.objects.filter(delete_flag=0, status=1)
-
+    else:
+        context["borrow"] = models.Borrow.objects.get(id=pk)
+    context["students"] = models.Students.objects.filter(delete_flag=0, status=1).all()
+    context["books"] = models.Books.objects.filter(delete_flag=0, status=1).all()
     return render(request, "manage_borrow.html", context)
 
 
@@ -804,10 +774,16 @@ def upload_file_view(request):
                 df =handle_uploaded_file(file)
                 # print(df.shape[0])
                 # df.replace(value=None, inplace=True)
-                df['email'] = df['email'].fillna('') #To  handle empty nan of empty value
+                df = df.fillna("---")
                 
                 # Iterate over DataFrame and create or update model instances
                 if upload_type == 'students':
+
+                    if 'email' in df.columns:
+                        df['email'] = df['email'].fillna('')
+                    else:
+                        df['email'] = ''  # Default to empty string if the column is missing
+
                     for index, row in df.iterrows():
                         # Extract year and convert to string (to match choices in the model)
                         year = str(row.get('year', '1')) if row.get('year') else None

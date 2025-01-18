@@ -317,7 +317,7 @@ class SaveBorrow(forms.ModelForm):
     borrowing_date = forms.DateField()
     return_date = forms.DateField()
     status = forms.CharField(max_length=2)
-    staff = forms.CharField(max_length=250,required=False)
+    # staff = forms.CharField(max_length=250,required=False)
 
     class Meta:
         model = models.Borrow
@@ -327,7 +327,7 @@ class SaveBorrow(forms.ModelForm):
             "borrowing_date",
             "return_date",
             "status",
-            "staff",
+            # "staff",
         )
 
     def clean_student(self):

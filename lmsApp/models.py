@@ -170,9 +170,9 @@ class Borrow(models.Model):
     student = models.ForeignKey(
         Students, on_delete=models.SET_NULL, related_name="student_id_fk", null=True, blank=True
     )
-    staffs = models.ForeignKey(
-        Staff, on_delete=models.SET_NULL, related_name="staff_id_fk", null=True, blank=True
-    )
+    # staffs = models.ForeignKey(
+    #     Staff, on_delete=models.SET_NULL, related_name="staff_id_fk", null=True, blank=True
+    # )
 
     book = models.ForeignKey(Books, on_delete=models.CASCADE, related_name="book_id_fk")
     borrowing_date = models.DateField()

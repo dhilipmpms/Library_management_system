@@ -16,8 +16,8 @@
             <div class="col-8 m-0 border">{{ borrow.student.code }}</div>
             <div class="col-4 m-0 border bg-gradient bg-primary fw-bold text-light">துறை</div>
             <div class="col-8 m-0 border">{{ borrow.student.department }}</div>
-            <div class="col-4 m-0 border bg-gradient bg-primary fw-bold text-light">பாடநெறி</div>
-            <div class="col-8 m-0 border">{{ borrow.student.course }}</div>
+            {% comment %} <div class="col-4 m-0 border bg-gradient bg-primary fw-bold text-light">பாடநெறி</div>
+            <div class="col-8 m-0 border">{{ borrow.student.course }}</div> {% endcomment %}
             <div class="col-4 m-0 border bg-gradient bg-primary fw-bold text-light">பெயர்</div>
             <div class="col-8 m-0 border">{{ borrow.student.name }}</div>
             <div class="col-4 m-0 border bg-gradient bg-primary fw-bold text-light">தொடர்பு </div>
@@ -31,7 +31,7 @@
     <fieldset class="container-fluid px-2 pb-2 border mb-2">
         <legend class="px-4 w-auto">புத்தக விவரங்கள்</legend>
         <div class="row mx-0">
-            <div class="col-4 m-0 border bg-gradient bg-primary fw-bold text-light">ஐஎஸ்பிஎன்</div>
+            <div class="col-4 m-0 border bg-gradient bg-primary fw-bold text-light">புத்தக எண்</div>
             <div class="col-8 m-0 border">{{ borrow.book.isbn }}</div>
             <div class="col-4 m-0 border bg-gradient bg-primary fw-bold text-light">தலைப்பு</div>
             <div class="col-8 m-0 border">{{ borrow.book.title }}</div>

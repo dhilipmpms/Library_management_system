@@ -9,45 +9,43 @@
 </style>
 <div class="container-fluid">
     <form action="" id="borrow-form">
-        <input type="hidden" name="id" value="{{ borrow.id }}">
+        <input type="hidden" name="id" value="{{borrow.id}}">
         <input type="hidden" name="code" value="generate_code">
         <div class="row">
             <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                 <div class="mb-3">
                     <label for="book" class="control-label">புத்தகம்</label>
-                    <select id="book" name="book" class="form-select form-select-sm rounded-0" required>
-                        <option value="" {% if not borrow %}selected disabled{% endif %}></option>
+                    <select type="text" id="book" name="book" class="form-select form-select-sm rounded-0" required>
+                        {% if not borrow %}
+                        <option value="" selected disabled></option>
+                        {% else %}
+                        <option value="" disabled></option>
+                        {% endif %}
                         {% for book in books %}
-                            <option value="{{ book.id }}" {% if borrow.book.id == book.id %}selected{% endif %}>{{ book }}</option>
+                        {% if borrow.book.id == book.id %}
+                        <option value="{{book.id}}" selected>{{book}}</option>
+                        {% else %}
+                        <option value="{{book.id}}">{{book}}</option>
+                        {% endif %}
                         {% endfor %}
                     </select>
                 </div>
             </div>
             <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                 <div class="mb-3">
-                    <label for="borrower_type" class="control-label">கடன் வாங்குபவர் வகை</label>
-                    <select id="borrower_type" name="borrower_type" class="form-select form-select-sm rounded-0" required>
-                        <option value="student" {% if borrow.student %}selected{% endif %}>மாணவர்</option>
-                        <option value="staff" {% if borrow.staffs %}selected{% endif %}>செயலாளர்</option>
-                    </select>
-                </div>
-            </div>
-            <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-                <div class="mb-3">
-                    <label for="borrower" class="control-label">கடன் வாங்குபவர்</label>
-                    <select id="borrower" name="borrower" class="form-select form-select-sm rounded-0" required>
-                        <option value="" {% if not borrow %}selected disabled{% endif %}></option>
-                        {% if borrow.student %}
-                            <option value="{{ borrow.student.id }}" selected>{{ borrow.student }}</option>
-                        {% endif %}
-                        {% if borrow.staffs %}
-                            <option value="{{ borrow.staffs.id }}" selected>{{ borrow.staffs }}</option>
+                    <label for="student" class="control-label">மாணவர்</label>
+                    <select type="text" id="student" name="student" class="form-select form-select-sm rounded-0" required>
+                        {% if not borrow %}
+                        <option value="" selected disabled></option>
+                        {% else %}
+                        <option value="" disabled></option>
                         {% endif %}
                         {% for student in students %}
-                            <option value="{{ student.id }}">{{ student }}</option>
-                        {% endfor %}
-                        {% for staff in staffs %}
-                            <option value="{{ staff.id }}">{{ staff }}</option>
+                        {% if borrow.student.id == student.id %}
+                        <option value="{{student.id}}" selected>{{student}}</option>
+                        {% else %}
+                        <option value="{{student.id}}">{{student}}</option>
+                        {% endif %}
                         {% endfor %}
                     </select>
                 </div>
@@ -55,21 +53,29 @@
             <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                 <div class="mb-3">
                     <label for="borrowing_date" class="control-label">கடன் வாங்கும் தேதி</label>
-                    <input type="date" id="borrowing_date" name="borrowing_date" class="form-control form-control-sm rounded-0" value="{% if borrow %}{{ borrow.borrowing_date|date:'Y-m-d' }}{% else %}{% now 'Y-m-d' %}{% endif %}" required>
+                    <input type="date" id="borrowing_date" name="borrowing_date" class="form-control form-control-sm rounded-0" value="{% if borrow %}{{borrow.borrowing_date|date:'Y-m-d'}}{% else %}{% now 'Y-m-d' %}{% endif %}" required>
                 </div>
             </div>
             <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                 <div class="mb-3">
                     <label for="return_date" class="control-label">திரும்ப வேண்டிய தேதி</label>
-                    <input type="date" id="return_date" name="return_date" class="form-control form-control-sm rounded-0" value="{{ borrow.return_date|date:'Y-m-d' }}" min="{% now 'Y-m-d' %}" required>
+                    <input type="date" id="return_date" name="return_date" class="form-control form-control-sm rounded-0" value="{{borrow.return_date|date:'Y-m-d'}}" min="{% now 'Y-m-d' %}" required>
                 </div>
             </div>
             <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                 <div class="mb-3">
                     <label for="status" class="control-label">நிலை</label>
-                    <select id="status" name="status" class="form-select form-select-sm rounded-0" required>
-                        <option value="1" {% if borrow.status == '1' %}selected{% endif %}>நிலுவையில்</option>
-                        <option value="2" {% if borrow.status == '2' %}selected{% endif %}>அளித்துள்ளது</option>
+                    <select type="text" id="status" name="status" class="form-select form-select-sm rounded-0" required>
+                        {% if borrow.status == '1' %}
+                        <option value="1" selected>நிலுவையில்</option>
+                        {% else %}
+                        <option value="1">நிலுவையில்</option>
+                        {% endif %}
+                        {% if borrow.status == '2' %}
+                        <option value="2" selected>அளித்துள்ளது</option>
+                        {% else %}
+                        <option value="2">அளித்துள்ளது</option>
+                        {% endif %}
                     </select>
                 </div>
             </div>
@@ -79,39 +85,34 @@
 <script>
     $(function() {
         $('#uni_modal').on('shown.bs.modal', function(){
-            $('#borrower').select2({
-                placeholder: "Please Select Borrower Here",
-                width: "100%",
-                dropdownParent: $('#uni_modal'),
-                selectionCssClass: "form-control form-control-sm rounded-0"
-            });
+            $('#student').select2({
+                placeholder:"Please Select Student Here",
+                width:"100%",
+                dropdownParent:$('#uni_modal'),
+                selectionCssClass:"form-control form-control-sm rounded-0"
+            })
             $('#book').select2({
-                placeholder: "Please Select Book Here",
-                width: "100%",
-                dropdownParent: $('#uni_modal'),
-                selectionCssClass: "form-control form-control-sm rounded-0"
-            });
-        });
+                placeholder:"Please Select Book Here",
+                width:"100%",
+                dropdownParent:$('#uni_modal'),
+                selectionCssClass:"form-control form-control-sm rounded-0"
+            })
+        })
         $('#borrow-form').submit(function(e) {
             e.preventDefault();
-            var _this = $(this);
+            var _this = $(this)
             $('.err-msg').remove();
-            var el = $('<div>');
-            el.addClass("alert alert-danger err-msg");
-            el.hide();
-        
+            var el = $('<div>')
+            el.addClass("alert alert-danger err-msg")
+            el.hide()
             if (_this[0].checkValidity() == false) {
                 _this[0].reportValidity();
                 return false;
             }
-        
-            // Log the form data to the console
-            console.log(new FormData($(this)[0]));
-        
             start_loader();
             $.ajax({
                 headers: {
-                    "X-CSRFToken": '{{ csrf_token }}'
+                    "X-CSRFToken": '{{csrf_token}}'
                 },
                 url: "{% url 'save-borrow' %}",
                 data: new FormData($(this)[0]),
@@ -119,28 +120,29 @@
                 contentType: false,
                 processData: false,
                 method: 'POST',
+                type: 'POST',
                 dataType: 'json',
                 error: err => {
-                    console.log(err);
-                    alert("An error occurred", 'error');
+                    console.log(err)
+                    alert("An error occured", 'error');
                     end_loader();
                 },
                 success: function(resp) {
                     if (typeof resp == 'object' && resp.status == 'success') {
-                        location.reload();
+                        location.reload()
                     } else if (resp.status == 'failed' && !!resp.msg) {
-                        el.text(resp.msg);
+                        el.text(resp.msg)
                     } else {
-                        el.text("An error occurred", 'error');
+                        el.text("An error occured", 'error');
                         end_loader();
-                        console.err(resp);
+                        console.err(resp)
                     }
-                    _this.prepend(el);
-                    el.show('slow');
+                    _this.prepend(el)
+                    el.show('slow')
                     $("html, body, .modal").scrollTop(0);
-                    end_loader();
+                    end_loader()
                 }
-            });
-        });
-    });
+            })
+        })
+    })
 </script>

@@ -47,9 +47,9 @@
                                 <td>{{ book.price|default:"N/A" }}</td>
                                 <td>
                                     <div class="lh-1">
-                                        <div>{{ book.sub_category.category.name}}</div>
+                                        {% comment %} <div>{{ book.sub_category.category.name}}</div> {% endcomment %}
                                         <br>
-                                        {% comment %} <div>{{ book.sub_category.name}}</div> {% endcomment %}
+                                        <div>{{ book.sub_category.name}}</div>
                                     </div>
                                 </td>
                                 <td>{{ book.berow }}</td>
