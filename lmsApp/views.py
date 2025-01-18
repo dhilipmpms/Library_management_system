@@ -525,7 +525,7 @@ def save_book(request):
     return HttpResponse(json.dumps(resp), content_type="application/json")
 
 
-@login_required
+#@login_required
 def view_book(request, pk=None):
     context = context_data(request)
     context["page"] = "view_book"
