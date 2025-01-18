@@ -675,50 +675,53 @@ def save_borrow(request):
     if request.method == "POST":
         post = request.POST
         try:
-            # Check if it's an existing transaction or a new one
-            if not post["id"] == "":
-                borrow = models.Borrow.objects.get(id=post["id"])
-                form = forms.SaveBorrow(request.POST, instance=borrow)
+            # Handle new or existing borrow transactions
+            if post.get("id"):
+                borrow = get_object_or_404(models.Borrow, id=post["id"])
+                form = forms.SaveBorrow(post, instance=borrow)
             else:
-                form = forms.SaveBorrow(request.POST)
+                form = forms.SaveBorrow(post)
 
-            # Validate the form
+            # Validate form data
             if form.is_valid():
-                # Ensure either a student or a staff member is selected
                 borrower_type = post.get("borrower_type")
+                borrower_id = post.get("borrower")
+
+                # Handle borrower type and set the borrower
                 if borrower_type == "student":
-                    if not post.get("student"):
-                        resp["msg"] = "Please select a valid student."
+                    try:
+                        form.instance.student = get_object_or_404(models.Students, id=borrower_id)
+                        form.instance.staffs = None
+                    except models.Students.DoesNotExist:
+                        resp["msg"] = "Selected student does not exist."
                         return HttpResponse(json.dumps(resp), content_type="application/json")
                 elif borrower_type == "staff":
-                    if not post.get("staff"):
-                        resp["msg"] = "Please select a valid staff member."
+                    try:
+                        form.instance.staffs = get_object_or_404(models.Staff, id=borrower_id)
+                        form.instance.student = None
+                    except models.Staff.DoesNotExist:
+                        resp["msg"] = "Selected staff member does not exist."
                         return HttpResponse(json.dumps(resp), content_type="application/json")
                 else:
-                    resp["msg"] = "Please select a valid borrower type."
+                    resp["msg"] = "Invalid borrower type selected."
                     return HttpResponse(json.dumps(resp), content_type="application/json")
 
                 # Save the borrowing transaction
                 form.save()
 
-                if post["id"] == "":
-                    messages.success(
-                        request, "Borrowing transaction has been saved successfully."
-                    )
+                if post.get("id"):
+                    messages.success(request, "Borrowing transaction updated successfully.")
                 else:
-                    messages.success(
-                        request, "Borrowing transaction has been updated successfully."
-                    )
+                    messages.success(request, "Borrowing transaction saved successfully.")
+
                 resp["status"] = "success"
             else:
-                # Handle form errors
+                # Handle form errors and send back messages
                 for field in form:
                     for error in field.errors:
                         if resp["msg"]:
                             resp["msg"] += "<br/>"
-                        resp["msg"] += f"[{field.name}] {error}"
-        except models.Borrow.DoesNotExist:
-            resp["msg"] = "Borrowing transaction not found."
+                        resp["msg"] += f"[{field.label}] {error}"
         except Exception as e:
             resp["msg"] = f"An error occurred: {e}"
 
@@ -728,17 +731,12 @@ def save_borrow(request):
     return HttpResponse(json.dumps(resp), content_type="application/json")
 
 
-
 @login_required
 def view_borrow(request, pk=None):
     context = context_data(request)
     context["page"] = "view_borrow"
     context["page_title"] = "View Transaction Details"
-    if pk is None:
-        context["borrow"] = {}
-    else:
-        context["borrow"] = models.Borrow.objects.get(id=pk)
-
+    context["borrow"] = get_object_or_404(models.Borrow, id=pk) if pk else {}
     return render(request, "view_borrow.html", context)
 
 
@@ -747,13 +745,18 @@ def manage_borrow(request, pk=None):
     context = context_data(request)
     context["page"] = "manage_borrow"
     context["page_title"] = "Manage Transaction Details"
-    if pk is None:
-        context["borrow"] = {}
+
+    # If pk exists, fetch the borrowing record
+    if pk:
+        context["borrow"] = get_object_or_404(models.Borrow, id=pk)
     else:
-        context["borrow"] = models.Borrow.objects.get(id=pk)
-    context["students"] = models.Students.objects.filter(delete_flag=0, status=1).all()
-    context["staffs"] = models.Staff.objects.filter(delete_flag=0).all()
-    context["books"] = models.Books.objects.filter(delete_flag=0, status=1).all()
+        context["borrow"] = {}
+
+    # Fetch all necessary related data
+    context["students"] = models.Students.objects.filter(delete_flag=0, status=1)
+    context["staffs"] = models.Staff.objects.filter(delete_flag=0)
+    context["books"] = models.Books.objects.filter(delete_flag=0, status=1)
+
     return render(request, "manage_borrow.html", context)
 
 
@@ -801,31 +804,37 @@ def upload_file_view(request):
                 df =handle_uploaded_file(file)
                 # print(df.shape[0])
                 # df.replace(value=None, inplace=True)
+                df['email'] = df['email'].fillna('') #To  handle empty nan of empty value
                 
                 # Iterate over DataFrame and create or update model instances
-                if upload_type  =='students':
-
+                if upload_type == 'students':
                     for index, row in df.iterrows():
+                        # Extract year and convert to string (to match choices in the model)
+                        year = str(row.get('year', '1')) if row.get('year') else None
+
+                        # Use update_or_create with proper structure
                         Students.objects.update_or_create(
-                            code=row['code'],
-                            first_name=row['first_name'],
-                            gender=row.get('gender', 'Male'),  # Default to 'Male' if not provided
-                            contact=row['contact'],
-                            department=row.get('department', None),
-                            course=row.get('course', None),
-                            education_level=row.get('education_level', 'UG'),  # Default to 'UG'
-                            year = row.get('year','1'), 
-                            email=row.get('email',None),
-                            address=row.get('address', None),
-                            status=row.get('status', '1'),  # Default to 'Active' status
-                            delete_flag=row.get('delete_flag', 0),  # Default to 0
-                            date_added=row.get('date_added', timezone.now()),  # Default to current time
-                            date_created=row.get('date_created', timezone.now()),  # Default to current time
+                            code=row['code'],  # Lookup field to check for an existing record
+                            defaults={
+                                'first_name': row['first_name'],
+                                'gender': row.get('gender', 'Male'),  # Default to 'Male'
+                                'contact': row['contact'],
+                                'department': row.get('department', None),
+                                'course': row.get('course', None),
+                                'education_level': row.get('education_level', 'UG'),  # Default to 'UG'
+                                'year': year,
+                                'email': row.get('email', None),
+                                'address': row.get('address', None),
+                                'status': row.get('status', '1'),  # Default to 'Active'
+                                'delete_flag': row.get('delete_flag', 0),  # Default to 0
+                                'date_added': row.get('date_added', timezone.now()),  # Default to current time
+                                'date_created': row.get('date_created', timezone.now()),  # Default to current time
+                            }
                         )
-                         
-                
+
                     messages.success(request, "Student data uploaded and added to the database successfully!")
                     return redirect('/students')
+
 
 
                 elif upload_type == 'subcategory':

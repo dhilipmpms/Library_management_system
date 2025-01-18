@@ -67,9 +67,6 @@ class Books(models.Model):
         return f"{self.isbn} - {self.title}"
 
 
-
-
-
 class Students(models.Model):
     code = models.CharField(max_length=250)
     first_name = models.CharField(max_length=250)
@@ -91,7 +88,7 @@ class Students(models.Model):
     )
     batch = models.CharField(max_length=250,
         null=True)
-    email =models.EmailField(blank=True,null=True)
+    email =models.EmailField(blank=True,null=True,default='')
     address=models.CharField(max_length=500,blank=True, null=True)
     status = models.CharField(
         max_length=2, choices=(("1", "Active"), ("2", "Inactiv  e")), default=1
@@ -100,52 +97,47 @@ class Students(models.Model):
     date_added = models.DateTimeField(default=timezone.now)
     date_created = models.DateTimeField(auto_now=True)
 
-    def save(self):
-        
+    def save(self, *args, **kwargs):  # Accept all keyword arguments
         def get_batch_year(current_date, year_of_study):
-            """
-            Determine the batch year for a student based on the current date and year of study.
-
-            Args:
-                current_date (date): The current date.
-                year_of_study (int): The year of study (1, 2, or 3).
-
-            Returns:
-                int: The batch year the student belongs to.
-            """
             if year_of_study not in [1, 2, 3]:
                 raise ValueError("Year of study must be 1, 2, or 3.")
-            
+
             current_year = current_date.year
-            
-            # Calculate the start of the current academic year (31st May of the current year)
             current_year_may_31 = date(current_year, 5, 31)
-            
-            # Determine the academic year based on the current date
+
             if current_date < current_year_may_31:
-                # If today's date is before May 31st, the academic year started the previous year
                 academic_start_year = current_year - 1
             else:
                 academic_start_year = current_year
 
-            # Calculate the batch year based on the year of study
-            batch_year = academic_start_year - (year_of_study - 1)
-            
-            return batch_year
+            return academic_start_year - (year_of_study - 1)
 
+        # Current date
+        current_date = datetime.now().date()
+
+        # For UG students (4 years batch duration)
         if str(self.education_level).upper() == 'UG' and self.year is not None:
-            current_date = datetime.now().date()
             batch_year = get_batch_year(current_date, int(self.year))
-            self.batch = str(batch_year) + " - " + str(batch_year+3)
+            self.batch = f"{batch_year} - {batch_year + 3}"  # UG students: 4 years (2022-2026)
+            education_end_date = date(batch_year + 3, 5, 31)  # End date for UG students (31st May of the 4th year)
+
+        # For PG students (2 years batch duration)
         elif str(self.education_level).upper() == 'PG' and self.year is not None:
-            current_date = datetime.now().date()
             batch_year = get_batch_year(current_date, int(self.year))
-            self.batch = str(batch_year) + " - " + str(batch_year+2)
+            self.batch = f"{batch_year} - {batch_year + 2}"  # PG students: 2 years (2023-2025)
+            education_end_date = date(batch_year + 2, 5, 31)  # End date for PG students (31st May of the 2nd year)
+
         else:
             self.year = None
             self.batch = None
-        pass
-        super().save()
+            education_end_date = None
+
+        # Automatically mark the student as inactive if their education period has ended
+        if education_end_date and current_date > education_end_date:
+            self.status = "2"  # Mark as Inactive (status = 2)
+
+        # Call the parent class's save method
+        super().save(*args, **kwargs)
 
     class Meta:
         verbose_name_plural = "List of Students"
@@ -183,7 +175,6 @@ class Borrow(models.Model):
     )
 
     book = models.ForeignKey(Books, on_delete=models.CASCADE, related_name="book_id_fk")
-    borrower_type = models.CharField(max_length=50, default='student')
     borrowing_date = models.DateField()
     return_date = models.DateField()
     status = models.CharField(
@@ -195,7 +186,7 @@ class Borrow(models.Model):
         verbose_name_plural = "Borrowing Transactions"
 
     def __str__(self):
-        return f"{self.student.code if self.student else self.staffs.first_name}"
+        return f"{self.student.code if self.student else self.name}"
 
 
 
