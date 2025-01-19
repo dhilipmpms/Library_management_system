@@ -1,4 +1,6 @@
-{% extends 'base.html' %} {% load static %} {% block pageContent %}
+{% extends 'base.html' %}
+{% load static %}
+{% block pageContent %}
 <section class="py-4">
     <div class="container">
         <h3 class="fw-bolder text-center">கடன் வாங்கும் பரிவர்த்தனைகளின் பட்டியல்</h3>
@@ -11,72 +13,75 @@
                     <div class="text-end mb-3">
                         <button class="btn btn-sm btn-primary rounded-0 bg-gradient-primary" type="button" id="create_new"><i class="fa fa-plus"></i> புதியதைச் சேர்க்கவும்</button>
                     </div>
-                    <table class="table table-bordered table-striped" id="borrow-tbl">
-                        <colgroup>
-                            <col width="5%">
-                            <col width="15%">
-                            <col width="25%">
-                            <col width="15%">
-                            <col width="15%">
-                            <col width="10%">
-                            <col width="10%">
-                        </colgroup>
-                        <thead>
-                            <tr>
-                                <th class="text-center">#</th>
-                                <th class="text-center">தேதி </th>
-                                <th class="text-center">மாணவர்</th>
-                                <th class="text-center">புத்தகம்</th>
-                                <th class="text-center">திரும்பும் தேதி</th>
-                                <th class="text-center">நிலை</th>
-                                <th class="text-center">செயல்</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for borrow in borrows %}
-                            <tr>
-                                <td class="text-center">{{ forloop.counter }}</td>
-                                <td>{{ borrow.date_added|date:"Y-m-d h:i A"}}</td>
-                                <td>
-                                    <div class="lh-1">
-                                        <div>{{ borrow.student.code}}</div><br>
-                                        <div>{{ borrow.student.name}}</div>
-                                    </div>
-                                </td>
-                                <td>
-                                    <div class="lh-1">
-                                        <div>{{ borrow.book.isbn}}</div><br>
-                                        <div>{{ borrow.book.title}}</div>
-                                    </div>
-                                </td>
-                                <td>{{ borrow.return_date }}</td>
-                                <td class="text-center">
-                                    {% if borrow.status == '1' %}
-                                    <span class="badge badge-secondary bg-gradient bg-secondary px-3 rounded-pill bg-opacity-75 text-sm py-1">நிலுவையில் உள்ளது</span> {% else %}
-                                    <span class="badge badge-primary bg-gradient bg-primary px-3 rounded-pill bg-opacity-75 text-sm py-1">திரும்பினார்</span> {% endif %}
-                                </td>
-                                <td class="text-center">
-                                    <div class="dropdown">
-                                        <button class="btn btn-light btn-sm rounded-0 border dropdown-toggle" type="button" id="abtn{{borrow.pk}}" data-bs-toggle="dropdown" aria-expanded="false">
-                                          Action
-                                        </button>
-                                        <ul class="dropdown-menu" aria-labelledby="abtn{{borrow.pk}}">
-                                            <li><a class="dropdown-item view-data" href="javascript:void(0)" data-url="{% url 'view-borrow-pk' borrow.pk %}"><i class="fa fa-eye text-dark"></i> பார்</a></li>
-                                            <li><a class="dropdown-item edit-data" href="javascript:void(0)" data-url="{% url 'manage-borrow-pk' borrow.pk %}"><i class="fa fa-edit text-primary"></i> திருத்து</a></li>
-                                            <li><a class="dropdown-item delete-data" href="javascript:void(0)" data-url="{% url 'delete-borrow' borrow.pk %}"><i class="fa fa-trash text-danger"></i> நீக்கு</a></li>
-                                        </ul>
-                                    </div>
-                                </td>
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-striped" id="borrow-tbl">
+                            <colgroup>
+                                <col width="5%">
+                                <col width="15%">
+                                <col width="25%">
+                                <col width="15%">
+                                <col width="15%">
+                                <col width="10%">
+                                <col width="10%">
+                            </colgroup>
+                            <thead>
+                                <tr>
+                                    <th class="text-center">#</th>
+                                    <th class="text-center">தேதி </th>
+                                    <th class="text-center">மாணவர்</th>
+                                    <th class="text-center">புத்தகம்</th>
+                                    <th class="text-center">திரும்பும் தேதி</th>
+                                    <th class="text-center">நிலை</th>
+                                    <th class="text-center">செயல்</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for borrow in borrows %}
+                                <tr>
+                                    <td class="text-center">{{ forloop.counter }}</td>
+                                    <td>{{ borrow.date_added|date:"Y-m-d h:i A"}}</td>
+                                    <td>
+                                        <div class="lh-1">
+                                            <div>{{ borrow.student.code}}</div><br>
+                                            <div>{{ borrow.student.name}}</div>
+                                        </div>
+                                    </td>
+                                    <td>
+                                        <div class="lh-1">
+                                            <div>{{ borrow.book.isbn}}</div><br>
+                                            <div>{{ borrow.book.title}}</div>
+                                        </div>
+                                    </td>
+                                    <td>{{ borrow.return_date }}</td>
+                                    <td class="text-center">
+                                        {% if borrow.status == '1' %}
+                                        <span class="badge badge-secondary bg-gradient bg-secondary px-3 rounded-pill bg-opacity-75 text-sm py-1">நிலுவையில் உள்ளது</span> {% else %}
+                                        <span class="badge badge-primary bg-gradient bg-primary px-3 rounded-pill bg-opacity-75 text-sm py-1">திரும்பினார்</span> {% endif %}
+                                    </td>
+                                    <td class="text-center">
+                                        <div class="dropdown">
+                                            <button class="btn btn-light btn-sm rounded-0 border dropdown-toggle" type="button" id="abtn{{borrow.pk}}" data-bs-toggle="dropdown" aria-expanded="false">
+                                              Action
+                                            </button>
+                                            <ul class="dropdown-menu" aria-labelledby="abtn{{borrow.pk}}">
+                                                <li><a class="dropdown-item view-data" href="javascript:void(0)" data-url="{% url 'view-borrow-pk' borrow.pk %}"><i class="fa fa-eye text-dark"></i> பார்</a></li>
+                                                <li><a class="dropdown-item edit-data" href="javascript:void(0)" data-url="{% url 'manage-borrow-pk' borrow.pk %}"><i class="fa fa-edit text-primary"></i> திருத்து</a></li>
+                                                <li><a class="dropdown-item delete-data" href="javascript:void(0)" data-url="{% url 'delete-borrow' borrow.pk %}"><i class="fa fa-trash text-danger"></i> நீக்கு</a></li>
+                                            </ul>
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
 </section>
-{% endblock pageContent %} {% block ScriptBlock %}
+{% endblock pageContent %}
+{% block ScriptBlock %}
 <script>
     $(function() {
         $('#create_new').click(function() {

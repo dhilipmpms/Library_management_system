@@ -1,7 +1,10 @@
-{% extends 'base.html' %}{% load static %}{% block pageContent %}
+{% extends 'base.html' %}
+{% load static %}
+
+{% block pageContent %}
 <style>
     body {
-        background-image:url('{% static "assets/default/img/wallpaper.jpg" %}');
+        background-image: url('{% static "assets/default/img/wallpaper.jpg" %}');
         background-repeat: no-repeat;
         background-size: cover;
     }
@@ -29,15 +32,100 @@
         font-family: cursive;
         text-shadow: 2px 2px 12px #b7652a;
     }
+
+    /* Ensure layout and card are responsive */
+    .card {
+        border-radius: 10px;
+    }
+
+    .card-header {
+        background-color: #f7f7f7;
+    }
+
+    .btn-primary {
+        background-color: #4e73df;
+        border-color: #4e73df;
+    }
+
+    .btn-link {
+        color: #007bff;
+        text-decoration: none;
+    }
+
+    .btn-link:hover {
+        text-decoration: underline;
+    }
+
+    /* Media Queries for Responsive Design */
+    @media (max-width: 768px) {
+        #logo-img {
+            width: 7em; /* Make logo smaller on mobile */
+        }
+
+        #page-title {
+            font-size: 2em; /* Adjust font size for mobile */
+        }
+
+        .col-lg-9, .col-md-8 {
+            width: 100%; /* Ensure form takes full width */
+        }
+
+        .card {
+            width: 100%; /* Ensure card takes full width */
+            margin-bottom: 20px;
+        }
+
+        .col-lg-4, .col-md-6 {
+            width: 100%; /* Ensure form is responsive */
+            padding: 10px; /* Adjust padding */
+        }
+
+        .text-center {
+            text-align: center;
+        }
+
+        .container-fluid {
+            padding-left: 15px;
+            padding-right: 15px;
+        }
+    }
+
+    /* For very small devices */
+    @media (max-width: 480px) {
+        #logo-img {
+            width: 6em; /* Even smaller logo for very small screens */
+        }
+
+        #page-title {
+            font-size: 1.5em; /* Adjust font size for very small screens */
+        }
+
+        .form-group label {
+            font-size: 1em; /* Adjust label size for smaller screens */
+        }
+
+        .form-control {
+            font-size: 1em; /* Adjust input field size */
+        }
+
+        .btn-primary {
+            padding: 10px 15px; /* Larger buttons on smaller devices */
+        }
+
+        .btn-link {
+            font-size: 0.9em; /* Adjust button font size */
+        }
+    }
 </style>
+
 <div class="d-flex flex-column w-100 justify-content-center align-items-center">
     <div class="text-center">
         <img src="{% static 'assets/default/img/pacc-logo.jpg' %}" alt="Logo" class="bg-gradient bg-dark bg-opacity-75 rounded-circle padding-0 border" id="logo-img">
     </div>
     <div class="col-lg-9 col-md-8 col-sm-12 col-xs-12 py-5 mb-3">
-        <h2 class="text-center fw-bolder" id="page-title">பாவாணர் பைந்தமிழ் நூலகம்<h2>
-            <h2 class="text-center fw-bolder" id="page-title">தமிழ்த்துறை<h2>
-                <h2 class="text-center fw-bolder" id="page-title">பெரியார் கலைக்கல்லூரி,கடலூர்<h2>
+        <h2 class="text-center fw-bolder" id="page-title">பாவாணர் பைந்தமிழ் நூலகம்</h2>
+        <h2 class="text-center fw-bolder" id="page-title">தமிழ்த்துறை</h2>
+        <h2 class="text-center fw-bolder" id="page-title">பெரியார் கலைக்கல்லூரி,கடலூர்</h2>
     </div>
     <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12 pt-3">
         <div class="card card-default rounded-0 shadow">
@@ -77,7 +165,9 @@
     </div>
 </div>
 
-{% endblock pageContent %} {% block ScriptBlock %}
+{% endblock pageContent %}
+
+{% block ScriptBlock %}
 <script>
     $(function() {
         $('#login-user').submit(function(e) {
@@ -106,7 +196,7 @@
                 dataType: 'json',
                 error: err => {
                     console.log(err)
-                    alert("An error occured", 'error');
+                    alert("An error occurred", 'error');
                     end_loader();
                 },
                 success: function(resp) {
@@ -116,7 +206,7 @@
                     } else if (resp.status == 'failed' && !!resp.msg) {
                         el.text(resp.msg)
                     } else {
-                        el.text("An error occured", 'error');
+                        el.text("An error occurred", 'error');
                         end_loader();
                         console.err(resp)
                     }

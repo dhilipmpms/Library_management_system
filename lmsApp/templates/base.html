@@ -56,6 +56,79 @@
             background-repeat:no-repeat;
             background-position:center center;
         }
+        @media (max-width: 767px) {
+            /* Ensure the modal footer and sub-footer are appropriately displayed */
+            .modal-sub-footer {
+                justify-content: center; /* Center the button on small screens */
+                text-align: center;
+            }
+        
+            /* Adjust modal body padding on mobile */
+            .modal-body {
+                padding: 1rem;
+            }
+        
+            /* Improve text readability in the alert messages */
+            .alert {
+                font-size: 14px; /* Smaller text for mobile view */
+            }
+        
+            /* Adjust image viewer size and position for smaller screens */
+            #img-viewer {
+                width: 100%;
+                height: auto;
+            }
+        
+            #img-viewer img {
+                object-fit: contain;
+            }
+        
+            /* Make modal close buttons larger for easier access */
+            .modal-footer button, .modal-sub-footer button {
+                font-size: 14px; /* Ensure buttons are larger on mobile */
+            }
+        
+            /* Adjust body background settings for mobile */
+            body {
+                background-size: cover;
+                background-position: center center;
+            }
+        
+            /* Handle the navbar for smaller screens */
+            .navbar-nav {
+                flex-direction: column;
+            }
+        
+            .modal-dialog {
+                margin: 10px;
+                width: 90%; /* Make modal occupy most of the screen width */
+            }
+        
+            /* Adjust other container spacing on mobile */
+            .container {
+                padding-left: 1rem;
+                padding-right: 1rem;
+            }
+        
+            /* Adjust the zoom controls for the image viewer */
+            .input-group.mb-3 {
+                width: 100%;
+            }
+            
+            #zoom-value {
+                width: 20%; /* Adjust width of zoom control */
+            }
+        
+            /* Improve button sizes for smaller screens */
+            .btn {
+                font-size: 14px;
+            }
+        
+            .btn-close {
+                font-size: 20px;
+            }
+        }
+        
     </style>
     {% block headerContent %} {% endblock headerContent %}
 </head>

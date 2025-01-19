@@ -4,11 +4,13 @@
 {% block pageContent %}
 
 <!--Section: Content-->
-<section class="">
-    <h2 class="fw-bolder">வரவேற்கிறோம், {{request.user}}&nbsp;{{request.user.last_name}}!</h2>
+<section class="py-3">
+    <h2 class="fw-bolder text-center">வரவேற்கிறோம், {{request.user}}&nbsp;{{request.user.last_name}}!</h2>
     <hr>
     <div class="row justify-content-center">
-        <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12 px-1 pb-2">
+
+        <!-- Category Section -->
+        <div class="col-lg-4 col-md-6 col-sm-12 px-1 pb-2">
             <div class="card card-default rounded-0 shadow bg-primary bg-gradient border-0 text-light">
                 <div class="card-body">
                     <div class="container-fluid">
@@ -19,14 +21,15 @@
                             <div class="col-9">
                                 <h1 class="text-end">{{categories|intcomma}}</h1>
                             </div>
-                            <div class="col-12 text-end"><b>பகுப்பு </b></div>
+                            <div class="col-12 text-end"><b>பகுப்பு</b></div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12 px-1 pb-2">
+        <!-- Sub Category Section -->
+        <div class="col-lg-4 col-md-6 col-sm-12 px-1 pb-2">
             <div class="card card-default rounded-0 shadow bg-gradient bg-dark bg-opacity-75 text-light">
                 <div class="card-body">
                     <div class="container-fluid">
@@ -37,14 +40,15 @@
                             <div class="col-9">
                                 <h1 class="text-end">{{sub_categories|intcomma}}</h1>
                             </div>
-                            <div class="col-12 text-end"><b>உட் பகுப்பு </b></div>
+                            <div class="col-12 text-end"><b>உட் பகுப்பு</b></div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12 px-1 pb-2">
+        <!-- Student Section -->
+        <div class="col-lg-4 col-md-6 col-sm-12 px-1 pb-2">
             <div class="card card-default rounded-0 shadow bg-gradient bg-success bg-opacity-75 text-light">
                 <div class="card-body">
                     <div class="container-fluid">
@@ -62,8 +66,8 @@
             </div>
         </div>
 
-        <!-- Staffs Section: New Addition -->
-        <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12 px-1 pb-2">
+        <!-- Staff Section -->
+        <div class="col-lg-4 col-md-6 col-sm-12 px-1 pb-2">
             <div class="card card-default rounded-0 shadow bg-gradient bg-info text-light">
                 <div class="card-body">
                     <div class="container-fluid">
@@ -72,16 +76,17 @@
                                 <i class="fs-1 text-light fa fa-users"></i>
                             </div>
                             <div class="col-9">
-                                <h1 class="text-end">{{staffs|intcomma}}</h1> <!-- Display number of staffs -->
+                                <h1 class="text-end">{{staffs|intcomma}}</h1>
                             </div>
-                            <div class="col-12 text-end"><b>ஊழியர்கள்</b></div> <!-- Staff Label -->
+                            <div class="col-12 text-end"><b>ஊழியர்கள்</b></div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12 px-1 pb-2">
+        <!-- Book Section -->
+        <div class="col-lg-4 col-md-6 col-sm-12 px-1 pb-2">
             <div class="card card-default rounded-0 shadow bg-gradient bg-warning bg-opacity-75 text-light">
                 <div class="card-body">
                     <div class="container-fluid">
@@ -99,7 +104,8 @@
             </div>
         </div>
 
-        <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12 px-1 pb-2">
+        <!-- Transactions Section -->
+        <div class="col-lg-4 col-md-6 col-sm-12 px-1 pb-2">
             <div class="card card-default rounded-0 shadow bg-gradient bg-secondary text-light">
                 <div class="card-body">
                     <div class="container-fluid">
@@ -117,7 +123,8 @@
             </div>
         </div>
 
-        <div class="col-lg-4 col-md-6 col-sm-12 col-xs-12 px-1 pb-2">
+        <!-- Pending Section -->
+        <div class="col-lg-4 col-md-6 col-sm-12 px-1 pb-2">
             <div class="card card-default rounded-0 shadow bg-gradient bg-dark text-light">
                 <div class="card-body">
                     <div class="container-fluid">
@@ -137,10 +144,11 @@
 
     </div>
 </section>
-</div>
 
 {% endblock pageContent %}
+
 {% block ScriptBlock %}
 <script>
+    // Add any custom scripts for interactivity or features on mobile
 </script>
 {% endblock ScriptBlock %}

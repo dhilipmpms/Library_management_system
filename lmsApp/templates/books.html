@@ -1,4 +1,7 @@
-{% extends 'base.html' %} {% load static %} {% block pageContent %}
+{% extends 'base.html' %} 
+{% load static %} 
+
+{% block pageContent %}
 <section class="py-4">
     <div class="container">
         <h3 class="fw-bolder text-center">நூல்களின் பட்டியல்</h3>
@@ -11,81 +14,117 @@
                     <div class="text-end mb-3">
                         <button class="btn btn-sm btn-primary rounded-0 bg-gradient-primary" type="button" id="create_new"><i class="fa fa-plus"></i> புதியதைச் சேர்</button>
                     </div>
-                    <table class="table table-bordered table-striped" id="book-tbl">
-                        <colgroup>
-                            <col width="5%">
-                            <col width="15%">
-                            <col width="20%">
-                            <col width="15%">
-                            <col width="20%">
-                            <col width="15%">
-                            <col width="10%">
-                        </colgroup>
-                        <thead>
-                            <tr>
-                                <th class="text-center">#</th>
-                                {% comment %} <th class="text-center">சேர்க்கப்பட்ட தேதி </th> {% endcomment %}
-                                <th class="text-center">புத்தக எண்</th>
-                                <th class="text-center">தலைப்பு</th>
-                                <th class="text-center">வெளியீட்டாளர்</th>
-                                <th class="text-center">விலை</th>
-                                <th class="text-center">வகை</th>
-                                <th class="text-center">பேழை</th>
-                                <th class="text-center">தட்டு</th>
-                                <th class="text-center">நிலை</th>
-                                <th class="text-center">செயல்</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for book in books %}
-                            <tr>
-                                <td class="text-center">{{ forloop.counter }}</td>
-                                {% comment %} <td>{{ book.date_added|date:"Y-m-d h:i A"}}</td> {% endcomment %}
-                                <td>{{ book.isbn}}</td>
-                                <td>{{ book.title }}</td>
-                                <td>{{ book.publisher }}</td>
-                                <td>{{ book.price|default:"N/A" }}</td>
-                                <td>
-                                    <div class="lh-1">
-                                        {% comment %} <div>{{ book.sub_category.category.name}}</div> {% endcomment %}
-                                        <br>
-                                        <div>{{ book.sub_category.name}}</div>
-                                    </div>
-                                </td>
-                                <td>{{ book.berow }}</td>
-                                <td>{{ book.rack }}</td>
-                                
-                                <td class="text-center">
-                                    {% if book.status == '1' %}
-                                    <span class="badge badge-success bg-gradient bg-success px-3 rounded-pill bg-opacity-75 text-sm py-1">Active</span> {% else %}
-                                    <span class="badge badge-secondary bg-gradient bg-secondary px-3 rounded-pill bg-opacity-75 text-sm py-1">Inactive</span> {% endif %}
-                                </td>
-                                <td class="text-center">
-                                    <div class="dropdown">
-                                        <button class="btn btn-light btn-sm rounded-0 border dropdown-toggle" type="button" id="abtn{{book.pk}}" data-bs-toggle="dropdown" aria-expanded="false">
-                                            செயல்
-                                        </button>
-                                        <ul class="dropdown-menu" aria-labelledby="abtn{{book.pk}}">
-                                            <li><a class="dropdown-item view-data" href="javascript:void(0)" data-url="{% url 'view-book-pk' book.pk %}"><i class="fa fa-eye text-dark"></i> பார்</a></li>
-                                            <li><a class="dropdown-item edit-data" href="javascript:void(0)" data-url="{% url 'manage-book-pk' book.pk %}"><i class="fa fa-edit text-primary"></i> திருத்து</a></li>
-                                            <li><a class="dropdown-item delete-data" href="javascript:void(0)" data-url="{% url 'delete-book' book.pk %}"><i class="fa fa-trash text-danger"></i> நீக்கு</a></li>
-                                        </ul>
-                                    </div>
-                                </td>
-                            </tr>
-                            {% endfor %}
-                        </tbody>
-                    </table>
+                    <!-- Responsive Table Wrapper -->
+                    <div class="table-responsive">
+                        <table class="table table-bordered table-striped" id="book-tbl">
+                            <colgroup>
+                                <col width="5%">
+                                <col width="15%">
+                                <col width="20%">
+                                <col width="15%">
+                                <col width="20%">
+                                <col width="15%">
+                                <col width="10%">
+                            </colgroup>
+                            <thead>
+                                <tr>
+                                    <th class="text-center">#</th>
+                                    <th class="text-center">புத்தக எண்</th>
+                                    <th class="text-center">தலைப்பு</th>
+                                    <th class="text-center">வெளியீட்டாளர்</th>
+                                    <th class="text-center">விலை</th>
+                                    <th class="text-center">வகை</th>
+                                    <th class="text-center">பேழை</th>
+                                    <th class="text-center">தட்டு</th>
+                                    <th class="text-center">நிலை</th>
+                                    <th class="text-center">செயல்</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for book in books %}
+                                <tr>
+                                    <td class="text-center">{{ forloop.counter }}</td>
+                                    <td>{{ book.isbn }}</td>
+                                    <td>{{ book.title }}</td>
+                                    <td>{{ book.publisher }}</td>
+                                    <td>{{ book.price|default:"N/A" }}</td>
+                                    <td>
+                                        <div class="lh-1">
+                                            <br>
+                                            <div>{{ book.sub_category.name }}</div>
+                                        </div>
+                                    </td>
+                                    <td>{{ book.berow }}</td>
+                                    <td>{{ book.rack }}</td>
+                                    <td class="text-center">
+                                        {% if book.status == '1' %}
+                                        <span class="badge badge-success bg-gradient bg-success px-3 rounded-pill bg-opacity-75 text-sm py-1">Active</span> 
+                                        {% else %}
+                                        <span class="badge badge-secondary bg-gradient bg-secondary px-3 rounded-pill bg-opacity-75 text-sm py-1">Inactive</span> 
+                                        {% endif %}
+                                    </td>
+                                    <td class="text-center">
+                                        <div class="dropdown">
+                                            <button class="btn btn-light btn-sm rounded-0 border dropdown-toggle" type="button" id="abtn{{ book.pk }}" data-bs-toggle="dropdown" aria-expanded="false">
+                                                செயல்
+                                            </button>
+                                            <ul class="dropdown-menu" aria-labelledby="abtn{{ book.pk }}">
+                                                <li><a class="dropdown-item view-data" href="javascript:void(0)" data-url="{% url 'view-book-pk' book.pk %}"><i class="fa fa-eye text-dark"></i> பார்</a></li>
+                                                <li><a class="dropdown-item edit-data" href="javascript:void(0)" data-url="{% url 'manage-book-pk' book.pk %}"><i class="fa fa-edit text-primary"></i> திருத்து</a></li>
+                                                <li><a class="dropdown-item delete-data" href="javascript:void(0)" data-url="{% url 'delete-book' book.pk %}"><i class="fa fa-trash text-danger"></i> நீக்கு</a></li>
+                                            </ul>
+                                        </div>
+                                    </td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
             </div>
         </div>
-        <div class="container-fluid" style="margin-top: 10px;">
+        <div class="container-fluid" style="margin -top: 10px;">
             <button class="btn btn-sm btn-success rounded-0 bg-gradient-success" type="button" id="upload_data">
                 <i class="fa fa-upload"></i> தரவை பதிவேற்றுக
             </button>
+        </div>
     </div>
 </section>
-{% endblock pageContent %} {% block ScriptBlock %}
+
+<!-- Responsive CSS -->
+<style>
+    @media (max-width: 768px) {
+        h3 {
+            font-size: 1.5rem;
+        }
+        .btn {
+            font-size: 0.85rem;
+            padding: 0.5rem 1rem;
+        }
+        #book-tbl th, #book-tbl td {
+            font-size: 0.8rem;
+        }
+        .table-responsive {
+            overflow-x: auto;
+        }
+        .dropdown-menu {
+            font-size: 0.9rem;
+        }
+    }
+
+    @media (max-width: 576px) {
+        .text-end {
+            text-align: center !important;
+        }
+        .btn {
+            width: 100%; /* Stack buttons */
+            margin-bottom: 0.5rem;
+        }
+        .badge {
+            font-size: 0.7rem;
+        }
+    }
+</style>
 <script>
     $(function() {
         $('#create_new').click(function() {
@@ -122,7 +161,6 @@
     })
 
     function delete_book(url) {
-
         var _this = $('#confirm_modal .modal-body')
         $('.err-msg').remove();
         var el = $('<div>')
@@ -154,8 +192,8 @@
                 }
                 end_loader()
             }
-
         })
     }
 </script>
-{% endblock ScriptBlock %}
+
+{% endblock pageContent %}

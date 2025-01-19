@@ -1,12 +1,48 @@
 {% load static %}
 <style>
+    /* Responsive design for mobile view */
     #book-img {
         max-width: 100%;
         max-height: 10em;
         object-fit: scale-down;
         object-position: center center;
     }
+
+    /* Make input fields and text areas fluid */
+    .form-control, .form-select {
+        width: 100%;
+        padding: 0.5em;
+        box-sizing: border-box;
+    }
+
+    .container-fluid {
+        padding: 15px;
+    }
+
+    /* Responsive adjustments for small screens */
+    @media (max-width: 767px) {
+        /* Make the form labels and inputs stacked */
+        .mb-3 {
+            margin-bottom: 1rem;
+        }
+
+        .form-control, .form-select {
+            font-size: 14px;
+        }
+
+        .control-label {
+            font-size: 14px;
+            font-weight: bold;
+        }
+
+        /* Adjust button or modal close button positioning for mobile */
+        #uni_modal .modal-dialog {
+            max-width: 90%;
+            margin: 1.75rem auto;
+        }
+    }
 </style>
+
 <div class="container-fluid">
     <form action="" id="book-form">
         <input type="hidden" name="id" value="{{book.id}}">
@@ -35,10 +71,6 @@
             <label for="title" class="control-label">தலைப்பு</label>
             <input type="text" id="title" name="title" class="form-control form-control-sm rounded-0" value="{{book.title}}" required>
         </div>
-        <!-- <div class="mb-3">
-            <label for="description" class="control-label">விளக்கம்</label>
-            <textarea rows="3" id="description" name="description" class="form-control form-control-sm rounded-0" required>{{book.description}}</textarea>
-        </div> -->
         <div class="mb-3">
             <label for="author" class="control-label">ஆசிரியர்/கள்</label>
             <textarea rows="3" id="author" name="author" class="form-control form-control-sm rounded-0">{{book.author}}</textarea>
@@ -52,11 +84,11 @@
             <input type="text" id="price" name="price" class="form-control form-control-sm rounded-0" value="{{book.price|default:''}}">
         </div>
         <div class="mb-3">
-            <label for="title" class="control-label">பேழை</label>
+            <label for="berow" class="control-label">பேழை</label>
             <input type="text" id="berow" name="berow" class="form-control form-control-sm rounded-0" value="{{book.berow|default:''}}">
         </div>
         <div class="mb-3">
-            <label for="title" class="control-label">தட்டு</label>
+            <label for="rack" class="control-label">தட்டு</label>
             <input type="text" id="rack" name="rack" class="form-control form-control-sm rounded-0" value="{{book.rack|default:''}}">
         </div>
         <div class="mb-3">
@@ -80,6 +112,7 @@
         </div>
     </form>
 </div>
+
 <script>
     $(function() {
         $('#uni_modal').on('shown.bs.modal', function() {
