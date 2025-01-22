@@ -1,0 +1,148 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block pageContent %}
+<section class="py-4">
+    <div class="container">
+        <h3 class="fw-bolder text-center">பணியாளர் கடன் வாங்கும் பரிவர்த்தனைகளின் பட்டியல்</h3>
+        <center>
+            <hr class="bg-primary opacity-100" style="height:3px" width="5%">
+        </center>
+        <div class="card rounded-0 shadow">
+            <div class="card-body">
+                <div class="container-fluid">
+                    <div class="text-end mb-3">
+                        <button class="btn btn-sm btn-primary rounded-0 bg-gradient-primary" type="button" id="create_new"><i class="fa fa-plus"></i> புதியவை சேர்க்கவும்</button>
+                    </div>
+                    <table class="table table-bordered table-striped" id="staff-borrow-tbl">
+                        <colgroup>
+                            <col width="5%">
+                            <col width="15%">
+                            <col width="25%">
+                            <col width="15%">
+                            <col width="15%">
+                            <col width="10%">
+                            <col width="10%">
+                        </colgroup>
+                        <thead>
+                            <tr>
+                                <th class="text-center">#</th>
+                                <th class="text-center">தேதி</th>
+                                <th class="text-center">பணியாளர்</th>
+                                <th class="text-center">புத்தகம்</th>
+                                <th class="text-center">திரும்பும் தேதி</th>
+                                <th class="text-center">நிலை</th>
+                                <th class="text-center">செயல்</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for borrow in staff_borrows %}
+                            <tr>
+                                <td class="text-center">{{ forloop.counter }}</td>
+                                <td>{{ borrow.date_added|date:"Y-m-d h:i A"}}</td>
+                                <td>
+                                    <div class="lh-1">
+                                        {% comment %} <div>{{ borrow.staffs.id }}</div> {% endcomment %}
+                                        <div>{{ borrow.staffs.name }}</div>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="lh-1">
+                                        <div>{{ borrow.book.isbn }}</div>
+                                        <div>{{ borrow.book.title }}</div>
+                                    </div>
+                                </td>
+                                <td>{{ borrow.return_date }}</td>
+                                <td class="text-center">
+                                    {% if borrow.status == '1' %}
+                                    <span class="badge badge-secondary bg-gradient bg-secondary px-3 rounded-pill bg-opacity-75 text-sm py-1">நிலுவையில் உள்ளது</span>
+                                    {% else %}
+                                    <span class="badge badge-primary bg-gradient bg-primary px-3 rounded-pill bg-opacity-75 text-sm py-1">திரும்பினார்</span>
+                                    {% endif %}
+                                </td>
+                                <td class="text-center">
+                                    <div class="dropdown">
+                                        <button class="btn btn-light btn-sm rounded-0 border dropdown-toggle" type="button" id="abtn{{borrow.pk}}" data-bs-toggle="dropdown" aria-expanded="false">
+                                          Action
+                                        </button>
+                                        <ul class="dropdown-menu" aria-labelledby="abtn{{borrow.pk}}">
+                                            <li><a class="dropdown-item view-data" href="javascript:void(0)" data-url="{% url 'view-staff-borrow-pk' borrow.pk %}"><i class="fa fa-eye text-dark"></i> பார்</a></li>
+                                            <li><a class="dropdown-item edit-data" href="javascript:void(0)" data-url="{% url 'manage-staff-borrow-pk' borrow.pk %}"><i class="fa fa-edit text-primary"></i> திருத்து</a></li>
+                                            <li><a class="dropdown-item delete-data" href="javascript:void(0)" data-url="{% url 'delete-staff-borrow-pk' borrow.pk %}"><i class="fa fa-trash text-danger"></i> நீக்கு</a></li>
+                                        </ul>
+                                    </div>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock pageContent %}
+
+{% block ScriptBlock %}
+<script>
+    $(function() {
+        $('#create_new').click(function() {
+            uni_modal("<i class='fa fa-plus'></i> புதிய பரிவர்த்தனையைச் சேர்க்கவும்", "{% url 'manage-staff-borrow' %}", "modal-lg")
+        })
+        $('.edit-data').click(function() {
+            uni_modal("<i class='fa fa-edit'></i> பரிவர்த்தனை விவரங்களைத் திருத்தவும்", $(this).attr('data-url'), "modal-lg")
+        })
+        $('.view-data').click(function() {
+            uni_modal("<i class='fa fa-th-list'></i> பரிவர்த்தனை விவரங்கள்", $(this).attr('data-url'), "modal-lg")
+        })
+        $('.delete-data').click(function() {
+            _conf("இந்தப் பரிவர்த்தனையை நிச்சயமாக நீக்கவா?", 'delete_staff_borrow', ["'" + $(this).attr('data-url') + "'"])
+        })
+    })
+    $('#staff-borrow-tbl').find('td, th').addClass('px-2 py-1 align-middle')
+    $('#staff-borrow-tbl').DataTable({
+        columnDefs: [{
+            orderable: false,
+            targets: [4]
+        }],
+        lengthMenu: [
+            [25, 50, 100, -1],
+            [25, 50, 100, "All"]
+        ]
+    })
+
+    function delete_staff_borrow(url) {
+        var _this = $('#confirm_modal .modal-body')
+        $('.err-msg').remove();
+        var el = $('<div>')
+        el.addClass("alert alert-danger err-msg")
+        el.hide()
+        start_loader()
+        $.ajax({
+            headers: {
+                "X-CSRFToken": "{{csrf_token}}"
+            },
+            url: url,
+            dataType: 'JSON',
+            error: err => {
+                console.log(err)
+                alert("an error occurred.")
+                end_loader()
+            },
+            success: function(resp) {
+                if (resp.status == 'success') {
+                    location.reload()
+                } else if (!!resp.msg) {
+                    el.html(resp.msg)
+                    _this.prepend(el)
+                    el.show()
+                } else {
+                    el.html("An error occurred")
+                    _this.prepend(el)
+                    el.show()
+                }
+                end_loader()
+            }
+        })
+    }
+</script>
+{% endblock ScriptBlock %}

@@ -965,6 +965,99 @@ def delete_staff(request, pk=None):
 
 
 
+@login_required
+def staff_borrows(request):
+    context = context_data(request)
+    context["page"] = "staff_borrow"
+    context["page_title"] = "Staff Borrowing Transaction List"
+    context["staff_borrows"] = models.StaffBorrow.objects.order_by("status").all()
+    return render(request, "staff_borrows.html", context)
+
+
+@login_required
+def save_staff_borrow(request):
+    resp = {"status": "failed", "msg": ""}
+    if request.method == "POST":
+        post = request.POST
+        print(post)  # Debugging: Print POST data to verify input
+        # if post.get("id"):
+        if not post["id"] == "":
+            staff_borrow = models.StaffBorrow.objects.get(id=post["id"])
+            form = forms.SaveStaffForm(request.POST, instance=staff_borrow)
+        else:
+            form = forms.SaveStaffForm(request.POST)
+
+        if form.is_valid():
+            form.save()
+            #if not post.get("id"):
+            if post["id"] == "":
+                messages.success(
+                    request, "Staff Borrowing Transaction has been saved successfully."
+                )
+            else:
+                messages.success(
+                    request, "Staff Borrowing Transaction has been updated successfully."
+                )
+            resp["status"] = "success"
+        else:
+            # Log form errors for debugging
+            print(form.errors.as_json())
+            for field in form:
+                for error in field.errors:
+                    if resp["msg"]:
+                        resp["msg"] += "<br/>"
+                    resp["msg"] += f"[{field}] {error}"
+    else:
+        resp["msg"] = "No data sent with the request."
+
+    return HttpResponse(json.dumps(resp), content_type="application/json")
+
+
+
+@login_required
+def view_staff_borrow(request, pk=None):
+    context = context_data(request)
+    context["page"] = "view_staff_borrow"
+    context["page_title"] = "View Staff Transaction Details"
+    if pk is None:
+        context["borrow"] = {}
+    else:
+        context["borrow"] = models.StaffBorrow.objects.get(id=pk)
+
+    return render(request, "view_staff_borrow.html", context)
+
+
+@login_required
+def manage_staff_borrow(request, pk=None):
+    context = context_data(request)
+    context["page"] = "manage_staff_borrow"
+    context["page_title"] = "Manage Staff Transaction Details"
+    if pk is None:
+        context["staff_borrow"] = {}
+    else:
+        context["staff_borrow"] = models.StaffBorrow.objects.get(id=pk)
+    context["staffs"] = models.Staff.objects.all()
+    context["books"] = models.Books.objects.filter(delete_flag=0, status=1).all()
+    return render(request, "manage_staff_borrow.html", context)
+
+
+@login_required
+def delete_staff_borrow(request, pk=None):
+    resp = {"status": "failed", "msg": ""}
+    if pk is None:
+        resp["msg"] = "Transaction ID is invalid"
+    else:
+        try:
+            models.StaffBorrow.objects.filter(pk=pk).delete()
+            messages.success(request, "Staff Transaction has been deleted successfully.")
+            resp["status"] = "success"
+        except Exception as e:
+            resp["msg"] = f"Deleting Transaction Failed: {str(e)}"
+
+    return HttpResponse(json.dumps(resp), content_type="application/json")
+
+
+
 
                     
 

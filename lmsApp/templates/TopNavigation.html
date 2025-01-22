@@ -58,9 +58,26 @@
                     <li class="nav-item">
                         <a class="nav-link" aria-current="page" href="{% url 'staffs' %}">ஊழியர்கள்</a>
                     </li>
-                    <li class="nav-item">
+                    {% comment %} <li class="nav-item">
                         <a class="nav-link" aria-current="page" href="{% url 'borrow-page' %}">கடன் பரிவர்த்தனைகள்</a>
+                    </li> {% endcomment %}
+                    <li class="nav-item dropdown">
+                        <a 
+                            class="nav-link dropdown-toggle" 
+                            href="#" 
+                            id="categoryDropdown" 
+                            role="button" 
+                            data-bs-toggle="dropdown" 
+                            aria-expanded="false"
+                        >
+                            கடன் பரிவர்த்தனைகள்
+                        </a>
+                        <ul class="dropdown-menu" aria-labelledby="categoryDropdown">
+                            <li><a class="dropdown-item" href="{% url 'borrow-page' %}">Students</a></li>
+                            <li><a class="dropdown-item" href="{% url 'staff-borrow-page' %}">Staffs</a></li>
+                        </ul>
                     </li>
+                    
                     {% if request.user.is_superuser %}
                     <li class="nav-item">
                         <a class="nav-link" aria-current="page" href="{% url 'user-page' %}">பயனர்கள்</a>

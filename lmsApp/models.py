@@ -188,6 +188,31 @@ class Borrow(models.Model):
     def __str__(self):
         return f"{self.student.code if self.student else self.name}"
 
+class StaffBorrow(models.Model):
+    staffs = models.ForeignKey(
+        Staff, on_delete=models.CASCADE, related_name="staff_borrows", null=True, blank=True
+    )
+    book = models.ForeignKey(
+        Books, on_delete=models.CASCADE, related_name="staff_borrowed_books"
+    )
+    borrowing_date = models.DateField()
+    return_date = models.DateField()
+    status = models.CharField(
+        max_length=2, choices=(("1", "Pending"), ("2", "Returned")), default="1"
+    )
+    date_added = models.DateTimeField(default=timezone.now)
+
+    class Meta:
+        verbose_name_plural = "Borrowing Transactions"
+
+    def __str__(self):
+        staff_name = self.staffs.name if self.staffs else "Unknown Staff"
+        book_title = self.book.title if self.book else "Unknown Book"
+        return f"{staff_name} borrowed {book_title}"
+
+
+       
+
 
 
 

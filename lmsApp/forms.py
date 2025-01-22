@@ -360,3 +360,54 @@ class SaveStaff(forms.ModelForm):
     class Meta:
         model = Staff
         fields = ['name', 'education_level', 'contact']
+
+class SaveStaffBorrow(forms.ModelForm):
+    staff = forms.CharField(max_length=250, required=False)  # Accepts staff ID or name
+    book = forms.CharField(max_length=250)
+    borrowing_date = forms.DateField()
+    return_date = forms.DateField()
+    status = forms.CharField(max_length=2)
+
+    class Meta:
+        model = models.StaffBorrow
+        fields = (
+            "staff",
+            "book",
+            "borrowing_date",
+            "return_date",
+            "status",
+        )
+
+    def clean_staff(self):
+        staff = self.data["staff"]
+        try:
+            # First, try to match by ID
+            if staff.isnumeric():
+                staff = models.Staff.objects.get(id=int(staff))
+            else:
+                # If not numeric, try matching by name
+                staff = models.Staff.objects.get(name=staff)
+            return staff
+        except models.Staff.DoesNotExist:
+            raise forms.ValidationError("Invalid staff ID or name.")
+
+    def clean_book(self):
+        book = int(self.data["book"]) if self.data["book"].isnumeric() else 0
+        try:
+            book = models.Books.objects.get(id=book)
+            return book
+        except models.Books.DoesNotExist:
+            raise forms.ValidationError("Invalid Book.")
+
+    def clean(self):
+        cleaned_data = super().clean()
+        borrowing_date = cleaned_data.get("borrowing_date")
+        return_date = cleaned_data.get("return_date")
+
+        if borrowing_date and return_date:
+            if return_date < borrowing_date:
+                raise forms.ValidationError(
+                    "The return date cannot be earlier than the borrowing date."
+                )
+
+        return cleaned_data
