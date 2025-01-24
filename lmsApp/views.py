@@ -13,6 +13,8 @@ from .models import Students,SubCategory,Category,Books,Staff
 import pandas as pd
 from django.utils import timezone
 from .forms import UploadFileForm
+from django.views.decorators.csrf import csrf_exempt
+from django.http import JsonResponse
 
 
 
@@ -970,47 +972,51 @@ def staff_borrows(request):
     context = context_data(request)
     context["page"] = "staff_borrow"
     context["page_title"] = "Staff Borrowing Transaction List"
-    context["staff_borrows"] = models.StaffBorrow.objects.order_by("status").all()
+    context["staff_borrows"] = models.StaffBorrow.objects.select_related("staffs", "book").order_by("status")
     return render(request, "staff_borrows.html", context)
-
-
+    
+@csrf_exempt
 @login_required
 def save_staff_borrow(request):
     resp = {"status": "failed", "msg": ""}
     if request.method == "POST":
         post = request.POST
         print(post)  # Debugging: Print POST data to verify input
-        # if post.get("id"):
-        if not post["id"] == "":
-            staff_borrow = models.StaffBorrow.objects.get(id=post["id"])
-            form = forms.SaveStaffForm(request.POST, instance=staff_borrow)
-        else:
-            form = forms.SaveStaffForm(request.POST)
 
+        # Check if updating or creating
+        staff_borrow = None
+        if post.get("id") and post["id"].isdigit():
+            try:
+                staff_borrow = models.StaffBorrow.objects.get(id=post["id"])
+            except models.StaffBorrow.DoesNotExist:
+                resp["msg"] = "StaffBorrow record not found."
+                return JsonResponse(resp)
+
+        # Initialize the form
+        form = forms.SaveStaffBorrow(request.POST, instance=staff_borrow)
+
+        # Validate the form
         if form.is_valid():
-            form.save()
-            #if not post.get("id"):
-            if post["id"] == "":
-                messages.success(
-                    request, "Staff Borrowing Transaction has been saved successfully."
-                )
-            else:
-                messages.success(
-                    request, "Staff Borrowing Transaction has been updated successfully."
-                )
-            resp["status"] = "success"
+            try:
+                form.save()
+                if not post.get("id"):
+                    messages.success(
+                        request, "Staff Borrowing Transaction has been saved successfully."
+                    )
+                else:
+                    messages.success(
+                        request, "Staff Borrowing Transaction has been updated successfully."
+                    )
+                resp["status"] = "success"
+            except Exception as e:
+                resp["msg"] = f"Error saving data: {str(e)}"
         else:
-            # Log form errors for debugging
-            print(form.errors.as_json())
-            for field in form:
-                for error in field.errors:
-                    if resp["msg"]:
-                        resp["msg"] += "<br/>"
-                    resp["msg"] += f"[{field}] {error}"
+            print("Form Errors:", form.errors.as_json())  # Log form errors
+            resp["msg"] = "Invalid form data."
     else:
         resp["msg"] = "No data sent with the request."
 
-    return HttpResponse(json.dumps(resp), content_type="application/json")
+    return JsonResponse(resp)
 
 
 
@@ -1032,12 +1038,12 @@ def manage_staff_borrow(request, pk=None):
     context = context_data(request)
     context["page"] = "manage_staff_borrow"
     context["page_title"] = "Manage Staff Transaction Details"
-    if pk is None:
-        context["staff_borrow"] = {}
-    else:
-        context["staff_borrow"] = models.StaffBorrow.objects.get(id=pk)
+    
+    # Separate context keys for clarity
+    context["staff_borrow"] = models.StaffBorrow.objects.get(id=pk) if pk else None
     context["staffs"] = models.Staff.objects.all()
-    context["books"] = models.Books.objects.filter(delete_flag=0, status=1).all()
+    context["books"] = models.Books.objects.filter(delete_flag=0, status=1)
+    
     return render(request, "manage_staff_borrow.html", context)
 
 
