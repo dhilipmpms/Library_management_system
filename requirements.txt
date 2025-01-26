@@ -9,4 +9,4 @@ sqlparse==0.5.1
 typing_extensions==4.12.2
 django-import-export
 pandas
-pip  install openpyxl
+pip install openpyxl
