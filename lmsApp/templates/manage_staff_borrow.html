@@ -15,19 +15,11 @@
         <div class="row">
             <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                 <div class="mb-3">
-                    <label for="book" class="control-label">புத்தகம்</label>
+                    <label for="book" class="control-label">Book</label>
                     <select id="book" name="book" class="form-select form-select-sm rounded-0" required>
-                        {% if not borrow %}
-                        <option value="" selected disabled></option>
-                        {% else %}
-                        <option value="" disabled></option>
-                        {% endif %}
+                        <option value="" selected disabled>Select a book</option>
                         {% for book in books %}
-                        {% if borrow.book.id == book.id %}
-                        <option value="{{book.id}}" selected>{{book}}</option>
-                        {% else %}
-                        <option value="{{book.id}}">{{book}}</option>
-                        {% endif %}
+                        <option value="{{ book.id }}" {% if staff_borrow and staff_borrow.book.id == book.id %}selected{% endif %}>{{ book.title }}</option>
                         {% endfor %}
                     </select>
                     {% comment %} <div class="invalid-feedback">Please select a book.</div> {% endcomment %}
@@ -35,19 +27,11 @@
             </div>
             <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                 <div class="mb-3">
-                    <label for="staff" class="control-label">ஊழியர்</label>
+                    <label for="staff" class="control-label">Staff</label>
                     <select id="staff" name="staff" class="form-select form-select-sm rounded-0" required>
-                        {% if not borrow %}
-                        <option value="" selected disabled></option>
-                        {% else %}
-                        <option value="" disabled></option>
-                        {% endif %}
+                        <option value="" selected disabled>Select a staff</option>
                         {% for staff in staffs %}
-                        {% if borrow.staff.id == staff.id %}
-                        <option value="{{staff.id}}" selected>{{staff}}</option>
-                        {% else %}
-                        <option value="{{staff.id}}">{{staff}}</option>
-                        {% endif %}
+                        <option value="{{ staff.id }}" {% if staff_borrow and staff_borrow.staffs.id == staff.id %}selected{% endif %}>{{ staff.name }}</option>
                         {% endfor %}
                     </select>
                     <div class="invalid-feedback">Please select a staff.</div>
@@ -56,14 +40,15 @@
             <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                 <div class="mb-3">
                     <label for="borrowing_date" class="control-label">கடன் வாங்கும் தேதி</label>
-                    <input type="date" id="borrowing_date" name="borrowing_date" class="form-control form-control-sm rounded-0" value="{% if borrow %}{{borrow.borrowing_date|date:'Y-m-d'}}{% else %}{% now 'Y-m-d' %}{% endif %}" required>
+                    <input type="date" id="borrowing_date" name="borrowing_date" class="form-control form-control-sm rounded-0" value="{% if staff_borrow %}{{ staff_borrow.borrowing_date|date:'Y-m-d' }}{% else %}{% now 'Y-m-d' %}{% endif %}" required>
+    
                     <div class="invalid-feedback">Please select a borrowing date.</div>
                 </div>
             </div>
             <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                 <div class="mb-3">
                     <label for="return_date" class="control-label">திரும்ப வேண்டிய தேதி</label>
-                    <input type="date" id="return_date" name="return_date" class="form-control form-control-sm rounded-0" value="{{borrow.return_date|date:'Y-m-d'}}" min="{% now 'Y-m-d' %}" required>
+                    <input type="date" id="return_date" name="return_date" class="form-control form-control-sm rounded-0" value="{% if staff_borrow %}{{ staff_borrow.return_date|date:'Y-m-d' }}{% else %}{% now 'Y-m-d' %}{% endif %}" min="{% now 'Y-m-d' %}" required>
                     <div class="invalid-feedback">Please select a return date.</div>
                 </div>
             </div>
@@ -103,15 +88,20 @@
             e.preventDefault();
             var _this = $(this);
             $('.err-msg').remove();
+        
             if (!_this[0].checkValidity()) {
                 _this[0].reportValidity();
                 return false;
             }
+            
+            var formData = new FormData(_this[0]);
+            console.log(...formData.entries()); // Debugging: Log form data
+        
             start_loader();
             $.ajax({
                 headers: { "X-CSRFToken": '{{ csrf_token }}' },
                 url: "{% url 'save-staff-borrow' %}",
-                data: new FormData(_this[0]),
+                data: formData,
                 cache: false,
                 contentType: false,
                 processData: false,
@@ -135,5 +125,6 @@
                 }
             });
         });
+        
     });
 </script>

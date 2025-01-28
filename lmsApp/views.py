@@ -776,7 +776,7 @@ def upload_file_view(request):
                 df =handle_uploaded_file(file)
                 # print(df.shape[0])
                 # df.replace(value=None, inplace=True)
-                df = df.fillna("---")
+                df = df.fillna("")
                 
                 # Iterate over DataFrame and create or update model instances
                 if upload_type == 'students':
@@ -975,7 +975,6 @@ def staff_borrows(request):
     context["staff_borrows"] = models.StaffBorrow.objects.select_related("staffs", "book").order_by("status")
     return render(request, "staff_borrows.html", context)
     
-@csrf_exempt
 @login_required
 def save_staff_borrow(request):
     resp = {"status": "failed", "msg": ""}
@@ -993,7 +992,7 @@ def save_staff_borrow(request):
                 return JsonResponse(resp)
 
         # Initialize the form
-        form = forms.SaveStaffBorrow(request.POST, instance=staff_borrow)
+        form = forms.SaveStaffBorrow(post, instance=staff_borrow)
 
         # Validate the form
         if form.is_valid():
@@ -1020,6 +1019,8 @@ def save_staff_borrow(request):
 
 
 
+
+
 @login_required
 def view_staff_borrow(request, pk=None):
     context = context_data(request)
@@ -1039,8 +1040,17 @@ def manage_staff_borrow(request, pk=None):
     context["page"] = "manage_staff_borrow"
     context["page_title"] = "Manage Staff Transaction Details"
     
-    # Separate context keys for clarity
-    context["staff_borrow"] = models.StaffBorrow.objects.get(id=pk) if pk else None
+    # Fetch the StaffBorrow instance if updating
+    staff_borrow = None
+    if pk:
+        try:
+            staff_borrow = models.StaffBorrow.objects.get(id=pk)
+        except models.StaffBorrow.DoesNotExist:
+            messages.error(request, "Staff Borrowing record not found.")
+            return redirect("manage_staff_borrow")  # Redirect to a safe page
+
+    # Populate context with necessary data
+    context["staff_borrow"] = staff_borrow
     context["staffs"] = models.Staff.objects.all()
     context["books"] = models.Books.objects.filter(delete_flag=0, status=1)
     

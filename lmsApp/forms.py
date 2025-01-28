@@ -15,7 +15,7 @@ from django.contrib.auth.forms import (
 from django.contrib.auth.models import User
 from lmsApp import models
 from numpy import require
-from .models import Staff
+from .models import Staff,StaffBorrow,Books
 
 
 class UploadFileForm(forms.Form):
@@ -361,39 +361,37 @@ class SaveStaff(forms.ModelForm):
         model = Staff
         fields = ['name', 'education_level', 'contact']
 
+
 class SaveStaffBorrow(forms.ModelForm):
-    staff = forms.CharField(max_length=250, required=False)  # Accept staff ID or name
-    book = forms.CharField(max_length=250)
+    staff = forms.CharField(max_length=250, required=True)  # Accept staff ID or name
+    book = forms.CharField(max_length=250, required=True)   # Accept book ID or title
 
     class Meta:
-        model = models.StaffBorrow
+        model = StaffBorrow
         fields = ("staffs", "book", "borrowing_date", "return_date", "status")
 
     def clean_staff(self):
         staff = self.cleaned_data.get("staff")
         if staff:
             try:
-                # First, try to match by ID
                 if staff.isnumeric():
-                    return models.Staff.objects.get(id=int(staff))
+                    return Staff.objects.get(id=int(staff))
                 else:
-                    # If not numeric, try matching by name
-                    return models.Staff.objects.get(name=staff)
-            except models.Staff.DoesNotExist:
-                raise forms.ValidationError("Invalid staff ID or name.")
+                    return Staff.objects.get(name__iexact=staff)
+            except Staff.DoesNotExist:
+                raise forms.ValidationError("Staff not found.")
         raise forms.ValidationError("Staff is required.")
 
     def clean_book(self):
         book = self.cleaned_data.get("book")
         if book:
             try:
-                # Match by ID
                 if book.isnumeric():
-                    return models.Books.objects.get(id=int(book))
+                    return Books.objects.get(id=int(book))
                 else:
-                    raise forms.ValidationError("Invalid Book ID.")
-            except models.Books.DoesNotExist:
-                raise forms.ValidationError("Book does not exist.")
+                    return Books.objects.get(title__iexact=book)
+            except Books.DoesNotExist:
+                raise forms.ValidationError("Book not found.")
         raise forms.ValidationError("Book is required.")
 
     def clean(self):
@@ -405,5 +403,14 @@ class SaveStaffBorrow(forms.ModelForm):
             raise forms.ValidationError(
                 "The return date cannot be earlier than the borrowing date."
             )
-
         return cleaned_data
+
+    def save(self, commit=True):
+        instance = super().save(commit=False)
+        instance.staffs = self.cleaned_data.get("staff")
+        instance.book = self.cleaned_data.get("book")
+        instance.borrowing_date = self.cleaned_data.get("borrowing_date")
+        instance.return_date = self.cleaned_data.get("return_date")
+        if commit:
+            instance.save()
+        return instance

@@ -26,10 +26,10 @@ SECRET_KEY = "django-insecure-j7xv%)66l8u0^8sxnj7()z$zll8&a2*_h2r84yeo9f2fidx8^7
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["cuddaloreglug.pythonanywhere.com", "127.0.0.1","*","ought-auctions-description-circumstances.trycloudflare.com","https://scaling-space-trout-p6jqgrpvrvr27q7r-8000.app.github.dev"]
+ALLOWED_HOSTS = ["*","https://silk-beast-zen-baker.trycloudflare.com"]
 
 CSRF_TRUSTED_ORIGINS = [
-    'https://ought-auctions-description-circumstances.trycloudflare.com',
+    'https://silk-beast-zen-baker.trycloudflare.com',
 ]
 
 # Application definition
