@@ -3,7 +3,7 @@
 {% block pageContent %}
 <section class="py-4">
     <div class="container">
-        <h3 class="fw-bolder text-center">பணியாளர் கடன் வாங்கும் பரிவர்த்தனைகளின் பட்டியல்</h3>
+        <h3 class="fw-bolder text-center">ஊழியர் கடன் வாங்கும் பரிவர்த்தனைகளின் பட்டியல்</h3>
         <center>
             <hr class="bg-primary opacity-100" style="height:3px" width="5%">
         </center>
@@ -27,7 +27,7 @@
                             <tr>
                                 <th class="text-center">#</th>
                                 <th class="text-center">தேதி</th>
-                                <th class="text-center">பணியாளர்</th>
+                                <th class="text-center">ஊழியர்</th>
                                 <th class="text-center">புத்தகம்</th>
                                 <th class="text-center">திரும்பும் தேதி</th>
                                 <th class="text-center">நிலை</th>
@@ -62,7 +62,7 @@
                                 <td class="text-center">
                                     <div class="dropdown">
                                         <button class="btn btn-light btn-sm rounded-0 border dropdown-toggle" type="button" id="abtn{{borrow.pk}}" data-bs-toggle="dropdown" aria-expanded="false">
-                                          Action
+                                            செயல்
                                         </button>
                                         <ul class="dropdown-menu" aria-labelledby="abtn{{borrow.pk}}">
                                             <li><a class="dropdown-item view-data" href="javascript:void(0)" data-url="{% url 'view-staff-borrow-pk' borrow.pk %}"><i class="fa fa-eye text-dark"></i> பார்</a></li>

@@ -15,9 +15,9 @@
         <div class="row">
             <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                 <div class="mb-3">
-                    <label for="book" class="control-label">Book</label>
+                    <label for="book" class="control-label">புத்தகம்</label>
                     <select id="book" name="book" class="form-select form-select-sm rounded-0" required>
-                        <option value="" selected disabled>Select a book</option>
+                        <option value="" selected disabled>புத்தகத்தைத் தேர்ந்தெடுக்கவும்</option>
                         {% for book in books %}
                         <option value="{{ book.id }}" {% if staff_borrow and staff_borrow.book.id == book.id %}selected{% endif %}>{{ book.title }}</option>
                         {% endfor %}
@@ -27,14 +27,14 @@
             </div>
             <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                 <div class="mb-3">
-                    <label for="staff" class="control-label">Staff</label>
+                    <label for="staff" class="control-label">ஊழியர்</label>
                     <select id="staff" name="staff" class="form-select form-select-sm rounded-0" required>
-                        <option value="" selected disabled>Select a staff</option>
+                        <option value="" selected disabled>ஊழியரைத் தேர்ந்தெடுக்கவும் </option>
                         {% for staff in staffs %}
                         <option value="{{ staff.id }}" {% if staff_borrow and staff_borrow.staffs.id == staff.id %}selected{% endif %}>{{ staff.name }}</option>
                         {% endfor %}
                     </select>
-                    <div class="invalid-feedback">Please select a staff.</div>
+                    <div class="invalid-feedback">ஊழியரைத் தேர்ந்தெடுக்கவும்.</div>
                 </div>
             </div>
             <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
@@ -42,14 +42,14 @@
                     <label for="borrowing_date" class="control-label">கடன் வாங்கும் தேதி</label>
                     <input type="date" id="borrowing_date" name="borrowing_date" class="form-control form-control-sm rounded-0" value="{% if staff_borrow %}{{ staff_borrow.borrowing_date|date:'Y-m-d' }}{% else %}{% now 'Y-m-d' %}{% endif %}" required>
     
-                    <div class="invalid-feedback">Please select a borrowing date.</div>
+                    <div class="invalid-feedback">கடன் வாங்கும் தேதியை தேர்ந்தெடுக்கவும்.</div>
                 </div>
             </div>
             <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                 <div class="mb-3">
                     <label for="return_date" class="control-label">திரும்ப வேண்டிய தேதி</label>
                     <input type="date" id="return_date" name="return_date" class="form-control form-control-sm rounded-0" value="{% if staff_borrow %}{{ staff_borrow.return_date|date:'Y-m-d' }}{% else %}{% now 'Y-m-d' %}{% endif %}" min="{% now 'Y-m-d' %}" required>
-                    <div class="invalid-feedback">Please select a return date.</div>
+                    <div class="invalid-feedback">திரும்பும் தேதியைத் தேர்ந்தெடுக்கவும்.</div>
                 </div>
             </div>
             <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
