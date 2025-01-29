@@ -16,10 +16,18 @@
             <div class="col-lg-6 col-md-6 col-sm-12 col-xs-12">
                 <div class="mb-3">
                     <label for="book" class="control-label">புத்தகம்</label>
-                    <select id="book" name="book" class="form-select form-select-sm rounded-0" required>
-                        <option value="" selected disabled>புத்தகத்தைத் தேர்ந்தெடுக்கவும்</option>
+                    <select type="text" id="book" name="book" class="form-select form-select-sm rounded-0" required>
+                        {% if not borrow %}
+                        <option value="" selected disabled></option>
+                        {% else %}
+                        <option value="" disabled></option>
+                        {% endif %}
                         {% for book in books %}
-                        <option value="{{ book.id }}" {% if staff_borrow and staff_borrow.book.id == book.id %}selected{% endif %}>{{ book.title }}</option>
+                        {% if staff_borrow and staff_borrow.book.id == book.id %}
+                        <option value="{{book.id}}" selected>{{book}}</option>
+                        {% else %}
+                        <option value="{{book.id}}">{{book}}</option>
+                        {% endif %}
                         {% endfor %}
                     </select>
                     {% comment %} <div class="invalid-feedback">Please select a book.</div> {% endcomment %}
